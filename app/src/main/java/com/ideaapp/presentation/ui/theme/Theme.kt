@@ -100,10 +100,11 @@ fun IdeasappTheme(
         SideEffect {
             val window = (view.context as Activity).window
             window.statusBarColor = colorScheme.background.toArgb()
-            window.navigationBarColor = colorScheme.tertiary .toArgb()
+            window.navigationBarColor = colorScheme.inverseOnSurface .toArgb()
 
             WindowCompat.getInsetsController(window, view).apply {
-                 isAppearanceLightStatusBars = !darkTheme
+                isAppearanceLightNavigationBars = !darkTheme
+                isAppearanceLightStatusBars = !darkTheme
             }
         }
     }

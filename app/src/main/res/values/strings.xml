@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">ideasapp</string>
+    <string name="settings">Settings</string>
+    <string name="secure_notes">Secure Notes</string>
 </resources>
