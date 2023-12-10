@@ -2,4 +2,7 @@
     <string name="app_name">ideasapp</string>
     <string name="settings">Settings</string>
     <string name="secure_notes">Secure Notes</string>
+    <string name="trash">Trash</string>
+    <string name="title">Untitled</string>
+    <string name="note">Tap here to continue....</string>
 </resources>

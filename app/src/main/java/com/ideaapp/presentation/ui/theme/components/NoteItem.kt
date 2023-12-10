@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -27,11 +28,10 @@ fun NoteItem(title: String, backgroundColor: Color, modifier: Modifier) {
             Text(
                 text = title,
                 fontSize = 25.sp,
-                color =  Color.White,
+                style = MaterialTheme.typography.bodyMedium,
                 modifier = Modifier
                     .align(Alignment.Center)
-                    .padding(vertical = 22.dp)
-                    .padding(horizontal = 24.dp)
+                    .padding(vertical = 22.dp, horizontal = 24.dp)
             )
 
         }

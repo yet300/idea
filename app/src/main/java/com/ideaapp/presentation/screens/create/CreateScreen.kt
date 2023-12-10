@@ -8,6 +8,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -23,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import  androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
@@ -30,6 +32,8 @@ import com.ideaapp.domain.model.Note
 import com.ideaapp.presentation.ui.theme.IdeasappTheme
 import com.ideaapp.presentation.ui.theme.components.Screens
 import java.util.*
+import com.ideaapp.R
+
 
 @Composable
 fun CreateScreen(
@@ -57,24 +61,6 @@ fun CreateScreen(
                         .height(48.dp)
                         .clip(RoundedCornerShape(14.dp))
                         .background(Color(0xFF383838))
-                        .clickable { navController.popBackStack() }
-                ) {
-                    Icon(
-                        imageVector = Icons.Filled.ArrowBack,
-                        contentDescription = "nav_back",
-                        tint = Color.White,
-                        modifier = Modifier
-                            .align(Alignment.Center)
-                    )
-
-                }
-
-                Box(
-                    modifier = Modifier
-                        .width(48.dp)
-                        .height(48.dp)
-                        .clip(RoundedCornerShape(14.dp))
-                        .background(Color(0xFF383838))
                         .clickable {
                             val color: Int = Color(
                                 Random().nextInt(256),
@@ -96,7 +82,6 @@ fun CreateScreen(
                     Icon(
                         imageVector = Icons.Filled.Add,
                         contentDescription = "nav_add",
-                        tint = Color.White,
                         modifier = Modifier
                             .align(Alignment.Center)
                     )
@@ -116,12 +101,22 @@ fun CreateScreen(
             TextField(
                 value = title,
                 onValueChange = { title = it },
-                label = { Text("Title") }
+                label = {
+                    Text(
+                        stringResource(id = R.string.title),
+                        style = MaterialTheme.typography.bodyLarge
+                    )
+                }
             )
             TextField(
                 value = description,
                 onValueChange = { description = it },
-                label = { Text("Description") },
+                label = {
+                    Text(
+                        stringResource(id = R.string.note),
+                        style = MaterialTheme.typography.bodyMedium,
+                        )
+                },
                 modifier = Modifier.padding(top = 24.dp)
             )
 
