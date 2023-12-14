@@ -13,16 +13,19 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val getAllNoteUseCase: GetAllNoteUseCase
-): ViewModel() {
+) : ViewModel() {
     private val _notes = MutableLiveData<List<Note>>()
-    val notes:LiveData<List<Note>>
+
+
+
+    val notes: LiveData<List<Note>>
         get() = _notes
 
     init {
         getAllNotes()
     }
 
-    fun getAllNotes(){
+    private fun getAllNotes() {
         viewModelScope.launch {
             getAllNoteUseCase.invoke().let {
                 _notes.postValue(it)

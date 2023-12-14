@@ -14,21 +14,20 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun NoteItem(title: String, modifier: Modifier = Modifier) {
-
-    OutlinedCard(
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surface,
-        ),
-        border = BorderStroke(1.dp, MaterialTheme.colorScheme.onSurface),
-        modifier = modifier
-            .size(width = 240.dp, height = 200.dp)
-    ) {
-        Text(
-            text = title,
-            modifier = Modifier
-                .padding(16.dp),
-            textAlign = TextAlign.Center,
-            style = MaterialTheme.typography.bodyMedium,
-        )
+        OutlinedCard(
+            colors = CardDefaults.cardColors(
+                containerColor = MaterialTheme.colorScheme.surface,
+            ),
+            border = BorderStroke(1.dp, MaterialTheme.colorScheme.onBackground),
+            modifier = modifier
+                .size(width = 240.dp, height = 200.dp)
+        ) {
+            Text(
+                text = title,
+                modifier = Modifier
+                    .padding(16.dp),
+                textAlign = TextAlign.Center,
+                style = MaterialTheme.typography.bodyMedium,
+            )
+        }
     }
-}

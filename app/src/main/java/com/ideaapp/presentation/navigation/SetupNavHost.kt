@@ -1,15 +1,24 @@
 package com.ideaapp.presentation.navigation
 
 
+import android.annotation.SuppressLint
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.keyframes
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.platform.LocalDensity
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -21,51 +30,71 @@ import com.ideaapp.presentation.screens.create.CreateScreen
 import com.ideaapp.presentation.screens.details.DetailsScreen
 import com.ideaapp.presentation.screens.main.MainScreen
 import com.ideaapp.presentation.ui.theme.components.Screens
+import androidx.compose.ui.unit.dp
 import com.ideaapp.presentation.ui.theme.components.items
 
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun SetupNavHost(navController: NavHostController) {
-
-
+fun SetupNavHost(
+    navController: NavHostController,
+) {
+    val listState = rememberLazyListState()
+    val fabVisibility by derivedStateOf {
+        listState.firstVisibleItemIndex == 0
+    }
     Scaffold(
         bottomBar = {
             var selectedItemIndex by rememberSaveable {
                 mutableStateOf(0)
             }
-            NavigationBar {
-                items.forEachIndexed { index, item ->
-                    NavigationBarItem(
-                        selected = selectedItemIndex == index,
-                        onClick = {
-                            selectedItemIndex = index
-                            navController.navigate(item.route) {
-                                popUpTo(navController.graph.findStartDestination().id) {
-                                    saveState = true
+            val density = LocalDensity.current
+            AnimatedVisibility(
+                visible = fabVisibility,
+                enter = slideInVertically {
+                    with(density) { 40.dp.roundToPx() }
+                } + fadeIn(),
+                exit = fadeOut(
+                    animationSpec = keyframes {
+                        this.durationMillis = 120
+                    }
+                )
+            ) {
+                NavigationBar {
+                    items.forEachIndexed { index, item ->
+                        NavigationBarItem(
+                            selected = selectedItemIndex == index,
+                            onClick = {
+                                selectedItemIndex = index
+                                navController.navigate(item.route) {
+                                    popUpTo(navController.graph.findStartDestination().id) {
+                                        saveState = true
+                                    }
+                                    launchSingleTop = true
+                                    restoreState = true
                                 }
-                                launchSingleTop = true
-                                restoreState = true
-                            }
-                        },
-                        icon = {
-                            Icon(
-                                imageVector = if (index == selectedItemIndex) {
-                                    item.selectedIcon
-                                } else item.unselectedIcon,
-                                contentDescription = item.route
-                            )
-                        })
+                            },
+                            icon = {
+                                Icon(
+                                    imageVector = if (index == selectedItemIndex) {
+                                        item.selectedIcon
+                                    } else item.unselectedIcon,
+                                    contentDescription = item.route
+                                )
+                            })
+
+                    }
 
                 }
             }
         },
-        content = { paddingValue ->
+        content = {
             NavHost(
                 navController = navController,
                 startDestination = Screens.Home.rout
             ) {
                 composable(route = Screens.Home.rout) {
-                    MainScreen(navController = navController)
+                    MainScreen(navController = navController, listState)
 
                 }
                 composable(
@@ -75,7 +104,7 @@ fun SetupNavHost(navController: NavHostController) {
                     DetailsScreen(navController = navController, it.arguments?.getString("id"))
                 }
                 composable(route = Screens.Create.rout) {
-                    CreateScreen(navController = navController)
+                    CreateScreen(navController = navController, listState)
 
                 }
 

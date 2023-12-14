@@ -1,11 +1,12 @@
 package com.ideaapp.presentation.screens.main
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.outlined.Settings
@@ -34,30 +35,33 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.ideaapp.R
 import com.ideaapp.presentation.ui.theme.components.NoteItem
-import com.ideaapp.presentation.ui.theme.IdeasappTheme
 import com.ideaapp.presentation.ui.theme.components.Screens
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreen(navController: NavHostController, modifier: Modifier = Modifier) {
+fun MainScreen(
+    navController: NavHostController,
+    listState: LazyListState,
+    modifier: Modifier = Modifier
+) {
 
     val scrollBehavior =
         TopAppBarDefaults.exitUntilCollapsedScrollBehavior(rememberTopAppBarState(),
             canScroll = { true })
 
+
     var expended by remember {
         mutableStateOf(false)
     }
+
 
     val viewModel = hiltViewModel<MainViewModel>()
 
@@ -74,9 +78,7 @@ fun MainScreen(navController: NavHostController, modifier: Modifier = Modifier) 
                     titleContentColor = MaterialTheme.colorScheme.onBackground,
                 ),
 
-                modifier = Modifier
-                    .heightIn(min = 56.dp)
-                    .fillMaxWidth(),
+                modifier = modifier,
                 title = {
                     Text(
                         text = stringResource(id = R.string.app_name), style = TextStyle(
@@ -117,7 +119,11 @@ fun MainScreen(navController: NavHostController, modifier: Modifier = Modifier) 
                             )
                         })
 
-                        Divider(modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp))
+                        Divider(
+                            modifier = modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 8.dp)
+                        )
 
 
                         DropdownMenuItem(text = {
@@ -132,7 +138,11 @@ fun MainScreen(navController: NavHostController, modifier: Modifier = Modifier) 
                             )
                         })
 
-                        Divider(modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp))
+                        Divider(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 8.dp)
+                        )
 
 
                         DropdownMenuItem(text = {
@@ -152,13 +162,14 @@ fun MainScreen(navController: NavHostController, modifier: Modifier = Modifier) 
             )
         }, content = { innerPadding ->
 
-            Column(
-                modifier = Modifier
+            LazyColumn(
+                modifier = modifier
                     .fillMaxSize()
                     .padding(innerPadding)
                     .nestedScroll(scrollBehavior.nestedScrollConnection),
+                state = listState
             ) {
-                notes.forEach { note ->
+                items(notes) { note ->
                     NoteItem(
                         title = note.title,
                         modifier = Modifier
@@ -171,42 +182,3 @@ fun MainScreen(navController: NavHostController, modifier: Modifier = Modifier) 
         })
 }
 
-
-//Scaffold(
-//
-//) {
-//    Column(
-//        modifier = Modifier
-//            .fillMaxSize()
-//            .nestedScroll(scrollBehavior.nestedScrollConnection),
-//    ) {
-//        Text(
-//            text =,
-//            fontSize = 40.sp,
-//            modifier = Modifier
-//                .padding(top = 20.dp, start = 20.dp, bottom = 10.dp)
-//        )
-//
-//        notes.forEach { note ->
-//            NoteItem(
-//                title = note.title,
-//                backgroundColor = Color(note.backgroundColor),
-//                modifier = Modifier
-//                    .fillMaxWidth()
-//                    .padding(vertical = 5.dp)
-//                    .padding(horizontal = 16.dp)
-//                    .clickable { navController.navigate(Screens.Details.rout + "/${note.id}") }
-//            )
-//        }
-//
-//    }
-//}
-//}
-
-@Preview(showBackground = true)
-@Composable
-fun DefPreview() {
-    IdeasappTheme {
-        MainScreen(rememberNavController())
-    }
-}

@@ -1,6 +1,5 @@
 package com.ideaapp.presentation.screens.details
 
-import android.annotation.SuppressLint
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -27,10 +26,6 @@ import androidx.navigation.NavController
 import com.ideaapp.presentation.ui.theme.components.Screens
 
 
-import java.util.*
-
-
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun DetailsScreen(
     navController: NavController,
@@ -38,7 +33,10 @@ fun DetailsScreen(
 ) {
 
     val viewModel = hiltViewModel<DetailsViewModel>()
+
     val note = viewModel.note.observeAsState().value
+
+
     id?.toLong()?.let { viewModel.getNoteById(id = it) }
     Log.d("checkData", "id: $id")
     Scaffold(
@@ -97,12 +95,11 @@ fun DetailsScreen(
 
             }
         }
-    ) {
+    ) { innerpadding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(top = 68.dp)
-                .padding(horizontal = 27.dp),
+                .padding(innerpadding),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
