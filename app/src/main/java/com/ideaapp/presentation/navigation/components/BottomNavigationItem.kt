@@ -1,4 +1,4 @@
-package com.ideaapp.presentation.ui.theme.components
+package com.ideaapp.presentation.navigation.components
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Create
@@ -9,13 +9,6 @@ import androidx.compose.material.icons.outlined.Menu
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.ui.graphics.vector.ImageVector
 
-sealed class Screens(val rout: String) {
-    object Home : Screens(rout = "main_screen")
-    object Search : Screens(rout = "search_screen")
-
-    object Details : Screens(rout = "details_screen")
-    object Create : Screens(rout = "create_screen")
-}
 
 data class BottomNavigationItem(
     val route: String,

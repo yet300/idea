@@ -41,8 +41,8 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.ideaapp.R
+import com.ideaapp.presentation.navigation.components.Screens
 import com.ideaapp.presentation.ui.theme.components.NoteItem
-import com.ideaapp.presentation.ui.theme.components.Screens
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -53,9 +53,8 @@ fun MainScreen(
     modifier: Modifier = Modifier
 ) {
 
-    val scrollBehavior =
-        TopAppBarDefaults.exitUntilCollapsedScrollBehavior(rememberTopAppBarState(),
-            canScroll = { true })
+    val appBarState = rememberTopAppBarState()
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(appBarState)
 
 
     var expended by remember {
@@ -67,9 +66,10 @@ fun MainScreen(
 
     val notes = viewModel.notes.observeAsState(listOf()).value
 
-    Scaffold(modifier = modifier
-        .fillMaxSize()
-        .nestedScroll(scrollBehavior.nestedScrollConnection),
+    Scaffold(
+        modifier = modifier
+            .fillMaxSize()
+            .nestedScroll(scrollBehavior.nestedScrollConnection),
 
         topBar = {
             TopAppBar(
@@ -160,7 +160,8 @@ fun MainScreen(
                 },
                 scrollBehavior = scrollBehavior,
             )
-        }, content = { innerPadding ->
+        },
+        content = { innerPadding ->
 
             LazyColumn(
                 modifier = modifier
@@ -179,6 +180,7 @@ fun MainScreen(
                     )
                 }
             }
-        })
+        },
+    )
 }
 

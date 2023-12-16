@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.ideaapp.presentation.ui.theme.components.Screens
+import com.ideaapp.presentation.navigation.components.Screens
 
 
 @Composable
