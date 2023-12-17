@@ -27,10 +27,5 @@ val items = listOf(
         selectedIcon = Icons.Filled.Search,
         unselectedIcon = Icons.Outlined.Search
 
-    ),
-    BottomNavigationItem(
-        route = Screens.Create.rout,
-        selectedIcon = Icons.Filled.Create,
-        unselectedIcon = Icons.Outlined.Create
     )
 )

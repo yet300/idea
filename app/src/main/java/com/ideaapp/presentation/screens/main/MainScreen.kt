@@ -1,5 +1,6 @@
 package com.ideaapp.presentation.screens.main
 
+
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -42,6 +43,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.ideaapp.R
 import com.ideaapp.presentation.navigation.components.Screens
+import com.ideaapp.presentation.screens.main.components.LargeFAB
 import com.ideaapp.presentation.ui.theme.components.NoteItem
 
 
@@ -160,6 +162,9 @@ fun MainScreen(
                 },
                 scrollBehavior = scrollBehavior,
             )
+        },
+        floatingActionButton = {
+            LargeFAB(onClick = { navController.navigate(Screens.Create.rout) }, listState)
         },
         content = { innerPadding ->
 

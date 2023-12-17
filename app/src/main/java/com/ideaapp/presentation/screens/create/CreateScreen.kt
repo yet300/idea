@@ -29,6 +29,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import com.ideaapp.domain.model.Note
 import com.ideaapp.R
 import com.ideaapp.presentation.navigation.components.Screens
@@ -38,13 +39,15 @@ import com.ideaapp.presentation.screens.create.components.CustomTextField
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CreateScreen(
-    navController: NavController,
+    navController: NavHostController,
     modifier: Modifier = Modifier
 ) {
 
 
     val appBarState = rememberTopAppBarState()
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(appBarState)
+    val rememberedScrollBehavior = remember { scrollBehavior }
+
     val keyboardHeight = remember { mutableStateOf(0.dp) }
 
     val viewModel = hiltViewModel<CreateViewModel>()
@@ -86,23 +89,13 @@ fun CreateScreen(
                             .padding(6.dp)
                     )
                 },
-                scrollBehavior = scrollBehavior,
+                scrollBehavior = rememberedScrollBehavior,
                 modifier = modifier
             )
 
 
         },
         content = { innerpadding ->
-//            LazyColumn(
-//                modifier = modifier
-//                    .fillMaxSize()
-//                    .padding(innerpadding)
-//                    .nestedScroll(scrollBehavior.nestedScrollConnection),
-//
-//                horizontalAlignment = Alignment.CenterHorizontally,
-//                verticalArrangement = Arrangement.Top,
-//                state = listState
-//            )
             Box(modifier = modifier.padding(innerpadding)) {
                 Column(
                     modifier = modifier
