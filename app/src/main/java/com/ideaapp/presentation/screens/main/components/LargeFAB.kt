@@ -6,9 +6,11 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Create
+import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LargeFloatingActionButton
 import androidx.compose.runtime.Composable
@@ -47,7 +49,8 @@ fun LargeFAB(
         ) {
             Icon(
                 Icons.Filled.Create,
-                stringResource(id = R.string.create)
+                stringResource(id = R.string.create),
+                modifier = Modifier.size(FloatingActionButtonDefaults.LargeIconSize)
             )
         }
     }

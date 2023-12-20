@@ -25,13 +25,13 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.ideaapp.presentation.screens.search.SearchScreen
 import com.ideaapp.presentation.screens.create.CreateScreen
 import com.ideaapp.presentation.screens.details.DetailsScreen
 import com.ideaapp.presentation.screens.main.MainScreen
 import androidx.compose.ui.unit.dp
 import com.ideaapp.presentation.navigation.components.Screens
 import com.ideaapp.presentation.navigation.components.items
+import com.ideaapp.presentation.screens.task.TaskScreen
 
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -108,8 +108,8 @@ fun SetupNavHost(
 
                 }
 
-                composable(route = Screens.Search.rout) {
-                    SearchScreen(navController = navController)
+                composable(route = Screens.Task.rout) {
+                    TaskScreen()
                 }
             }
         }

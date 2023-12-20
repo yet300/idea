@@ -3,11 +3,13 @@ package com.ideaapp.presentation.screens.create
 import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -28,7 +30,6 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import com.ideaapp.domain.model.Note
 import com.ideaapp.R
@@ -67,6 +68,13 @@ fun CreateScreen(
                 title = {
 
                 },
+                navigationIcon = {
+                    IconButton(onClick = { navController.popBackStack() }) {
+                        Icon(
+                            imageVector = Icons.Filled.ArrowBack, contentDescription = null
+                        )
+                    }
+                },
                 actions = {
                     Text(
                         text = stringResource(id = R.string.create),
@@ -95,8 +103,8 @@ fun CreateScreen(
 
 
         },
-        content = { innerpadding ->
-            Box(modifier = modifier.padding(innerpadding)) {
+        content = { contentPadding ->
+            Box(modifier = modifier.padding(contentPadding)) {
                 Column(
                     modifier = modifier
                         .fillMaxWidth()

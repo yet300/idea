@@ -17,7 +17,6 @@ class MainViewModel @Inject constructor(
     private val _notes = MutableLiveData<List<Note>>()
 
 
-
     val notes: LiveData<List<Note>>
         get() = _notes
 
@@ -31,5 +30,12 @@ class MainViewModel @Inject constructor(
                 _notes.postValue(it)
             }
         }
+    }
+
+    fun searchNotes(text: String) {
+        val filteredNotes = _notes.value?.filter {
+            it.title.lowercase().startsWith(text.lowercase())
+        }
+        _notes.value = filteredNotes
     }
 }
