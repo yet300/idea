@@ -32,10 +32,5 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun searchNotes(text: String) {
-        val filteredNotes = _notes.value?.filter {
-            it.title.lowercase().startsWith(text.lowercase())
-        }
-        _notes.value = filteredNotes
-    }
+
 }

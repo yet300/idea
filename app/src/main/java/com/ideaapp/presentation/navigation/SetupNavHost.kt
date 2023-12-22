@@ -43,6 +43,7 @@ fun SetupNavHost(
     val fabVisibility by derivedStateOf {
         listState.firstVisibleItemIndex == 0
     }
+
     Scaffold(
         bottomBar = {
             var selectedItemIndex by rememberSaveable {

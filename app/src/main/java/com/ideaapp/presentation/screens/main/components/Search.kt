@@ -1,6 +1,7 @@
 package com.ideaapp.presentation.screens.main.components
 
 
+
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -17,6 +18,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SearchBar
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -27,33 +29,25 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.ideaapp.R
-import com.ideaapp.presentation.screens.main.MainViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Search(modifier: Modifier = Modifier) {
-    val searchText = remember {
-        mutableStateOf("")
-    }
-
-
+fun Search(
+    modifier: Modifier = Modifier,
+    query: MutableState<String>,
+) {
     var expended by remember {
         mutableStateOf(false)
     }
 
-    val viewModel = hiltViewModel<MainViewModel>()
-
-
     SearchBar(
-        query = searchText.value,
+        query = query.value,
         onQueryChange = {
-            searchText.value = it
-
+            query.value = it
         },
-        onSearch = { searchText ->
-            viewModel.searchNotes(searchText)
+        onSearch = {
+            query.value = it
         },
         active = false,
         onActiveChange = {},
@@ -65,7 +59,9 @@ fun Search(modifier: Modifier = Modifier) {
             Text(text = stringResource(id = R.string.app_name))
         },
         trailingIcon = {
-            IconButton(onClick = { expended = true }) {
+            IconButton(onClick = {
+                expended = true
+            }) {
                 Icon(
                     imageVector = Icons.Filled.MoreVert, contentDescription = null
                 )
