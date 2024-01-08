@@ -75,7 +75,6 @@ fun Search(
                     .clip(MaterialTheme.shapes.small)
 
             ) {
-
                 DropdownMenuItem(text = {
                     Text(
                         text = stringResource(id = R.string.secure_notes),

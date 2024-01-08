@@ -13,8 +13,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
@@ -22,14 +20,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.contentDescription
-import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -38,6 +31,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.ideaapp.R
 import com.ideaapp.presentation.navigation.components.Screens
+import com.mohamedrejeb.richeditor.model.rememberRichTextState
+import com.mohamedrejeb.richeditor.ui.material3.RichText
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -51,6 +46,10 @@ fun DetailsScreen(
     val viewModel = hiltViewModel<DetailsViewModel>()
 
     val note = viewModel.note.observeAsState().value
+    val htmlNote = note?.content ?: ""
+    val state = rememberRichTextState()
+
+    state.setHtml(htmlNote)
 
 
     val keyboardHeight = remember { mutableStateOf(0.dp) }
@@ -60,6 +59,7 @@ fun DetailsScreen(
     val appBarState = rememberTopAppBarState()
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(appBarState)
     val rememberedScrollBehavior = remember { scrollBehavior }
+
 
 
     id?.toLong()?.let { viewModel.getNoteById(id = it) }
@@ -111,24 +111,30 @@ fun DetailsScreen(
                     .fillMaxWidth()
                     .fillMaxSize()
                     .verticalScroll(rememberScrollState())
-                    .padding(bottom = keyboardHeight.value)
+                    .padding(bottom = keyboardHeight.value),
             ) {
                 Text(
                     text = note?.title ?: "",
                     style = TextStyle(
-                        fontSize = 18.sp,
+                        fontSize = 20.sp,
                         fontWeight = FontWeight.Medium,
                         color = MaterialTheme.colorScheme.onSurface
                     ),
                 )
-                Text(
-                    text = note?.content ?: "",
+                Spacer(modifier = Modifier.padding(16.dp))
+
+
+
+                RichText(
+                    state = state,
                     style = TextStyle(
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Normal,
                         color = MaterialTheme.colorScheme.onSurface
                     ),
                 )
+
+
 //
 //                TextField(
 //                    value = note?.title ?: "",
@@ -206,3 +212,4 @@ fun DetailsScreen(
     }
 
 }
+

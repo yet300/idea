@@ -1,5 +1,6 @@
 package com.ideaapp.presentation.screens.create
 
+
 import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -26,8 +27,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.ParagraphStyle
+import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
@@ -35,6 +41,9 @@ import com.ideaapp.domain.model.Note
 import com.ideaapp.R
 import com.ideaapp.presentation.navigation.components.Screens
 import com.ideaapp.presentation.screens.create.components.CustomTextField
+import com.ideaapp.presentation.screens.create.components.EditorControls
+import com.mohamedrejeb.richeditor.model.rememberRichTextState
+import com.mohamedrejeb.richeditor.ui.material3.RichTextEditor
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -52,8 +61,13 @@ fun CreateScreen(
     val keyboardHeight = remember { mutableStateOf(0.dp) }
 
     val viewModel = hiltViewModel<CreateViewModel>()
+
     var title by rememberSaveable { mutableStateOf("") }
-    var description by rememberSaveable { mutableStateOf("") }
+    val description = rememberRichTextState()
+
+    val titleSize = MaterialTheme.typography.displaySmall.fontSize
+    val subtitleSize = MaterialTheme.typography.titleLarge.fontSize
+
     var isTextFieldFocused by remember { mutableStateOf(false) }
 
 
@@ -82,11 +96,13 @@ fun CreateScreen(
                         style = MaterialTheme.typography.bodyLarge,
                         modifier = modifier
                             .clickable {
+
+
                                 if (title.isNotEmpty()) {
                                     viewModel.createNote(
                                         Note(
                                             title = title,
-                                            content = description,
+                                            content = description.toHtml(),
                                             emoji = "Emoji"
                                         )
                                     ) {
@@ -114,6 +130,40 @@ fun CreateScreen(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Top,
                 ) {
+                    EditorControls(
+                        modifier = Modifier.weight(2f),
+                        onBoldClick = {
+                            description.toggleSpanStyle(SpanStyle(fontWeight = FontWeight.Bold))
+                        },
+                        onItalicClick = {
+                            description.toggleSpanStyle(SpanStyle(fontStyle = FontStyle.Italic))
+                        },
+                        onUnderlineClick = {
+                            description.toggleSpanStyle(SpanStyle(textDecoration = TextDecoration.Underline))
+                        },
+                        onTitleClick = {
+                            description.toggleSpanStyle(SpanStyle(fontSize = titleSize))
+                        },
+                        onSubtitleClick = {
+                            description.toggleSpanStyle(SpanStyle(fontSize = subtitleSize))
+                        },
+                        onStartAlignClick = {
+                            description.toggleParagraphStyle(ParagraphStyle(textAlign = TextAlign.Start))
+                        },
+                        onEndAlignClick = {
+                            description.toggleParagraphStyle(ParagraphStyle(textAlign = TextAlign.End))
+                        },
+                        onCenterAlignClick = {
+                            description.toggleParagraphStyle(ParagraphStyle(textAlign = TextAlign.Center))
+                        },
+                        onUnorderedListClick = {
+                            description.toggleOrderedList()
+                        },
+                        onOrderClick = {
+                            description.toggleUnorderedList()
+                        }
+                    )
+
                     CustomTextField(
                         value = title,
                         onValueChange = {
@@ -130,26 +180,30 @@ fun CreateScreen(
                         ),
                         modifier = modifier
                     )
-                    CustomTextField(
-                        value = description,
-                        onValueChange = { description = it },
-                        labletext = stringResource(id = R.string.note),
-                        textStyle = TextStyle(
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Normal,
-                            color = MaterialTheme.colorScheme.onSurface
-                        ),
+                    RichTextEditor(
                         modifier = Modifier
+                            .fillMaxWidth()
+                            .weight(8f),
+                        state = description,
+                        placeholder = {
+                            Text(
+                                text = stringResource(id = R.string.note),
+                                fontSize = 16.sp,
+                                color = MaterialTheme.colorScheme.onSurface
+                            )
+                        },
                     )
+
 
                 }
             }
         },
         modifier = modifier
             .nestedScroll(scrollBehavior.nestedScrollConnection),
-
         )
 }
+
+
 
 
 

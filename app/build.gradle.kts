@@ -78,6 +78,10 @@ dependencies {
     // Navigation
     implementation("androidx.navigation:navigation-compose:2.7.5")
 
+    //richText
+    implementation("com.mohamedrejeb.richeditor:richeditor-compose:1.0.0-rc01")
+    implementation("androidx.compose.material:material-icons-extended:1.5.4")
+
 
     // Room
     implementation("androidx.room:room-runtime:2.6.1")
