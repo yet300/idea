@@ -16,7 +16,9 @@ import androidx.compose.material.icons.filled.FormatListNumbered
 import androidx.compose.material.icons.filled.FormatSize
 import androidx.compose.material.icons.filled.FormatUnderlined
 import androidx.compose.material.icons.filled.Title
+import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -26,6 +28,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalLayoutApi::class)
@@ -53,7 +57,12 @@ fun EditorControls(
     var isUnorderedListSelected by rememberSaveable { mutableStateOf(false) }
 
     var alignmentSelected by rememberSaveable { mutableIntStateOf(0) }
-    var expended by remember {
+    val alignmentIcons = listOf(
+        Icons.Default.FormatAlignLeft,
+        Icons.Default.FormatAlignCenter,
+        Icons.Default.FormatAlignRight
+    )
+    var expanded by remember {
         mutableStateOf(false)
     }
 
@@ -133,6 +142,7 @@ fun EditorControls(
                 tint = MaterialTheme.colorScheme.onPrimary
             )
         }
+
         ControlWrapper(
             selected = subtitleSelected,
             onChangeClick = { subtitleSelected = it },
@@ -145,79 +155,59 @@ fun EditorControls(
             )
         }
 
-//        DropdownMenu(
-//            expanded = expended,
-//            onDismissRequest = { expended = false },
-//            offset = DpOffset(x = 10.dp, y = 8.dp),
-//            modifier = modifier
-//                .padding(6.dp)
-//                .clip(MaterialTheme.shapes.small)
-//
-//        ) {
-//            DropdownMenuItem(text = {},
-//                onClick = { onStartAlignClick() },
-//                trailingIcon = {
-//                    Icon(
-//                        imageVector = Icons.Default.FormatAlignLeft,
-//                        contentDescription = "Start Align Control",
-//                        tint = MaterialTheme.colorScheme.onPrimary
-//                    )
-//                })
-//
-//            DropdownMenuItem(text = {},
-//                onClick = { onCenterAlignClick() },
-//                trailingIcon = {
-//                    Icon(
-//                        imageVector = Icons.Default.FormatAlignCenter,
-//                        contentDescription = "Center Align Control",
-//                        tint = MaterialTheme.colorScheme.onPrimary
-//                    )
-//                })
-//
-//            DropdownMenuItem(text = {},
-//                onClick = { onEndAlignClick() },
-//                trailingIcon = {
-//                    Icon(
-//                        imageVector = Icons.Default.FormatAlignRight,
-//                        contentDescription = "End Align Control",
-//                        tint = MaterialTheme.colorScheme.onPrimary
-//                    )
-//                })
-//        }
+
+
 
         ControlWrapper(
             selected = alignmentSelected == 0,
             onChangeClick = { alignmentSelected = 0 },
-            onClick = onStartAlignClick
+            onClick = {
+                expanded = !expanded
+                when (alignmentSelected) {
+                    0 -> onStartAlignClick()
+                    1 -> onCenterAlignClick()
+                    2 -> onEndAlignClick()
+                    else -> onStartAlignClick()
+                }
+            }
         ) {
             Icon(
-                imageVector = Icons.Default.FormatAlignLeft,
-                contentDescription = "Start Align Control",
-                tint = MaterialTheme.colorScheme.onPrimary
-            )
-        }
-        ControlWrapper(
-            selected = alignmentSelected == 1,
-            onChangeClick = { alignmentSelected = 1 },
-            onClick = onCenterAlignClick
-        ) {
-            Icon(
-                imageVector = Icons.Default.FormatAlignCenter,
-                contentDescription = "Center Align Control",
-                tint = MaterialTheme.colorScheme.onPrimary
-            )
-        }
-        ControlWrapper(
-            selected = alignmentSelected == 2,
-            onChangeClick = { alignmentSelected = 2 },
-            onClick = onEndAlignClick
-        ) {
-            Icon(
-                imageVector = Icons.Default.FormatAlignRight,
-                contentDescription = "End Align Control",
+                imageVector = when (alignmentSelected) {
+                    0 -> Icons.Default.FormatAlignLeft
+                    1 -> Icons.Default.FormatAlignCenter
+                    2 -> Icons.Default.FormatAlignRight
+                    else -> Icons.Default.FormatAlignLeft
+                },
+                contentDescription = "Align Control",
                 tint = MaterialTheme.colorScheme.onPrimary
             )
         }
 
+        DropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false },
+            offset = DpOffset(x = 10.dp, y = 8.dp),
+            modifier = modifier
+                .padding(3.dp)
+                .clip(MaterialTheme.shapes.small)
+        ) {
+            alignmentIcons.forEachIndexed { index, icon ->
+                IconButton(onClick = {
+                    when (index) {
+                        0 -> onStartAlignClick()
+                        1 -> onCenterAlignClick()
+                        2 -> onEndAlignClick()
+                    }
+                    alignmentSelected = index
+                    expanded = false
+                }) {
+                    Icon(
+                        imageVector = icon,
+                        contentDescription = "Align Control",
+                        tint = MaterialTheme.colorScheme.primary
+                    )
+                }
+            }
+        }
     }
 }

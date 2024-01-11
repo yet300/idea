@@ -1,6 +1,8 @@
 package com.ideaapp.presentation.screens.create
 
 
+import android.content.Context
+import android.widget.Toast
 import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -18,6 +20,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
@@ -50,6 +53,7 @@ import com.mohamedrejeb.richeditor.ui.material3.RichTextEditor
 @Composable
 fun CreateScreen(
     navController: NavHostController,
+    context: Context,
     modifier: Modifier = Modifier
 ) {
 
@@ -58,7 +62,13 @@ fun CreateScreen(
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(appBarState)
     val rememberedScrollBehavior = remember { scrollBehavior }
 
-    val keyboardHeight = remember { mutableStateOf(0.dp) }
+    val scrollState = rememberScrollState(0)
+
+    LaunchedEffect(scrollState.maxValue) {
+        scrollState.scrollTo(scrollState.maxValue)
+        // or
+        // scrollState.animateScrollTo(scrollState.maxValue)
+    }
 
     val viewModel = hiltViewModel<CreateViewModel>()
 
@@ -69,6 +79,7 @@ fun CreateScreen(
     val subtitleSize = MaterialTheme.typography.titleLarge.fontSize
 
     var isTextFieldFocused by remember { mutableStateOf(false) }
+
 
 
 
@@ -108,6 +119,8 @@ fun CreateScreen(
                                     ) {
                                         navController.navigate(Screens.Home.rout)
                                     }
+                                } else {
+                                    mToast(context, context.getString(R.string.error_create))
                                 }
                             }
                             .padding(6.dp)
@@ -125,13 +138,12 @@ fun CreateScreen(
                     modifier = modifier
                         .fillMaxWidth()
                         .fillMaxSize()
-                        .verticalScroll(rememberScrollState())
-                        .padding(bottom = keyboardHeight.value),
+                        .verticalScroll(rememberScrollState()),
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Top,
                 ) {
                     EditorControls(
-                        modifier = Modifier.weight(2f),
+                        modifier = Modifier.weight(1f),
                         onBoldClick = {
                             description.toggleSpanStyle(SpanStyle(fontWeight = FontWeight.Bold))
                         },
@@ -179,11 +191,14 @@ fun CreateScreen(
                             color = MaterialTheme.colorScheme.onSurface
                         ),
                         modifier = modifier
+                            .fillMaxWidth(),
                     )
                     RichTextEditor(
-                        modifier = Modifier
+                        modifier = modifier
                             .fillMaxWidth()
-                            .weight(8f),
+                            .weight(8f)
+                            .verticalScroll(scrollState),
+
                         state = description,
                         placeholder = {
                             Text(
@@ -192,7 +207,8 @@ fun CreateScreen(
                                 color = MaterialTheme.colorScheme.onSurface
                             )
                         },
-                    )
+
+                        )
 
 
                 }
@@ -200,7 +216,11 @@ fun CreateScreen(
         },
         modifier = modifier
             .nestedScroll(scrollBehavior.nestedScrollConnection),
-        )
+    )
+}
+
+private fun mToast(context: Context, text:String) {
+    Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
 }
 
 

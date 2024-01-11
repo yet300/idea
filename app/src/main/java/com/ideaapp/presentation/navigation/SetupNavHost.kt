@@ -18,6 +18,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
@@ -105,7 +106,9 @@ fun SetupNavHost(
                     DetailsScreen(navController = navController, it.arguments?.getString("id"))
                 }
                 composable(route = Screens.Create.rout) {
-                    CreateScreen(navController = navController)
+                    val context = LocalContext.current
+
+                    CreateScreen(navController = navController, context)
 
                 }
 
