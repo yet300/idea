@@ -2,7 +2,11 @@ package com.ideaapp.presentation.screens.create
 
 
 import android.content.Context
+import android.net.Uri
 import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -16,6 +20,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
@@ -29,6 +34,7 @@ import  androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.ParagraphStyle
 import androidx.compose.ui.text.SpanStyle
@@ -40,6 +46,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import coil.compose.AsyncImage
 import com.ideaapp.domain.model.Note
 import com.ideaapp.R
 import com.ideaapp.presentation.navigation.components.Screens
@@ -56,8 +63,6 @@ fun CreateScreen(
     context: Context,
     modifier: Modifier = Modifier
 ) {
-
-
     val appBarState = rememberTopAppBarState()
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(appBarState)
     val rememberedScrollBehavior = remember { scrollBehavior }
@@ -65,9 +70,7 @@ fun CreateScreen(
     val scrollState = rememberScrollState(0)
 
     LaunchedEffect(scrollState.maxValue) {
-        scrollState.scrollTo(scrollState.maxValue)
-        // or
-        // scrollState.animateScrollTo(scrollState.maxValue)
+        scrollState.animateScrollTo(scrollState.maxValue)
     }
 
     val viewModel = hiltViewModel<CreateViewModel>()
@@ -75,11 +78,22 @@ fun CreateScreen(
     var title by rememberSaveable { mutableStateOf("") }
     val description = rememberRichTextState()
 
+
     val titleSize = MaterialTheme.typography.displaySmall.fontSize
     val subtitleSize = MaterialTheme.typography.titleLarge.fontSize
 
     var isTextFieldFocused by remember { mutableStateOf(false) }
 
+    var selectedImageUrl by remember {
+        mutableStateOf<Uri?>(null)
+    }
+
+    val pickerLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.PickVisualMedia(),
+        onResult = {
+            selectedImageUrl = it
+        }
+    )
 
 
 
@@ -114,7 +128,7 @@ fun CreateScreen(
                                         Note(
                                             title = title,
                                             content = description.toHtml(),
-                                            emoji = "Emoji"
+                                            imageUri = selectedImageUrl.toString()
                                         )
                                     ) {
                                         navController.navigate(Screens.Home.rout)
@@ -133,85 +147,110 @@ fun CreateScreen(
 
         },
         content = { contentPadding ->
-            Box(modifier = modifier.padding(contentPadding)) {
-                Column(
-                    modifier = modifier
-                        .fillMaxWidth()
-                        .fillMaxSize()
-                        .verticalScroll(rememberScrollState()),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Top,
-                ) {
-                    EditorControls(
-                        modifier = Modifier.weight(1f),
-                        onBoldClick = {
-                            description.toggleSpanStyle(SpanStyle(fontWeight = FontWeight.Bold))
-                        },
-                        onItalicClick = {
-                            description.toggleSpanStyle(SpanStyle(fontStyle = FontStyle.Italic))
-                        },
-                        onUnderlineClick = {
-                            description.toggleSpanStyle(SpanStyle(textDecoration = TextDecoration.Underline))
-                        },
-                        onTitleClick = {
-                            description.toggleSpanStyle(SpanStyle(fontSize = titleSize))
-                        },
-                        onSubtitleClick = {
-                            description.toggleSpanStyle(SpanStyle(fontSize = subtitleSize))
-                        },
-                        onStartAlignClick = {
-                            description.toggleParagraphStyle(ParagraphStyle(textAlign = TextAlign.Start))
-                        },
-                        onEndAlignClick = {
-                            description.toggleParagraphStyle(ParagraphStyle(textAlign = TextAlign.End))
-                        },
-                        onCenterAlignClick = {
-                            description.toggleParagraphStyle(ParagraphStyle(textAlign = TextAlign.Center))
-                        },
-                        onUnorderedListClick = {
-                            description.toggleOrderedList()
-                        },
-                        onOrderClick = {
-                            description.toggleUnorderedList()
-                        }
-                    )
-
-                    CustomTextField(
-                        value = title,
-                        onValueChange = {
-                            title = it
-                            isTextFieldFocused = it.isNotEmpty()
-                        },
-                        labletext = stringResource(
-                            id = R.string.title
-                        ),
-                        textStyle = TextStyle(
-                            fontSize = 18.sp,
-                            fontWeight = FontWeight.Medium,
-                            color = MaterialTheme.colorScheme.onSurface
-                        ),
+            Column(
+                modifier = modifier
+                    .fillMaxWidth()
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
+                    .padding(contentPadding),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Top,
+            ) {
+                if (selectedImageUrl != null) {
+                    AsyncImage(
+                        model = selectedImageUrl,
+                        contentDescription = null,
                         modifier = modifier
                             .fillMaxWidth(),
+                        contentScale = ContentScale.Crop
+
                     )
-                    RichTextEditor(
-                        modifier = modifier
-                            .fillMaxWidth()
-                            .weight(8f)
-                            .verticalScroll(scrollState),
-
-                        state = description,
-                        placeholder = {
-                            Text(
-                                text = stringResource(id = R.string.note),
-                                fontSize = 16.sp,
-                                color = MaterialTheme.colorScheme.onSurface
-                            )
-                        },
-
-                        )
-
-
                 }
+
+                if (selectedImageUrl == null) {
+                    TextButton(
+                        onClick = {
+                            pickerLauncher.launch(
+                                PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+                            )
+                        }
+                    ) {
+                        Text(stringResource(id = R.string.cover))
+                    }
+                }
+
+                EditorControls(
+                    modifier = modifier,
+                    onBoldClick = {
+                        description.toggleSpanStyle(SpanStyle(fontWeight = FontWeight.Bold))
+                    },
+                    onItalicClick = {
+                        description.toggleSpanStyle(SpanStyle(fontStyle = FontStyle.Italic))
+                    },
+                    onUnderlineClick = {
+                        description.toggleSpanStyle(SpanStyle(textDecoration = TextDecoration.Underline))
+                    },
+                    onTitleClick = {
+                        description.toggleSpanStyle(SpanStyle(fontSize = titleSize))
+                    },
+                    onSubtitleClick = {
+                        description.toggleSpanStyle(SpanStyle(fontSize = subtitleSize))
+                    },
+                    onStartAlignClick = {
+                        description.toggleParagraphStyle(ParagraphStyle(textAlign = TextAlign.Start))
+                    },
+                    onEndAlignClick = {
+                        description.toggleParagraphStyle(ParagraphStyle(textAlign = TextAlign.End))
+                    },
+                    onCenterAlignClick = {
+                        description.toggleParagraphStyle(ParagraphStyle(textAlign = TextAlign.Center))
+                    },
+                    onUnorderedListClick = {
+                        description.toggleOrderedList()
+                    },
+                    onOrderClick = {
+                        description.toggleUnorderedList()
+                    }
+                )
+
+                CustomTextField(
+                    value = title,
+                    onValueChange = {
+                        title = it
+                        isTextFieldFocused = it.isNotEmpty()
+                    },
+                    labletext = stringResource(
+                        id = R.string.title
+                    ),
+                    textStyle = TextStyle(
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Medium,
+                        color = MaterialTheme.colorScheme.onSurface
+                    ),
+                    modifier = modifier
+                        .fillMaxWidth()
+                        .fillMaxHeight(0.3f),
+                )
+
+
+                RichTextEditor(
+                    modifier = modifier
+                        .fillMaxWidth()
+                        .weight(8f)
+                        .verticalScroll(scrollState),
+
+                    state = description,
+                    placeholder = {
+                        Text(
+                            text = stringResource(id = R.string.note),
+                            fontSize = 16.sp,
+                            color = MaterialTheme.colorScheme.onSurface
+                        )
+                    },
+
+                    )
+
+
             }
         },
         modifier = modifier
@@ -219,7 +258,7 @@ fun CreateScreen(
     )
 }
 
-private fun mToast(context: Context, text:String) {
+private fun mToast(context: Context, text: String) {
     Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
 }
 

@@ -1,7 +1,6 @@
 package com.ideaapp.presentation.screens.main.components
 
 
-
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -56,7 +55,10 @@ fun Search(
             Icon(imageVector = Icons.Filled.Search, contentDescription = null)
         },
         placeholder = {
-            Text(text = stringResource(id = R.string.app_name))
+            Text(
+                text = stringResource(id = R.string.app_name),
+                style = MaterialTheme.typography.titleMedium
+            )
         },
         trailingIcon = {
             IconButton(onClick = {
