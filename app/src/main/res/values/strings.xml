@@ -15,4 +15,5 @@
     <string name="create_your_link">Create your link!</string>
     <string name="error_create">Your title is empty</string>
     <string name="cover">Add cover</string>
+    <string name="change">Change</string>
 </resources>

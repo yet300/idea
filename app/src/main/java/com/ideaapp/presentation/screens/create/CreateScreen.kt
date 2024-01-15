@@ -10,10 +10,10 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -25,7 +25,6 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
@@ -63,15 +62,11 @@ fun CreateScreen(
     context: Context,
     modifier: Modifier = Modifier
 ) {
+    //appBar Scrolling
     val appBarState = rememberTopAppBarState()
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(appBarState)
     val rememberedScrollBehavior = remember { scrollBehavior }
 
-    val scrollState = rememberScrollState(0)
-
-    LaunchedEffect(scrollState.maxValue) {
-        scrollState.animateScrollTo(scrollState.maxValue)
-    }
 
     val viewModel = hiltViewModel<CreateViewModel>()
 
@@ -88,6 +83,8 @@ fun CreateScreen(
         mutableStateOf<Uri?>(null)
     }
 
+
+    //Select Image in Gallery
     val pickerLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickVisualMedia(),
         onResult = {
@@ -105,7 +102,20 @@ fun CreateScreen(
                     titleContentColor = MaterialTheme.colorScheme.primary,
                 ),
                 title = {
-
+                    if (title.isEmpty()) {
+                        Text(
+                            text = stringResource(id = R.string.title),
+                            color = MaterialTheme.colorScheme.onBackground,
+                            style = MaterialTheme.typography.bodyLarge,
+                        )
+                    } else {
+                        Text(
+                            text = title,
+                            color = MaterialTheme.colorScheme.onBackground,
+                            style = MaterialTheme.typography.bodyLarge,
+                            maxLines = 1
+                        )
+                    }
                 },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
@@ -121,8 +131,6 @@ fun CreateScreen(
                         style = MaterialTheme.typography.bodyLarge,
                         modifier = modifier
                             .clickable {
-
-
                                 if (title.isNotEmpty()) {
                                     viewModel.createNote(
                                         Note(
@@ -149,113 +157,279 @@ fun CreateScreen(
         content = { contentPadding ->
             Column(
                 modifier = modifier
-                    .fillMaxWidth()
+                    .padding(contentPadding)
                     .fillMaxSize()
-                    .verticalScroll(rememberScrollState())
-                    .padding(contentPadding),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Top,
             ) {
-                if (selectedImageUrl != null) {
-                    AsyncImage(
-                        model = selectedImageUrl,
-                        contentDescription = null,
-                        modifier = modifier
-                            .fillMaxWidth(),
-                        contentScale = ContentScale.Crop
+                LazyColumn(
+                    modifier = modifier
+                        .fillMaxHeight()
+                        .weight(9f)
+                    ,
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Top,
+                    contentPadding = PaddingValues(3.dp),
+                    content = {
+                        // Отображаем изображение с кнопкой изменения
+                        item {
+                            if (selectedImageUrl != null) {
+                                Box(
+                                    modifier = modifier.height(240.dp),
+                                ) {
+                                    AsyncImage(
+                                        model = selectedImageUrl,
+                                        contentDescription = null,
+                                        modifier = modifier,
+                                        contentScale = ContentScale.Crop
+                                    )
+                                    ElevatedButton(
+                                        onClick = {
+                                            pickerLauncher.launch(
+                                                PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+                                            )
+                                        },
+                                        modifier = modifier
+                                            .padding(16.dp) // Устанавливаем отступы
+                                            .align(Alignment.BottomEnd) // Выравниваем по верхнему левому углу
+                                    ) {
+                                        Text(stringResource(id = R.string.change))
+                                    }
+                                }
+                            }
+                        }
 
-                    )
-                }
-
-                if (selectedImageUrl == null) {
-                    TextButton(
-                        onClick = {
-                            pickerLauncher.launch(
-                                PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+                        // Отображаем редактор контролов
+                        item {
+                            EditorControls(
+                                modifier = modifier
+                                    .fillMaxWidth(),
+                                onBoldClick = {
+                                    description.toggleSpanStyle(SpanStyle(fontWeight = FontWeight.Bold))
+                                },
+                                onItalicClick = {
+                                    description.toggleSpanStyle(SpanStyle(fontStyle = FontStyle.Italic))
+                                },
+                                onUnderlineClick = {
+                                    description.toggleSpanStyle(SpanStyle(textDecoration = TextDecoration.Underline))
+                                },
+                                onTitleClick = {
+                                    description.toggleSpanStyle(SpanStyle(fontSize = titleSize))
+                                },
+                                onSubtitleClick = {
+                                    description.toggleSpanStyle(SpanStyle(fontSize = subtitleSize))
+                                },
+                                onStartAlignClick = {
+                                    description.toggleParagraphStyle(ParagraphStyle(textAlign = TextAlign.Start))
+                                },
+                                onEndAlignClick = {
+                                    description.toggleParagraphStyle(ParagraphStyle(textAlign = TextAlign.End))
+                                },
+                                onCenterAlignClick = {
+                                    description.toggleParagraphStyle(ParagraphStyle(textAlign = TextAlign.Center))
+                                },
+                                onUnorderedListClick = {
+                                    description.toggleOrderedList()
+                                },
+                                onOrderClick = {
+                                    description.toggleUnorderedList()
+                                }
                             )
                         }
-                    ) {
-                        Text(stringResource(id = R.string.cover))
-                    }
-                }
 
-                EditorControls(
-                    modifier = modifier,
-                    onBoldClick = {
-                        description.toggleSpanStyle(SpanStyle(fontWeight = FontWeight.Bold))
-                    },
-                    onItalicClick = {
-                        description.toggleSpanStyle(SpanStyle(fontStyle = FontStyle.Italic))
-                    },
-                    onUnderlineClick = {
-                        description.toggleSpanStyle(SpanStyle(textDecoration = TextDecoration.Underline))
-                    },
-                    onTitleClick = {
-                        description.toggleSpanStyle(SpanStyle(fontSize = titleSize))
-                    },
-                    onSubtitleClick = {
-                        description.toggleSpanStyle(SpanStyle(fontSize = subtitleSize))
-                    },
-                    onStartAlignClick = {
-                        description.toggleParagraphStyle(ParagraphStyle(textAlign = TextAlign.Start))
-                    },
-                    onEndAlignClick = {
-                        description.toggleParagraphStyle(ParagraphStyle(textAlign = TextAlign.End))
-                    },
-                    onCenterAlignClick = {
-                        description.toggleParagraphStyle(ParagraphStyle(textAlign = TextAlign.Center))
-                    },
-                    onUnorderedListClick = {
-                        description.toggleOrderedList()
-                    },
-                    onOrderClick = {
-                        description.toggleUnorderedList()
+                        // Отображаем кнопку для добавления обложки, если изображение не выбрано
+                        if (selectedImageUrl == null) {
+                            item {
+                                Column(
+                                    modifier = modifier,
+                                    verticalArrangement = Arrangement.Top
+                                ) {
+                                    TextButton(
+                                        onClick = {
+                                            pickerLauncher.launch(
+                                                PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+                                            )
+                                        }
+                                    ) {
+                                        Text(stringResource(id = R.string.cover))
+                                    }
+                                }
+                            }
+                        }
+
+                        // Отображаем текстовое поле для ввода заголовка
+                        item {
+                            CustomTextField(
+                                value = title,
+                                onValueChange = {
+                                    title = it
+                                    isTextFieldFocused = it.isNotEmpty()
+                                },
+                                labletext = stringResource(id = R.string.title),
+                                textStyle = TextStyle(
+                                    fontSize = 18.sp,
+                                    fontWeight = FontWeight.Medium,
+                                    color = MaterialTheme.colorScheme.onSurface
+                                ),
+                                modifier = modifier
+                                    .fillMaxWidth()
+                                    .weight(1f)
+                                    .fillMaxHeight(0.3f),
+                            )
+                        }
+
+                        // Отображаем редактор богатого текста
+                        item {
+                            RichTextEditor(
+                                modifier = modifier
+                                    .fillMaxWidth()
+                                    .imePadding()
+                                    .height(2200.dp)
+                                    .weight(1f),
+                                state = description,
+                                placeholder = {
+                                    Text(
+                                        text = stringResource(id = R.string.note),
+                                        fontSize = 16.sp,
+                                        color = MaterialTheme.colorScheme.onSurface
+                                    )
+                                },
+                            )
+                        }
                     }
                 )
-
-                CustomTextField(
-                    value = title,
-                    onValueChange = {
-                        title = it
-                        isTextFieldFocused = it.isNotEmpty()
-                    },
-                    labletext = stringResource(
-                        id = R.string.title
-                    ),
-                    textStyle = TextStyle(
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.Medium,
-                        color = MaterialTheme.colorScheme.onSurface
-                    ),
-                    modifier = modifier
-                        .fillMaxWidth()
-                        .fillMaxHeight(0.3f),
-                )
-
-
-                RichTextEditor(
-                    modifier = modifier
-                        .fillMaxWidth()
-                        .weight(8f)
-                        .verticalScroll(scrollState),
-
-                    state = description,
-                    placeholder = {
-                        Text(
-                            text = stringResource(id = R.string.note),
-                            fontSize = 16.sp,
-                            color = MaterialTheme.colorScheme.onSurface
-                        )
-                    },
-
-                    )
-
-
             }
+
+
+//            Column(
+//                modifier = modifier
+//                    .fillMaxWidth()
+//                    .fillMaxSize()
+//                    .verticalScroll(rememberScrollState())
+//                    .padding(contentPadding)
+//                    .imePadding(),
+//                horizontalAlignment = Alignment.CenterHorizontally,
+//                verticalArrangement = Arrangement.Top,
+//            ) {
+//                if (selectedImageUrl != null) {
+//                    Box(
+//                        modifier = modifier.height(240.dp),
+//                    ) {
+//                        AsyncImage(
+//                            model = selectedImageUrl,
+//                            contentDescription = null,
+//                            modifier = modifier,
+//                            contentScale = ContentScale.Crop
+//
+//                        )
+//                        ElevatedButton(
+//                            onClick = {
+//                                pickerLauncher.launch(
+//                                    PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+//                                )
+//
+//                            },
+//                            modifier = modifier
+//                                .padding(16.dp) // Устанавливаем отступы
+//                                .align(Alignment.BottomEnd) // Выравниваем по верхнему левому углу
+//                        ) {
+//                            Text(stringResource(id = R.string.change))
+//                        }
+//                    }
+//                }
+//
+//                EditorControls(
+//                    modifier = modifier,
+//                    onBoldClick = {
+//                        description.toggleSpanStyle(SpanStyle(fontWeight = FontWeight.Bold))
+//                    },
+//                    onItalicClick = {
+//                        description.toggleSpanStyle(SpanStyle(fontStyle = FontStyle.Italic))
+//                    },
+//                    onUnderlineClick = {
+//                        description.toggleSpanStyle(SpanStyle(textDecoration = TextDecoration.Underline))
+//                    },
+//                    onTitleClick = {
+//                        description.toggleSpanStyle(SpanStyle(fontSize = titleSize))
+//                    },
+//                    onSubtitleClick = {
+//                        description.toggleSpanStyle(SpanStyle(fontSize = subtitleSize))
+//                    },
+//                    onStartAlignClick = {
+//                        description.toggleParagraphStyle(ParagraphStyle(textAlign = TextAlign.Start))
+//                    },
+//                    onEndAlignClick = {
+//                        description.toggleParagraphStyle(ParagraphStyle(textAlign = TextAlign.End))
+//                    },
+//                    onCenterAlignClick = {
+//                        description.toggleParagraphStyle(ParagraphStyle(textAlign = TextAlign.Center))
+//                    },
+//                    onUnorderedListClick = {
+//                        description.toggleOrderedList()
+//                    },
+//                    onOrderClick = {
+//                        description.toggleUnorderedList()
+//                    }
+//                )
+//
+//                if (selectedImageUrl == null) {
+//                    Column(
+//                        modifier = modifier,
+//                        verticalArrangement = Arrangement.Top
+//                    ) {
+//                        TextButton(
+//                            onClick = {
+//                                pickerLauncher.launch(
+//                                    PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+//                                )
+//                            }
+//                        ) {
+//                            Text(stringResource(id = R.string.cover))
+//                        }
+//                    }
+//                }
+//
+//                CustomTextField(
+//                    value = title,
+//                    onValueChange = {
+//                        title = it
+//                        isTextFieldFocused = it.isNotEmpty()
+//                    },
+//                    labletext = stringResource(
+//                        id = R.string.title
+//                    ),
+//                    textStyle = TextStyle(
+//                        fontSize = 18.sp,
+//                        fontWeight = FontWeight.Medium,
+//                        color = MaterialTheme.colorScheme.onSurface
+//                    ),
+//                    modifier = modifier
+//                        .fillMaxWidth()
+//                        .fillMaxHeight(0.3f),
+//                )
+//
+//
+//                RichTextEditor(
+//                    modifier = modifier
+//                        .fillMaxWidth()
+//                        .weight(8f),
+//
+//                    state = description,
+//                    placeholder = {
+//                        Text(
+//                            text = stringResource(id = R.string.note),
+//                            fontSize = 16.sp,
+//                            color = MaterialTheme.colorScheme.onSurface
+//                        )
+//                    },
+//                )
+//
+//
+//            }
         },
         modifier = modifier
+            .fillMaxSize()
             .nestedScroll(scrollBehavior.nestedScrollConnection),
-    )
+
+        )
 }
 
 private fun mToast(context: Context, text: String) {

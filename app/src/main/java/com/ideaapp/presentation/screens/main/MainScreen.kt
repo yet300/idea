@@ -79,10 +79,7 @@ fun MainScreen(
         },
         content = { contentPadding ->
             Box(modifier = modifier.padding(contentPadding)) {
-
-                if (notes.isEmpty()) {
-                    EmptyScreen()
-                } else {
+                if (notes.isNotEmpty()) {
                     LazyColumn(
                         modifier = modifier
                             .fillMaxSize()
@@ -100,6 +97,8 @@ fun MainScreen(
                             )
                         }
                     }
+                } else {
+                    EmptyScreen()
                 }
             }
         },

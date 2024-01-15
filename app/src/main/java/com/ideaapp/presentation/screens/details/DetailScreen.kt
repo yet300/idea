@@ -3,8 +3,7 @@ package com.ideaapp.presentation.screens.details
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -18,7 +17,6 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -50,9 +48,6 @@ fun DetailsScreen(
     val state = rememberRichTextState()
 
     state.setHtml(htmlNote)
-
-
-    val keyboardHeight = remember { mutableStateOf(0.dp) }
 
 
     //appBar Scrolling
@@ -91,7 +86,6 @@ fun DetailsScreen(
                                     navController.navigate(Screens.Home.rout)
 
                                 }
-
                             }
                             .padding(6.dp)
                     )
@@ -105,36 +99,38 @@ fun DetailsScreen(
             .fillMaxSize()
             .nestedScroll(scrollBehavior.nestedScrollConnection),
     ) { contentPadding ->
-        Box(modifier = Modifier.padding(contentPadding)) {
-            Column(
-                modifier = Modifier
+
+        Box(modifier = modifier.padding(contentPadding)) {
+            LazyColumn(
+                modifier = modifier
                     .fillMaxWidth()
-                    .fillMaxSize()
-                    .verticalScroll(rememberScrollState())
-                    .padding(bottom = keyboardHeight.value),
+                    .fillMaxSize(),
+                contentPadding = PaddingValues(8.dp)  // Используем параметр contentPadding
             ) {
-                Text(
-                    text = note?.title ?: "",
-                    style = TextStyle(
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.Medium,
-                        color = MaterialTheme.colorScheme.onSurface
-                    ),
-                )
-                Spacer(modifier = Modifier.padding(16.dp))
-
-
-
-                RichText(
-                    state = state,
-                    style = TextStyle(
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Normal,
-                        color = MaterialTheme.colorScheme.onSurface
-                    ),
-                )
+                item {
+                    Text(
+                        text = note?.title ?: "",
+                        style = TextStyle(
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.Medium,
+                            color = MaterialTheme.colorScheme.onSurface
+                        ),
+                    )
+                }
+                item {
+                    RichText(
+                        state = state,
+                        style = TextStyle(
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Normal,
+                            color = MaterialTheme.colorScheme.onSurface
+                        ),
+                    )
+                }
             }
+
         }
+
 
     }
 

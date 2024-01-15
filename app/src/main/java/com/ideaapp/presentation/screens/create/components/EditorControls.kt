@@ -71,8 +71,8 @@ fun EditorControls(
             .fillMaxWidth()
             .padding(all = 10.dp)
             .padding(bottom = 24.dp),
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+        horizontalArrangement = Arrangement.spacedBy(4.dp),
+        verticalArrangement = Arrangement.spacedBy(4.dp)
     ) {
         ControlWrapper(
             selected = isUnorderedListSelected,
@@ -192,15 +192,17 @@ fun EditorControls(
                 .clip(MaterialTheme.shapes.small)
         ) {
             alignmentIcons.forEachIndexed { index, icon ->
-                IconButton(onClick = {
-                    when (index) {
-                        0 -> onStartAlignClick()
-                        1 -> onCenterAlignClick()
-                        2 -> onEndAlignClick()
-                    }
-                    alignmentSelected = index
-                    expanded = false
-                }) {
+                IconButton(
+                    onClick = {
+                        when (index) {
+                            0 -> onStartAlignClick()
+                            1 -> onCenterAlignClick()
+                            2 -> onEndAlignClick()
+                        }
+                        alignmentSelected = index
+                        expanded = false
+                    }, modifier.fillMaxWidth()
+                ) {
                     Icon(
                         imageVector = icon,
                         contentDescription = "Align Control",

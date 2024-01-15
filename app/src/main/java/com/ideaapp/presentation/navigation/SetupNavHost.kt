@@ -16,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
@@ -30,6 +31,7 @@ import com.ideaapp.presentation.screens.create.CreateScreen
 import com.ideaapp.presentation.screens.details.DetailsScreen
 import com.ideaapp.presentation.screens.main.MainScreen
 import androidx.compose.ui.unit.dp
+import androidx.navigation.compose.currentBackStackEntryAsState
 import com.ideaapp.presentation.navigation.components.Screens
 import com.ideaapp.presentation.navigation.components.items
 import com.ideaapp.presentation.screens.task.TaskScreen
@@ -40,6 +42,15 @@ import com.ideaapp.presentation.screens.task.TaskScreen
 fun SetupNavHost(
     navController: NavHostController,
 ) {
+
+    var showBottomBar by rememberSaveable { mutableStateOf(true) }
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+
+    showBottomBar = when (navBackStackEntry?.destination?.route) {
+        Screens.Details.rout + "/{id}" -> false // on this screen bottom bar should be hidden
+        Screens.Create.rout -> false // here too
+        else -> true // in all other cases show bottom bar
+    }
     val listState = rememberLazyListState()
     val fabVisibility by derivedStateOf {
         listState.firstVisibleItemIndex == 0
@@ -51,44 +62,45 @@ fun SetupNavHost(
                 mutableIntStateOf(0)
             }
             val density = LocalDensity.current
-            AnimatedVisibility(
-                visible = fabVisibility,
-                enter = slideInVertically {
-                    with(density) { 40.dp.roundToPx() }
-                } + fadeIn(),
-                exit = fadeOut(
-                    animationSpec = keyframes {
-                        this.durationMillis = 120
-                    }
-                )
-            ) {
-                NavigationBar {
-                    items.forEachIndexed { index, item ->
-                        NavigationBarItem(
-                            selected = selectedItemIndex == index,
-                            onClick = {
-                                selectedItemIndex = index
-                                navController.navigate(item.route) {
-                                    popUpTo(navController.graph.findStartDestination().id) {
-                                        saveState = true
+            if (showBottomBar)
+                AnimatedVisibility(
+                    visible = fabVisibility,
+                    enter = slideInVertically {
+                        with(density) { 40.dp.roundToPx() }
+                    } + fadeIn(),
+                    exit = fadeOut(
+                        animationSpec = keyframes {
+                            this.durationMillis = 120
+                        }
+                    )
+                ) {
+                    NavigationBar {
+                        items.forEachIndexed { index, item ->
+                            NavigationBarItem(
+                                selected = selectedItemIndex == index,
+                                onClick = {
+                                    selectedItemIndex = index
+                                    navController.navigate(item.route) {
+                                        popUpTo(navController.graph.findStartDestination().id) {
+                                            saveState = true
+                                        }
+                                        launchSingleTop = true
+                                        restoreState = true
                                     }
-                                    launchSingleTop = true
-                                    restoreState = true
-                                }
-                            },
-                            icon = {
-                                Icon(
-                                    imageVector = if (index == selectedItemIndex) {
-                                        item.selectedIcon
-                                    } else item.unselectedIcon,
-                                    contentDescription = item.route
-                                )
-                            })
+                                },
+                                icon = {
+                                    Icon(
+                                        imageVector = if (index == selectedItemIndex) {
+                                            item.selectedIcon
+                                        } else item.unselectedIcon,
+                                        contentDescription = item.route
+                                    )
+                                })
+
+                        }
 
                     }
-
                 }
-            }
         },
         content = {
             NavHost(
