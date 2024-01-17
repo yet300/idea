@@ -28,4 +28,5 @@ class DatabaseModule {
     fun provideNoteDao(appDatabase: AppDatabase): NoteRepository {
         return appDatabase.noteDao()
     }
+
 }

@@ -4,10 +4,12 @@ package com.ideaapp.presentation.navigation
 import android.annotation.SuppressLint
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.keyframes
+import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
 import androidx.compose.animation.slideInVertically
-import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -51,7 +53,7 @@ fun SetupNavHost(
         Screens.Create.rout -> false // here too
         else -> true // in all other cases show bottom bar
     }
-    val listState = rememberLazyListState()
+    val listState = rememberLazyGridState()
     val fabVisibility by derivedStateOf {
         listState.firstVisibleItemIndex == 0
     }
@@ -81,6 +83,8 @@ fun SetupNavHost(
                                 onClick = {
                                     selectedItemIndex = index
                                     navController.navigate(item.route) {
+                                        launchSingleTop = true
+                                        restoreState = true
                                         popUpTo(navController.graph.findStartDestination().id) {
                                             saveState = true
                                         }
@@ -105,7 +109,27 @@ fun SetupNavHost(
         content = {
             NavHost(
                 navController = navController,
-                startDestination = Screens.Home.rout
+                startDestination = Screens.Home.rout,
+                enterTransition = {
+                    fadeIn(animationSpec = tween(220, delayMillis = 90)) +
+                            scaleIn(
+                                initialScale = 0.92f,
+                                animationSpec = tween(220, delayMillis = 90)
+                            )
+                },
+                exitTransition = {
+                    fadeOut(animationSpec = tween(90))
+                },
+                popEnterTransition = {
+                    fadeIn(animationSpec = tween(220, delayMillis = 90)) +
+                            scaleIn(
+                                initialScale = 0.92f,
+                                animationSpec = tween(220, delayMillis = 90)
+                            )
+                },
+                popExitTransition = {
+                    fadeOut(animationSpec = tween(90))
+                },
             ) {
                 composable(route = Screens.Home.rout) {
                     MainScreen(navController = navController, listState)
@@ -117,14 +141,18 @@ fun SetupNavHost(
                 ) {
                     DetailsScreen(navController = navController, it.arguments?.getString("id"))
                 }
-                composable(route = Screens.Create.rout) {
+                composable(
+                    route = Screens.Create.rout
+                ) {
                     val context = LocalContext.current
 
                     CreateScreen(navController = navController, context)
 
                 }
 
-                composable(route = Screens.Task.rout) {
+                composable(
+                    route = Screens.Task.rout,
+                ) {
                     TaskScreen()
                 }
             }

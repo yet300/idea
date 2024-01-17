@@ -90,25 +90,6 @@ fun Search(
                 })
 
                 Divider(
-                    modifier = modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 8.dp)
-                )
-
-
-                DropdownMenuItem(text = {
-                    Text(
-                        text = stringResource(id = R.string.trash),
-                        style = MaterialTheme.typography.titleMedium
-                    )
-                }, onClick = { }, trailingIcon = {
-                    Icon(
-                        painter = painterResource(id = R.drawable.delete),
-                        contentDescription = stringResource(id = R.string.trash)
-                    )
-                })
-
-                Divider(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(vertical = 8.dp)

@@ -20,6 +20,7 @@ class DetailsViewModel @Inject constructor(
     val note: LiveData<Note>
         get() = _note
 
+
     fun getNoteById(id: Long) {
         viewModelScope.launch {
             getNoteByIdUseCase.invoke(id = id).let {
@@ -37,4 +38,5 @@ class DetailsViewModel @Inject constructor(
 
         }
     }
+
 }

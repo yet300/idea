@@ -1,25 +1,25 @@
 package com.ideaapp.presentation.screens.details
 
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -29,6 +29,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.ideaapp.R
 import com.ideaapp.presentation.navigation.components.Screens
+import com.ideaapp.presentation.ui.theme.components.ShowDialogConfirmation
 import com.mohamedrejeb.richeditor.model.rememberRichTextState
 import com.mohamedrejeb.richeditor.ui.material3.RichText
 
@@ -40,7 +41,6 @@ fun DetailsScreen(
     id: String?,
     modifier: Modifier = Modifier
 ) {
-
     val viewModel = hiltViewModel<DetailsViewModel>()
 
     val note = viewModel.note.observeAsState().value
@@ -50,10 +50,23 @@ fun DetailsScreen(
     state.setHtml(htmlNote)
 
 
-    //appBar Scrolling
-    val appBarState = rememberTopAppBarState()
-    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(appBarState)
-    val rememberedScrollBehavior = remember { scrollBehavior }
+    val openAlertDialog = remember { mutableStateOf(false) }
+    if (openAlertDialog.value) {
+        ShowDialogConfirmation(
+            onDismissRequest = {
+                openAlertDialog.value = false
+            },
+            onConfirmation = {
+                openAlertDialog.value = false
+                viewModel.deleteNote {
+                    navController.navigate(Screens.Home.rout)
+                }
+            },
+            dialogTitle = stringResource(R.string.delete_note),
+            dialogText = stringResource(id = R.string.text_delete),
+            icon = Icons.Default.Delete
+        )
+    }
 
 
 
@@ -76,28 +89,23 @@ fun DetailsScreen(
                     }
                 },
                 actions = {
-                    Text(
-                        text = stringResource(id = R.string.delete),
-                        color = MaterialTheme.colorScheme.primary,
-                        style = MaterialTheme.typography.bodyLarge,
-                        modifier = modifier
-                            .clickable {
-                                viewModel.deleteNote {
-                                    navController.navigate(Screens.Home.rout)
-
-                                }
-                            }
-                            .padding(6.dp)
-                    )
+                    TextButton(
+                        onClick = {
+                            openAlertDialog.value = true
+                        }
+                    ) {
+                        Text(
+                            stringResource(id = R.string.delete),
+                            style = MaterialTheme.typography.bodyLarge,
+                            )
+                    }
                 },
-                scrollBehavior = rememberedScrollBehavior,
-                modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+                modifier = modifier,
 
                 )
         },
         modifier = modifier
-            .fillMaxSize()
-            .nestedScroll(scrollBehavior.nestedScrollConnection),
+            .fillMaxSize(),
     ) { contentPadding ->
 
         Box(modifier = modifier.padding(contentPadding)) {

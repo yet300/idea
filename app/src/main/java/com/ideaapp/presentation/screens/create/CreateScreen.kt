@@ -23,7 +23,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -32,7 +31,6 @@ import androidx.compose.ui.Modifier
 import  androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.ParagraphStyle
@@ -48,6 +46,7 @@ import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.ideaapp.domain.model.Note
 import com.ideaapp.R
+import com.ideaapp.di.NoteApp
 import com.ideaapp.presentation.navigation.components.Screens
 import com.ideaapp.presentation.screens.create.components.CustomTextField
 import com.ideaapp.presentation.screens.create.components.EditorControls
@@ -62,11 +61,6 @@ fun CreateScreen(
     context: Context,
     modifier: Modifier = Modifier
 ) {
-    //appBar Scrolling
-    val appBarState = rememberTopAppBarState()
-    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(appBarState)
-    val rememberedScrollBehavior = remember { scrollBehavior }
-
 
     val viewModel = hiltViewModel<CreateViewModel>()
 
@@ -88,6 +82,9 @@ fun CreateScreen(
     val pickerLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickVisualMedia(),
         onResult = {
+            if (it != null) {
+                NoteApp.getUriPermission(it, context)
+            }
             selectedImageUrl = it
         }
     )
@@ -148,7 +145,6 @@ fun CreateScreen(
                             .padding(6.dp)
                     )
                 },
-                scrollBehavior = rememberedScrollBehavior,
                 modifier = modifier
             )
 
@@ -163,8 +159,7 @@ fun CreateScreen(
                 LazyColumn(
                     modifier = modifier
                         .fillMaxHeight()
-                        .weight(9f)
-                    ,
+                        .weight(9f),
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Top,
                     contentPadding = PaddingValues(3.dp),
@@ -197,7 +192,7 @@ fun CreateScreen(
                             }
                         }
 
-                        // Отображаем редактор контролов
+                        // Отображаем редактор
                         item {
                             EditorControls(
                                 modifier = modifier
@@ -282,7 +277,7 @@ fun CreateScreen(
                                 modifier = modifier
                                     .fillMaxWidth()
                                     .imePadding()
-                                    .height(2200.dp)
+                                    .height(1500.dp)
                                     .weight(1f),
                                 state = description,
                                 placeholder = {
@@ -297,139 +292,10 @@ fun CreateScreen(
                     }
                 )
             }
-
-
-//            Column(
-//                modifier = modifier
-//                    .fillMaxWidth()
-//                    .fillMaxSize()
-//                    .verticalScroll(rememberScrollState())
-//                    .padding(contentPadding)
-//                    .imePadding(),
-//                horizontalAlignment = Alignment.CenterHorizontally,
-//                verticalArrangement = Arrangement.Top,
-//            ) {
-//                if (selectedImageUrl != null) {
-//                    Box(
-//                        modifier = modifier.height(240.dp),
-//                    ) {
-//                        AsyncImage(
-//                            model = selectedImageUrl,
-//                            contentDescription = null,
-//                            modifier = modifier,
-//                            contentScale = ContentScale.Crop
-//
-//                        )
-//                        ElevatedButton(
-//                            onClick = {
-//                                pickerLauncher.launch(
-//                                    PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
-//                                )
-//
-//                            },
-//                            modifier = modifier
-//                                .padding(16.dp) // Устанавливаем отступы
-//                                .align(Alignment.BottomEnd) // Выравниваем по верхнему левому углу
-//                        ) {
-//                            Text(stringResource(id = R.string.change))
-//                        }
-//                    }
-//                }
-//
-//                EditorControls(
-//                    modifier = modifier,
-//                    onBoldClick = {
-//                        description.toggleSpanStyle(SpanStyle(fontWeight = FontWeight.Bold))
-//                    },
-//                    onItalicClick = {
-//                        description.toggleSpanStyle(SpanStyle(fontStyle = FontStyle.Italic))
-//                    },
-//                    onUnderlineClick = {
-//                        description.toggleSpanStyle(SpanStyle(textDecoration = TextDecoration.Underline))
-//                    },
-//                    onTitleClick = {
-//                        description.toggleSpanStyle(SpanStyle(fontSize = titleSize))
-//                    },
-//                    onSubtitleClick = {
-//                        description.toggleSpanStyle(SpanStyle(fontSize = subtitleSize))
-//                    },
-//                    onStartAlignClick = {
-//                        description.toggleParagraphStyle(ParagraphStyle(textAlign = TextAlign.Start))
-//                    },
-//                    onEndAlignClick = {
-//                        description.toggleParagraphStyle(ParagraphStyle(textAlign = TextAlign.End))
-//                    },
-//                    onCenterAlignClick = {
-//                        description.toggleParagraphStyle(ParagraphStyle(textAlign = TextAlign.Center))
-//                    },
-//                    onUnorderedListClick = {
-//                        description.toggleOrderedList()
-//                    },
-//                    onOrderClick = {
-//                        description.toggleUnorderedList()
-//                    }
-//                )
-//
-//                if (selectedImageUrl == null) {
-//                    Column(
-//                        modifier = modifier,
-//                        verticalArrangement = Arrangement.Top
-//                    ) {
-//                        TextButton(
-//                            onClick = {
-//                                pickerLauncher.launch(
-//                                    PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
-//                                )
-//                            }
-//                        ) {
-//                            Text(stringResource(id = R.string.cover))
-//                        }
-//                    }
-//                }
-//
-//                CustomTextField(
-//                    value = title,
-//                    onValueChange = {
-//                        title = it
-//                        isTextFieldFocused = it.isNotEmpty()
-//                    },
-//                    labletext = stringResource(
-//                        id = R.string.title
-//                    ),
-//                    textStyle = TextStyle(
-//                        fontSize = 18.sp,
-//                        fontWeight = FontWeight.Medium,
-//                        color = MaterialTheme.colorScheme.onSurface
-//                    ),
-//                    modifier = modifier
-//                        .fillMaxWidth()
-//                        .fillMaxHeight(0.3f),
-//                )
-//
-//
-//                RichTextEditor(
-//                    modifier = modifier
-//                        .fillMaxWidth()
-//                        .weight(8f),
-//
-//                    state = description,
-//                    placeholder = {
-//                        Text(
-//                            text = stringResource(id = R.string.note),
-//                            fontSize = 16.sp,
-//                            color = MaterialTheme.colorScheme.onSurface
-//                        )
-//                    },
-//                )
-//
-//
-//            }
         },
         modifier = modifier
             .fillMaxSize()
-            .nestedScroll(scrollBehavior.nestedScrollConnection),
-
-        )
+    )
 }
 
 private fun mToast(context: Context, text: String) {
