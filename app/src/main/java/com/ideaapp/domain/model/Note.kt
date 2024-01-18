@@ -9,7 +9,6 @@ data class Note(
     val id: Long = 0,
     val title: String,
     val content: String,
-    val imageUri: String? = null
-//    @ColumnInfo(name = "created_at") val createdAt: Date = Date(System.currentTimeMillis()),
-//    @ColumnInfo(name = "updated_at") val updatedAt: Date = Date(System.currentTimeMillis()),
+    val imageUri: String? = null,
+//    val isPrivate: Boolean
 )

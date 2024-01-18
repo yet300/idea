@@ -14,7 +14,7 @@ interface NoteRepository {
     suspend fun insertNote(note: Note)
 
     @Query("SELECT * FROM note")
-    suspend fun getAllNotes(): List<Note>
+    suspend fun getNotes(): List<Note>
 
     @Delete
     suspend fun deleteNote(note: Note)
@@ -24,4 +24,5 @@ interface NoteRepository {
 
     @Query("SELECT * FROM note WHERE id=:nodeId")
     suspend fun getNoteById(nodeId: Long): Note
+
 }

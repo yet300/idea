@@ -78,8 +78,9 @@ fun SetupNavHost(
                 ) {
                     NavigationBar {
                         items.forEachIndexed { index, item ->
+                            val isSelected = selectedItemIndex == index && navBackStackEntry?.destination?.route == item.route
                             NavigationBarItem(
-                                selected = selectedItemIndex == index,
+                                selected = isSelected,
                                 onClick = {
                                     selectedItemIndex = index
                                     navController.navigate(item.route) {
@@ -88,18 +89,19 @@ fun SetupNavHost(
                                         popUpTo(navController.graph.findStartDestination().id) {
                                             saveState = true
                                         }
-                                        launchSingleTop = true
-                                        restoreState = true
                                     }
                                 },
                                 icon = {
                                     Icon(
-                                        imageVector = if (index == selectedItemIndex) {
+                                        imageVector = if (isSelected) {
                                             item.selectedIcon
-                                        } else item.unselectedIcon,
+                                        } else {
+                                            item.unselectedIcon
+                                        },
                                         contentDescription = item.route
                                     )
-                                })
+                                }
+                            )
 
                         }
 
@@ -155,6 +157,9 @@ fun SetupNavHost(
                 ) {
                     TaskScreen()
                 }
+
+
+
             }
         }
     )

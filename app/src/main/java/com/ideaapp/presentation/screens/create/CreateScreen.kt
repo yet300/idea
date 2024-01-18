@@ -77,6 +77,8 @@ fun CreateScreen(
         mutableStateOf<Uri?>(null)
     }
 
+//    var isPrivate by remember { mutableStateOf(false) }
+
 
     //Select Image in Gallery
     val pickerLauncher = rememberLauncherForActivityResult(
