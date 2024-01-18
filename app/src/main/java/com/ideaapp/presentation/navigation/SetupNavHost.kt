@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.ideaapp.presentation.navigation.components.Screens
 import com.ideaapp.presentation.navigation.components.items
+import com.ideaapp.presentation.screens.secure.SecureScreen
 import com.ideaapp.presentation.screens.task.TaskScreen
 
 
@@ -50,7 +51,8 @@ fun SetupNavHost(
 
     showBottomBar = when (navBackStackEntry?.destination?.route) {
         Screens.Details.rout + "/{id}" -> false // on this screen bottom bar should be hidden
-        Screens.Create.rout -> false // here too
+        Screens.Create.rout -> false
+        Screens.Secure.rout -> false
         else -> true // in all other cases show bottom bar
     }
     val listState = rememberLazyGridState()
@@ -78,7 +80,8 @@ fun SetupNavHost(
                 ) {
                     NavigationBar {
                         items.forEachIndexed { index, item ->
-                            val isSelected = selectedItemIndex == index && navBackStackEntry?.destination?.route == item.route
+                            val isSelected =
+                                selectedItemIndex == index && navBackStackEntry?.destination?.route == item.route
                             NavigationBarItem(
                                 selected = isSelected,
                                 onClick = {
@@ -137,6 +140,13 @@ fun SetupNavHost(
                     MainScreen(navController = navController, listState)
 
                 }
+
+                composable(
+                    route = Screens.Secure.rout
+                ) {
+                    SecureScreen(navController = navController)
+                }
+
                 composable(
                     route = Screens.Details.rout + "/{id}",
                     arguments = listOf(navArgument("id") { type = NavType.StringType })
@@ -157,7 +167,6 @@ fun SetupNavHost(
                 ) {
                     TaskScreen()
                 }
-
 
 
             }

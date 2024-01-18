@@ -59,6 +59,7 @@ fun DetailsScreen(
             onConfirmation = {
                 openAlertDialog.value = false
                 viewModel.deleteNote {
+                    TODO("Переделать")
                     navController.navigate(Screens.Home.rout)
                 }
             },

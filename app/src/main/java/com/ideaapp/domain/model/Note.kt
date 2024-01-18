@@ -10,5 +10,5 @@ data class Note(
     val title: String,
     val content: String,
     val imageUri: String? = null,
-//    val isPrivate: Boolean
+    val isPrivate: Boolean
 )

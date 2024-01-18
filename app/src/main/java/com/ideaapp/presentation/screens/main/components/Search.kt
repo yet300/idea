@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Shield
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.Divider
 import androidx.compose.material3.DropdownMenu
@@ -24,18 +25,21 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.ideaapp.R
+import com.ideaapp.presentation.navigation.components.Screens
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Search(
-    modifier: Modifier = Modifier,
+    navController: NavHostController,
     query: MutableState<String>,
-) {
+    modifier: Modifier = Modifier,
+
+    ) {
     var expended by remember {
         mutableStateOf(false)
     }
@@ -79,13 +83,15 @@ fun Search(
             ) {
                 DropdownMenuItem(text = {
                     Text(
-                        text = stringResource(id = R.string.secure_notes),
+                        text = stringResource(id = R.string.secure_note),
                         style = MaterialTheme.typography.titleMedium
                     )
-                }, onClick = { }, trailingIcon = {
+                }, onClick = {
+                    navController.navigate(Screens.Secure.rout)
+                }, trailingIcon = {
                     Icon(
-                        painter = painterResource(id = R.drawable.baseline_shield),
-                        contentDescription = stringResource(id = R.string.secure_notes)
+                        imageVector = Icons.Default.Shield,
+                        contentDescription = stringResource(id = R.string.secure_note)
                     )
                 })
 

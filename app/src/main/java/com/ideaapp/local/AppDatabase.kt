@@ -7,7 +7,7 @@ import com.ideaapp.domain.repository.NoteRepository
 
 
 @Database(entities = [Note::class], version = 1)
-abstract class AppDatabase: RoomDatabase() {
+abstract class AppDatabase : RoomDatabase() {
     abstract fun noteDao(): NoteRepository
 
 }

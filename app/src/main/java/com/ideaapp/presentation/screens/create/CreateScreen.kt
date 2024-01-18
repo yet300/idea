@@ -8,13 +8,15 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.ui.unit.dp
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Done
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilterChip
+import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -77,7 +79,7 @@ fun CreateScreen(
         mutableStateOf<Uri?>(null)
     }
 
-//    var isPrivate by remember { mutableStateOf(false) }
+    var isPrivate by remember { mutableStateOf(false) }
 
 
     //Select Image in Gallery
@@ -105,13 +107,13 @@ fun CreateScreen(
                         Text(
                             text = stringResource(id = R.string.title),
                             color = MaterialTheme.colorScheme.onBackground,
-                            style = MaterialTheme.typography.bodyLarge,
+                            style = MaterialTheme.typography.titleMedium,
                         )
                     } else {
                         Text(
                             text = title,
                             color = MaterialTheme.colorScheme.onBackground,
-                            style = MaterialTheme.typography.bodyLarge,
+                            style = MaterialTheme.typography.titleMedium,
                             maxLines = 1
                         )
                     }
@@ -124,18 +126,35 @@ fun CreateScreen(
                     }
                 },
                 actions = {
-                    Text(
-                        text = stringResource(id = R.string.create),
-                        color = MaterialTheme.colorScheme.primary,
-                        style = MaterialTheme.typography.bodyLarge,
-                        modifier = modifier
-                            .clickable {
+
+                    Row {
+                        FilterChip(
+                            onClick = { isPrivate = !isPrivate },
+                            label = {
+                                Text(stringResource(id = R.string.secure_note))
+                            },
+                            selected = isPrivate,
+                            leadingIcon = if (isPrivate) {
+                                {
+                                    Icon(
+                                        imageVector = Icons.Filled.Done,
+                                        contentDescription = "Done icon",
+                                        modifier = Modifier.size(FilterChipDefaults.IconSize)
+                                    )
+                                }
+                            } else {
+                                null
+                            },
+                        )
+                        TextButton(
+                            onClick = {
                                 if (title.isNotEmpty()) {
                                     viewModel.createNote(
                                         Note(
                                             title = title,
                                             content = description.toHtml(),
-                                            imageUri = selectedImageUrl.toString()
+                                            imageUri = selectedImageUrl.toString(),
+                                            isPrivate = isPrivate
                                         )
                                     ) {
                                         navController.navigate(Screens.Home.rout)
@@ -144,8 +163,13 @@ fun CreateScreen(
                                     mToast(context, context.getString(R.string.error_create))
                                 }
                             }
-                            .padding(6.dp)
-                    )
+                        ) {
+                            Text(
+                                stringResource(id = R.string.create),
+                                style = MaterialTheme.typography.bodyLarge,
+                            )
+                        }
+                    }
                 },
                 modifier = modifier
             )
