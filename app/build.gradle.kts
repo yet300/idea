@@ -83,7 +83,7 @@ dependencies {
     implementation("androidx.compose.material:material-icons-extended:1.5.4")
 
     //biometric
-    implementation("androidx.biometric:biometric:1.1.0")
+    implementation("androidx.biometric:biometric-ktx:1.2.0-alpha05")
 
 
     // Room

@@ -1,6 +1,7 @@
 package com.ideaapp.presentation.screens.main.components
 
 
+import android.content.Context
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -25,24 +26,49 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.ideaapp.R
 import com.ideaapp.presentation.navigation.components.Screens
+import com.ideaapp.presentation.screens.secure.AndroidBiometricAuthenticator
+import com.ideaapp.presentation.screens.secure.AuthenticationResult
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Search(
     navController: NavHostController,
     query: MutableState<String>,
+    context: Context,
     modifier: Modifier = Modifier,
 
     ) {
+    val biometricAuthenticator = AndroidBiometricAuthenticator(LocalContext.current)
+    biometricAuthenticator.setOnAuthListener { result ->
+        // Обработка результата аутентификации
+        when (result) {
+            is AuthenticationResult.Success -> {
+                navController.navigate(Screens.Secure.rout)
+            }
+
+            is AuthenticationResult.Failed -> {
+                // Аутентификация не удалась, выполните необходимые действия
+            }
+
+            is AuthenticationResult.Error -> {
+                // Произошла ошибка в процессе аутентификации, выполните необходимые действия
+            }
+        }
+    }
+
+
     var expended by remember {
         mutableStateOf(false)
     }
+
+
 
     SearchBar(
         query = query.value,
@@ -87,7 +113,8 @@ fun Search(
                         style = MaterialTheme.typography.titleMedium
                     )
                 }, onClick = {
-                    navController.navigate(Screens.Secure.rout)
+                    biometricAuthenticator.authenticate(context)
+
                 }, trailingIcon = {
                     Icon(
                         imageVector = Icons.Default.Shield,
@@ -124,3 +151,5 @@ fun Search(
 
     }
 }
+
+
