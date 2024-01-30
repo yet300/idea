@@ -35,6 +35,7 @@ import com.ideaapp.R
 import com.ideaapp.presentation.navigation.components.Screens
 import com.ideaapp.presentation.screens.secure.AndroidBiometricAuthenticator
 import com.ideaapp.presentation.screens.secure.AuthenticationResult
+import com.ideaapp.presentation.ui.theme.components.mToast
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -55,10 +56,12 @@ fun Search(
 
             is AuthenticationResult.Failed -> {
                 // Аутентификация не удалась, выполните необходимые действия
+                mToast(context, "Аутентификация не удалась")
             }
 
             is AuthenticationResult.Error -> {
                 // Произошла ошибка в процессе аутентификации, выполните необходимые действия
+                mToast(context, "Произошла ошибка в процессе аутентификации, включите в настройках вход с помощью биометрии")
             }
         }
     }

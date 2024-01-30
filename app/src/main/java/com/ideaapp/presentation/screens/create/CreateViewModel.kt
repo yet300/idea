@@ -3,7 +3,7 @@ package com.ideaapp.presentation.screens.create
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ideaapp.domain.model.Note
-import com.ideaapp.domain.usecases.CreateNoteUseCase
+import com.ideaapp.domain.usecases.note.CreateNoteUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

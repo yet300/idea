@@ -3,7 +3,6 @@ package com.ideaapp.presentation.screens.create
 
 import android.content.Context
 import android.net.Uri
-import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -52,6 +51,7 @@ import com.ideaapp.di.NoteApp
 import com.ideaapp.presentation.navigation.components.Screens
 import com.ideaapp.presentation.screens.create.components.CustomTextField
 import com.ideaapp.presentation.screens.create.components.EditorControls
+import com.ideaapp.presentation.ui.theme.components.mToast
 import com.mohamedrejeb.richeditor.model.rememberRichTextState
 import com.mohamedrejeb.richeditor.ui.material3.RichTextEditor
 
@@ -145,6 +145,7 @@ fun CreateScreen(
                             } else {
                                 null
                             },
+                            modifier = modifier
                         )
                         TextButton(
                             onClick = {
@@ -322,10 +323,6 @@ fun CreateScreen(
         modifier = modifier
             .fillMaxSize()
     )
-}
-
-private fun mToast(context: Context, text: String) {
-    Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
 }
 
 

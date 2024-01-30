@@ -8,6 +8,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import com.ideaapp.domain.repository.NoteRepository
+import com.ideaapp.domain.repository.TaskRepository
 import com.ideaapp.local.AppDatabase
 
 
@@ -24,11 +25,16 @@ class DatabaseModule {
         ).build()
     }
 
+
     @Provides
     fun provideNoteDao(appDatabase: AppDatabase): NoteRepository {
         return appDatabase.noteDao()
     }
 
+    @Provides
+    fun provideTaskDao(appDatabase: AppDatabase): TaskRepository {
+        return appDatabase.taskDao()
+    }
 
 
 }

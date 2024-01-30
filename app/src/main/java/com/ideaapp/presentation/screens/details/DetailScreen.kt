@@ -1,6 +1,9 @@
 package com.ideaapp.presentation.screens.details
 
 
+import android.net.Uri
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
@@ -15,11 +18,14 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -27,6 +33,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import coil.compose.rememberAsyncImagePainter
+import coil.request.ImageRequest
 import com.ideaapp.R
 import com.ideaapp.presentation.navigation.components.Screens
 import com.ideaapp.presentation.ui.theme.components.ShowDialogConfirmation
@@ -59,7 +67,6 @@ fun DetailsScreen(
             onConfirmation = {
                 openAlertDialog.value = false
                 viewModel.deleteNote {
-                    TODO("Переделать")
                     navController.navigate(Screens.Home.rout)
                 }
             },
@@ -98,7 +105,7 @@ fun DetailsScreen(
                         Text(
                             stringResource(id = R.string.delete),
                             style = MaterialTheme.typography.bodyLarge,
-                            )
+                        )
                     }
                 },
                 modifier = modifier,
@@ -114,8 +121,23 @@ fun DetailsScreen(
                 modifier = modifier
                     .fillMaxWidth()
                     .fillMaxSize(),
-                contentPadding = PaddingValues(8.dp)  // Используем параметр contentPadding
             ) {
+                item {
+                    Image(
+                        painter = rememberAsyncImagePainter(
+                            ImageRequest
+                                .Builder(LocalContext.current)
+                                .data(data = Uri.parse(note?.imageUri ?: ""))
+                                .build()
+                        ),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(240.dp)
+                            .background(MaterialTheme.colorScheme.surfaceColorAtElevation(2.8.dp)),
+                        contentScale = ContentScale.Crop
+                    )
+                }
                 item {
                     Text(
                         text = note?.title ?: "",

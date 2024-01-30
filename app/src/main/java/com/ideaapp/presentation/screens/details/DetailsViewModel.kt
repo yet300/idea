@@ -5,8 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ideaapp.domain.model.Note
-import com.ideaapp.domain.usecases.DeleteNoteUseCase
-import com.ideaapp.domain.usecases.GetNoteByIdUseCase
+import com.ideaapp.domain.usecases.note.DeleteNoteUseCase
+import com.ideaapp.domain.usecases.note.GetNoteByIdUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

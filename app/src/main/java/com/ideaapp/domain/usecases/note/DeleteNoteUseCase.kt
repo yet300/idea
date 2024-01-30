@@ -1,4 +1,4 @@
-package com.ideaapp.domain.usecases
+package com.ideaapp.domain.usecases.note
 
 import com.ideaapp.domain.model.Note
 import com.ideaapp.domain.repository.NoteRepository

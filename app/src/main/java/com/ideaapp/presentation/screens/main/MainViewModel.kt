@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ideaapp.domain.model.Note
-import com.ideaapp.domain.usecases.GetNoteUseCase
+import com.ideaapp.domain.usecases.note.GetNoteUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -15,8 +15,6 @@ class MainViewModel @Inject constructor(
     private val getNoteUseCase: GetNoteUseCase
 ) : ViewModel() {
     private val _notes = MutableLiveData<List<Note>>()
-
-
     val notes: LiveData<List<Note>>
         get() = _notes
 

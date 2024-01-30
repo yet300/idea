@@ -36,7 +36,7 @@ class MainActivity : FragmentActivity() {
 
 @Preview(showBackground = true)
 @Composable
-fun GreetingPreview() {
+fun MainPreview() {
     IdeasappTheme {
         val navController = rememberNavController()
         SetupNavHost(navController = navController)

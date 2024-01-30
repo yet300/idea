@@ -34,9 +34,11 @@ import com.ideaapp.presentation.screens.details.DetailsScreen
 import com.ideaapp.presentation.screens.main.MainScreen
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.dialog
 import com.ideaapp.presentation.navigation.components.Screens
 import com.ideaapp.presentation.navigation.components.items
 import com.ideaapp.presentation.screens.secure.SecureScreen
+import com.ideaapp.presentation.screens.task.CreateTaskScreen
 import com.ideaapp.presentation.screens.task.TaskScreen
 
 
@@ -44,6 +46,7 @@ import com.ideaapp.presentation.screens.task.TaskScreen
 @Composable
 fun SetupNavHost(
     navController: NavHostController,
+
 ) {
 
     var showBottomBar by rememberSaveable { mutableStateOf(true) }
@@ -59,6 +62,9 @@ fun SetupNavHost(
     val fabVisibility by derivedStateOf {
         listState.firstVisibleItemIndex == 0
     }
+
+    val context = LocalContext.current
+
 
     Scaffold(
         bottomBar = {
@@ -156,7 +162,6 @@ fun SetupNavHost(
                 composable(
                     route = Screens.Create.rout
                 ) {
-                    val context = LocalContext.current
 
                     CreateScreen(navController = navController, context)
 
@@ -165,10 +170,18 @@ fun SetupNavHost(
                 composable(
                     route = Screens.Task.rout,
                 ) {
-                    TaskScreen()
+                    TaskScreen(navController)
                 }
 
+                dialog(
+                    route = Screens.CreateTask.rout,
 
+                    ) {
+                    CreateTaskScreen(
+                        onDismissRequest = { navController.navigate(Screens.Task.rout) },
+                        context,
+                    )
+                }
             }
         }
     )
