@@ -1,4 +1,4 @@
-package com.ideaapp.presentation.screens.create
+package com.ideaapp.presentation.screens.note.create
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

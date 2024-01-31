@@ -1,4 +1,4 @@
-package com.ideaapp.presentation.ui.theme.components
+package com.ideaapp.presentation.screens.note.main.components
 
 import android.net.Uri
 import androidx.compose.foundation.Image

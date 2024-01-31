@@ -1,4 +1,4 @@
-package com.ideaapp.presentation.screens.secure
+package com.ideaapp.presentation.screens.note.secure
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

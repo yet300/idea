@@ -1,4 +1,4 @@
-package com.ideaapp.presentation.screens.main.components
+package com.ideaapp.presentation.screens.note.main.components
 
 
 import android.content.Context
@@ -33,8 +33,8 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.ideaapp.R
 import com.ideaapp.presentation.navigation.components.Screens
-import com.ideaapp.presentation.screens.secure.AndroidBiometricAuthenticator
-import com.ideaapp.presentation.screens.secure.AuthenticationResult
+import com.ideaapp.presentation.screens.note.secure.AndroidBiometricAuthenticator
+import com.ideaapp.presentation.screens.note.secure.AuthenticationResult
 import com.ideaapp.presentation.ui.theme.components.mToast
 
 @OptIn(ExperimentalMaterial3Api::class)

@@ -1,4 +1,4 @@
-package com.ideaapp.presentation.screens.create
+package com.ideaapp.presentation.screens.note.create
 
 
 import android.content.Context
@@ -49,8 +49,8 @@ import com.ideaapp.domain.model.Note
 import com.ideaapp.R
 import com.ideaapp.di.NoteApp
 import com.ideaapp.presentation.navigation.components.Screens
-import com.ideaapp.presentation.screens.create.components.CustomTextField
-import com.ideaapp.presentation.screens.create.components.EditorControls
+import com.ideaapp.presentation.screens.note.create.components.CustomTextField
+import com.ideaapp.presentation.screens.note.create.components.EditorControls
 import com.ideaapp.presentation.ui.theme.components.mToast
 import com.mohamedrejeb.richeditor.model.rememberRichTextState
 import com.mohamedrejeb.richeditor.ui.material3.RichTextEditor

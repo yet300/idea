@@ -1,4 +1,4 @@
-package com.ideaapp.presentation.screens.task.components
+package com.ideaapp.presentation.screens.note.main.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -14,6 +14,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.ideaapp.R
 
+
 @Composable
 fun EmptyScreen() {
     Column(
@@ -24,7 +25,7 @@ fun EmptyScreen() {
     ) {
 
         Text(
-            text = stringResource(id = R.string.create_your_task),
+            text = stringResource(id = R.string.create_your_note),
             style = TextStyle(
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Normal,

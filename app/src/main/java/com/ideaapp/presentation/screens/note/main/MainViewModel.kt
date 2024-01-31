@@ -1,4 +1,4 @@
-package com.ideaapp.presentation.screens.secure
+package com.ideaapp.presentation.screens.note.main
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SecureViewModel @Inject constructor(
+class MainViewModel @Inject constructor(
     private val getNoteUseCase: GetNoteUseCase
 ) : ViewModel() {
     private val _notes = MutableLiveData<List<Note>>()
@@ -19,15 +19,16 @@ class SecureViewModel @Inject constructor(
         get() = _notes
 
     init {
-        getPrivateNotes()
+        getNotes()
     }
 
-    private fun getPrivateNotes() {
+    private fun getNotes() {
         viewModelScope.launch {
-            getNoteUseCase.invoke().let { allNotes ->
-                val privateNotes = allNotes.filter { it.isPrivate }
-                _notes.postValue(privateNotes)
+            getNoteUseCase.invoke().let {
+                _notes.postValue(it)
             }
         }
     }
+
+
 }

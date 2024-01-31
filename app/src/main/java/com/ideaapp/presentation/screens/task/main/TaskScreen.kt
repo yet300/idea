@@ -1,18 +1,14 @@
-package com.ideaapp.presentation.screens.task
+package com.ideaapp.presentation.screens.task.main
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Create
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FloatingActionButtonDefaults
-import androidx.compose.material3.Icon
-import androidx.compose.material3.LargeFloatingActionButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -24,28 +20,27 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.ideaapp.R
 import com.ideaapp.presentation.navigation.components.Screens
-import com.ideaapp.presentation.screens.task.components.EmptyScreen
-import com.ideaapp.presentation.screens.task.components.TaskItem
-
+import com.ideaapp.presentation.screens.note.main.components.LargeFAB
+import com.ideaapp.presentation.screens.task.main.components.EmptyScreen
+import com.ideaapp.presentation.screens.task.main.components.TaskItem
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TaskScreen(
     navController: NavHostController,
+    listState: LazyListState,
+    viewModel: TaskViewModel,
     modifier: Modifier = Modifier
 ) {
-    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
 
-
-    val viewModel = hiltViewModel<TaskViewModel>()
     val tasks = viewModel.tasks.observeAsState(listOf()).value
 
 
+    val appBarState = rememberTopAppBarState()
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(appBarState)
 
     Scaffold(
         modifier = modifier
@@ -53,33 +48,20 @@ fun TaskScreen(
             .nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             CenterAlignedTopAppBar(
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.background,
-                ),
                 title = {
                     Text(
-                        "Tasks",
-                        maxLines = 1,
+                        stringResource(id = R.string.tasks),
                         style = MaterialTheme.typography.headlineSmall,
                     )
-                },
 
-                scrollBehavior = scrollBehavior,
+                },
+                scrollBehavior = scrollBehavior
             )
         },
         floatingActionButton = {
-            LargeFloatingActionButton(
-                onClick = {
-                    navController.navigate(Screens.CreateTask.rout)
-                },
-                modifier = modifier.padding(vertical = 80.dp)
-            ) {
-                Icon(
-                    Icons.Filled.Create,
-                    stringResource(id = R.string.create),
-                    modifier = Modifier.size(FloatingActionButtonDefaults.LargeIconSize)
-                )
-            }
+            LargeFAB(onClick = {
+                navController.navigate(Screens.CreateTask.rout)
+            })
         },
         content = { contentPadding ->
             Box(
@@ -89,13 +71,15 @@ fun TaskScreen(
             ) {
                 if (tasks.isNotEmpty()) {
                     LazyColumn(
+                        state = listState,
                         modifier = modifier
-                            .fillMaxSize(),
+                            .fillMaxWidth()
                     ) {
                         items(tasks, key = { task -> task.id }) { task ->
                             TaskItem(
                                 taskName = task.name,
-                                isCompleted = task.isCompleted
+                                isCompleted = task.isCompleted,
+                                description = task.description ?: ""
                             )
                         }
                     }

@@ -1,4 +1,4 @@
-package com.ideaapp.presentation.screens.create.components
+package com.ideaapp.presentation.screens.note.create.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border

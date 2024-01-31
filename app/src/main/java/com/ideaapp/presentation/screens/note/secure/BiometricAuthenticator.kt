@@ -1,4 +1,4 @@
-package com.ideaapp.presentation.screens.secure
+package com.ideaapp.presentation.screens.note.secure
 
 import android.content.Context
 import androidx.biometric.BiometricManager

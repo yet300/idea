@@ -1,4 +1,4 @@
-package com.ideaapp.presentation.screens.details
+package com.ideaapp.presentation.screens.note.details
 
 
 import android.net.Uri

@@ -1,8 +1,10 @@
-package com.ideaapp.presentation.screens.task
+package com.ideaapp.presentation.screens.task.create
 
 import android.content.Context
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.TaskAlt
 import androidx.compose.material3.AlertDialog
@@ -20,20 +22,23 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.ideaapp.R
 import com.ideaapp.domain.model.Task
-import com.ideaapp.presentation.screens.create.components.CustomTextField
+import com.ideaapp.presentation.screens.note.create.components.CustomTextField
 import com.ideaapp.presentation.ui.theme.components.mToast
+import androidx.compose.ui.unit.dp
+
 
 @Composable
 fun CreateTaskScreen(
     onDismissRequest: () -> Unit,
     context: Context,
+    viewModel: CreateTaskViewModel,
     modifier: Modifier = Modifier
 ) {
     var taskName by rememberSaveable { mutableStateOf("") }
-    val viewModel = hiltViewModel<TaskViewModel>()
+    var taskDescription by rememberSaveable { mutableStateOf("") }
+
 
 
     AlertDialog(
@@ -62,6 +67,23 @@ fun CreateTaskScreen(
                         .fillMaxWidth()
                 )
 
+                Spacer(modifier = Modifier.padding(10.dp))
+
+                CustomTextField(
+                    value = taskDescription,
+                    onValueChange = {
+                        taskDescription = it
+                    },
+                    labletext = stringResource(id = R.string.description),
+                    textStyle = TextStyle(
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Medium,
+                        color = MaterialTheme.colorScheme.onSurface
+                    ),
+                    modifier = modifier
+                        .fillMaxWidth()
+                )
+
             }
         },
         onDismissRequest = {
@@ -73,7 +95,8 @@ fun CreateTaskScreen(
                     if (taskName.isNotEmpty()) {
                         viewModel.createTask(
                             Task(
-                                name = taskName
+                                name = taskName,
+                                description = taskDescription
                             )
                         ) {
                             onDismissRequest()

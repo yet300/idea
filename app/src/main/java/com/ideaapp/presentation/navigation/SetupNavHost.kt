@@ -10,6 +10,7 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -29,25 +30,30 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.ideaapp.presentation.screens.create.CreateScreen
-import com.ideaapp.presentation.screens.details.DetailsScreen
-import com.ideaapp.presentation.screens.main.MainScreen
+import com.ideaapp.presentation.screens.note.create.CreateScreen
+import com.ideaapp.presentation.screens.note.details.DetailsScreen
+import com.ideaapp.presentation.screens.note.main.MainScreen
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.dialog
 import com.ideaapp.presentation.navigation.components.Screens
 import com.ideaapp.presentation.navigation.components.items
-import com.ideaapp.presentation.screens.secure.SecureScreen
-import com.ideaapp.presentation.screens.task.CreateTaskScreen
-import com.ideaapp.presentation.screens.task.TaskScreen
+import com.ideaapp.presentation.screens.note.secure.SecureScreen
+import com.ideaapp.presentation.screens.task.create.CreateTaskScreen
+import com.ideaapp.presentation.screens.task.create.CreateTaskViewModel
+import com.ideaapp.presentation.screens.task.main.TaskScreen
+import com.ideaapp.presentation.screens.task.main.TaskViewModel
 
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun SetupNavHost(
     navController: NavHostController,
-
 ) {
+
+    val taskViewModel: TaskViewModel = hiltViewModel()
+    val createTaskViewModel: CreateTaskViewModel = hiltViewModel()
 
     var showBottomBar by rememberSaveable { mutableStateOf(true) }
     val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -58,9 +64,10 @@ fun SetupNavHost(
         Screens.Secure.rout -> false
         else -> true // in all other cases show bottom bar
     }
-    val listState = rememberLazyGridState()
+    val gridState = rememberLazyGridState()
+    val listState = rememberLazyListState()
     val fabVisibility by derivedStateOf {
-        listState.firstVisibleItemIndex == 0
+        gridState.firstVisibleItemIndex == 0 || listState.firstVisibleItemIndex == 0
     }
 
     val context = LocalContext.current
@@ -143,7 +150,7 @@ fun SetupNavHost(
                 },
             ) {
                 composable(route = Screens.Home.rout) {
-                    MainScreen(navController = navController, listState)
+                    MainScreen(navController = navController, gridState)
 
                 }
 
@@ -170,7 +177,7 @@ fun SetupNavHost(
                 composable(
                     route = Screens.Task.rout,
                 ) {
-                    TaskScreen(navController)
+                    TaskScreen(navController, listState, taskViewModel)
                 }
 
                 dialog(
@@ -180,6 +187,7 @@ fun SetupNavHost(
                     CreateTaskScreen(
                         onDismissRequest = { navController.navigate(Screens.Task.rout) },
                         context,
+                        createTaskViewModel
                     )
                 }
             }
@@ -187,5 +195,6 @@ fun SetupNavHost(
     )
 
 }
+
 
 
