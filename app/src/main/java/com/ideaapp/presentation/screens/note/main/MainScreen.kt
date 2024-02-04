@@ -3,8 +3,10 @@ package com.ideaapp.presentation.screens.note.main
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyGridState
@@ -17,7 +19,8 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -25,7 +28,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.ideaapp.presentation.navigation.components.Screens
 import com.ideaapp.presentation.screens.note.main.components.EmptyScreen
@@ -39,17 +41,14 @@ import com.ideaapp.presentation.screens.note.main.components.NoteItem
 fun MainScreen(
     navController: NavHostController,
     listState: LazyGridState,
+    viewModel: MainViewModel,
     modifier: Modifier = Modifier
 ) {
 
     val appBarState = rememberTopAppBarState()
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(appBarState)
 
-
-    val viewModel = hiltViewModel<MainViewModel>()
-
-
-    val notes = viewModel.notes.observeAsState(listOf()).value
+    val notes by viewModel.notes.collectAsState()
 
     val searchText = remember {
         mutableStateOf("")
@@ -112,6 +111,12 @@ fun MainScreen(
                                     .padding(vertical = 5.dp, horizontal = 5.dp)
                                     .clickable { navController.navigate(Screens.Details.rout + "/${note.id}") }
                             )
+                        }
+                        // Добавляем пустые элементы в конец списка
+                        repeat(10) {
+                            item {
+                                Spacer(modifier = Modifier.height(20.dp)) // Выберите высоту, которая вам подходит
+                            }
                         }
                     }
                 } else {

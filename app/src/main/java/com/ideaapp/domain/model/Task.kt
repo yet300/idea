@@ -10,7 +10,7 @@ data class Task(
     val id: Long = 0,
     val name: String,
     val description: String?,
-    val isCompleted: Boolean = false
+    val isComplete: Boolean = false
 )
 
 

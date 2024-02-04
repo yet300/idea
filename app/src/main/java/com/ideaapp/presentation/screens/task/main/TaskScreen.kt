@@ -1,9 +1,11 @@
 package com.ideaapp.presentation.screens.task.main
 
-import androidx.compose.foundation.layout.Box
+
+import android.util.Log
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
@@ -15,9 +17,9 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
@@ -26,6 +28,9 @@ import com.ideaapp.presentation.navigation.components.Screens
 import com.ideaapp.presentation.screens.note.main.components.LargeFAB
 import com.ideaapp.presentation.screens.task.main.components.EmptyScreen
 import com.ideaapp.presentation.screens.task.main.components.TaskItem
+import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.unit.dp
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -36,11 +41,17 @@ fun TaskScreen(
     modifier: Modifier = Modifier
 ) {
 
-    val tasks = viewModel.tasks.observeAsState(listOf()).value
-
+    val tasks by viewModel.state.collectAsState()
 
     val appBarState = rememberTopAppBarState()
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(appBarState)
+
+    LaunchedEffect(tasks.taskList) {
+        Log.d("TaskScreen", "tasks.taskList changed: $tasks")
+
+    }
+
+
 
     Scaffold(
         modifier = modifier
@@ -64,28 +75,28 @@ fun TaskScreen(
             })
         },
         content = { contentPadding ->
-            Box(
-                modifier = modifier
-                    .padding(contentPadding)
-                    .clip(MaterialTheme.shapes.medium)
-            ) {
-                if (tasks.isNotEmpty()) {
-                    LazyColumn(
-                        state = listState,
-                        modifier = modifier
-                            .fillMaxWidth()
-                    ) {
-                        items(tasks, key = { task -> task.id }) { task ->
-                            TaskItem(
-                                taskName = task.name,
-                                isCompleted = task.isCompleted,
-                                description = task.description ?: ""
-                            )
+            if (tasks.taskList.isNotEmpty()) {
+                LazyColumn(
+                    state = listState,
+                    contentPadding = contentPadding,
+                    modifier = modifier
+                        .fillMaxWidth()
+                ) {
+                    items(tasks.taskList, key = { task -> task.id }) { task ->
+                        TaskItem(
+                            task = task,
+                            onTaskCheckedChange = viewModel::updateTaskComplete,
+                        )
+                    }
+                    // Добавляем пустые элементы в конец списка
+                    repeat(10) {
+                        item {
+                            Spacer(modifier = Modifier.height(20.dp)) // Выберите высоту, которая вам подходит
                         }
                     }
-                } else {
-                    EmptyScreen()
                 }
+            } else {
+                EmptyScreen()
             }
         }
     )

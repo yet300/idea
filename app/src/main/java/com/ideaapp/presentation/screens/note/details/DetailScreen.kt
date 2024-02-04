@@ -31,7 +31,6 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
@@ -47,9 +46,9 @@ import com.mohamedrejeb.richeditor.ui.material3.RichText
 fun DetailsScreen(
     navController: NavController,
     id: String?,
+    viewModel: DetailsViewModel,
     modifier: Modifier = Modifier
 ) {
-    val viewModel = hiltViewModel<DetailsViewModel>()
 
     val note = viewModel.note.observeAsState().value
     val htmlNote = note?.content ?: ""

@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.TaskAlt
 import androidx.compose.material3.AlertDialog
@@ -39,16 +40,15 @@ fun CreateTaskScreen(
     var taskName by rememberSaveable { mutableStateOf("") }
     var taskDescription by rememberSaveable { mutableStateOf("") }
 
-
-
     AlertDialog(
         icon = {
             Icon(
-                imageVector = Icons.Default.TaskAlt, contentDescription = "Example Icon"
+                imageVector = Icons.Default.TaskAlt, contentDescription = "Example Icon",
+                modifier = modifier.size(40.dp)
             )
         },
         title = {
-            Text(text = "Create Task")
+            Text(text = "Create Task", style = MaterialTheme.typography.headlineSmall)
         },
         text = {
             Column {

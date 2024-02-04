@@ -41,9 +41,7 @@ import com.ideaapp.presentation.navigation.components.Screens
 import com.ideaapp.presentation.navigation.components.items
 import com.ideaapp.presentation.screens.note.secure.SecureScreen
 import com.ideaapp.presentation.screens.task.create.CreateTaskScreen
-import com.ideaapp.presentation.screens.task.create.CreateTaskViewModel
 import com.ideaapp.presentation.screens.task.main.TaskScreen
-import com.ideaapp.presentation.screens.task.main.TaskViewModel
 
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -51,10 +49,6 @@ import com.ideaapp.presentation.screens.task.main.TaskViewModel
 fun SetupNavHost(
     navController: NavHostController,
 ) {
-
-    val taskViewModel: TaskViewModel = hiltViewModel()
-    val createTaskViewModel: CreateTaskViewModel = hiltViewModel()
-
     var showBottomBar by rememberSaveable { mutableStateOf(true) }
     val navBackStackEntry by navController.currentBackStackEntryAsState()
 
@@ -150,34 +144,38 @@ fun SetupNavHost(
                 },
             ) {
                 composable(route = Screens.Home.rout) {
-                    MainScreen(navController = navController, gridState)
+                    MainScreen(navController = navController, gridState, hiltViewModel())
 
                 }
 
                 composable(
                     route = Screens.Secure.rout
                 ) {
-                    SecureScreen(navController = navController)
+                    SecureScreen(navController = navController, hiltViewModel())
                 }
 
                 composable(
                     route = Screens.Details.rout + "/{id}",
                     arguments = listOf(navArgument("id") { type = NavType.StringType })
                 ) {
-                    DetailsScreen(navController = navController, it.arguments?.getString("id"))
+                    DetailsScreen(
+                        navController = navController,
+                        it.arguments?.getString("id"),
+                        hiltViewModel()
+                    )
                 }
                 composable(
                     route = Screens.Create.rout
                 ) {
 
-                    CreateScreen(navController = navController, context)
+                    CreateScreen(navController = navController, context, hiltViewModel())
 
                 }
 
                 composable(
                     route = Screens.Task.rout,
                 ) {
-                    TaskScreen(navController, listState, taskViewModel)
+                    TaskScreen(navController, listState, hiltViewModel())
                 }
 
                 dialog(
@@ -187,13 +185,12 @@ fun SetupNavHost(
                     CreateTaskScreen(
                         onDismissRequest = { navController.navigate(Screens.Task.rout) },
                         context,
-                        createTaskViewModel
+                        hiltViewModel()
                     )
                 }
             }
         }
     )
-
 }
 
 

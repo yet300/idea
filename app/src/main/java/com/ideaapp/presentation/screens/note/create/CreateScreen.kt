@@ -42,7 +42,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.ideaapp.domain.model.Note
@@ -61,11 +60,9 @@ import com.mohamedrejeb.richeditor.ui.material3.RichTextEditor
 fun CreateScreen(
     navController: NavHostController,
     context: Context,
+    viewModel: CreateViewModel,
     modifier: Modifier = Modifier
 ) {
-
-    val viewModel = hiltViewModel<CreateViewModel>()
-
     var title by rememberSaveable { mutableStateOf("") }
     val description = rememberRichTextState()
 

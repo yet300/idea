@@ -16,6 +16,7 @@ class DetailsViewModel @Inject constructor(
     private val getNoteByIdUseCase: GetNoteByIdUseCase,
     private val deleteNoteUseCase: DeleteNoteUseCase,
 ) : ViewModel() {
+
     private val _note = MutableLiveData<Note>()
     val note: LiveData<Note>
         get() = _note

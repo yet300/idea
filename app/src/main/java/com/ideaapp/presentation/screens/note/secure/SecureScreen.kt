@@ -18,12 +18,12 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.ideaapp.R
 import com.ideaapp.presentation.navigation.components.Screens
@@ -34,10 +34,10 @@ import com.ideaapp.presentation.screens.note.main.components.NoteItem
 @Composable
 fun SecureScreen(
     navController: NavHostController,
+    viewModel: SecureViewModel,
     modifier: Modifier = Modifier
 ) {
-    val viewModel = hiltViewModel<SecureViewModel>()
-    val notes = viewModel.notes.observeAsState(listOf()).value
+    val notes by viewModel.notes.collectAsState()
 
 
 
@@ -52,7 +52,7 @@ fun SecureScreen(
                     Text(
                         text = stringResource(id = R.string.secure_note),
                         style = MaterialTheme.typography.bodyLarge,
-                        )
+                    )
                 },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
