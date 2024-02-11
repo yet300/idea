@@ -40,7 +40,6 @@ fun SecureScreen(
     val notes by viewModel.notes.collectAsState()
 
 
-
     Scaffold(
         modifier = modifier
             .fillMaxSize(),

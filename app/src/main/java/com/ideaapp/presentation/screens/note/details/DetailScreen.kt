@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -20,7 +19,8 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -50,7 +50,8 @@ fun DetailsScreen(
     modifier: Modifier = Modifier
 ) {
 
-    val note = viewModel.note.observeAsState().value
+    val note by viewModel.note.collectAsState()
+
     val htmlNote = note?.content ?: ""
     val state = rememberRichTextState()
 
@@ -69,9 +70,7 @@ fun DetailsScreen(
                     navController.navigate(Screens.Home.rout)
                 }
             },
-            dialogTitle = stringResource(R.string.delete_note),
             dialogText = stringResource(id = R.string.text_delete),
-            icon = Icons.Default.Delete
         )
     }
 

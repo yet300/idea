@@ -12,12 +12,15 @@
     <string name="error_create">Your title is empty</string>
     <string name="cover">Add cover</string>
     <string name="change">Change</string>
-    <string name="delete_note">Delete note?</string>
-    <string name="text_delete">The note can no longer be restored</string>
+    <string name="text_delete">Delete forever?</string>
     <string name="confirm">Confirm</string>
     <string name="dismiss">Dismiss</string>
-
     <string name="tasks">Tasks</string>
     <string name="create_your_task">Create Task!</string>
     <string name="description">Add description</string>
+    <string name="Note">Note</string>
+    <string name="Task">Task</string>
+    <string name="task_delete">Task Delete</string>
+    <string name="complete">Complete</string>
+    <string name="undo">UNDO</string>
 </resources>

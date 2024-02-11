@@ -10,6 +10,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.material3.ElevatedButton
@@ -118,7 +119,7 @@ fun CreateScreen(
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
                         Icon(
-                            imageVector = Icons.Filled.ArrowBack, contentDescription = null
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = null
                         )
                     }
                 },
@@ -282,7 +283,7 @@ fun CreateScreen(
                                     title = it
                                     isTextFieldFocused = it.isNotEmpty()
                                 },
-                                labletext = stringResource(id = R.string.title),
+                                labelText = stringResource(id = R.string.title),
                                 textStyle = TextStyle(
                                     fontSize = 18.sp,
                                     fontWeight = FontWeight.Medium,

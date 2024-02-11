@@ -57,7 +57,7 @@ fun CreateTaskScreen(
                     onValueChange = {
                         taskName = it
                     },
-                    labletext = stringResource(id = R.string.title),
+                    labelText = stringResource(id = R.string.title),
                     textStyle = TextStyle(
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Medium,
@@ -74,7 +74,7 @@ fun CreateTaskScreen(
                     onValueChange = {
                         taskDescription = it
                     },
-                    labletext = stringResource(id = R.string.description),
+                    labelText = stringResource(id = R.string.description),
                     textStyle = TextStyle(
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Medium,

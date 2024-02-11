@@ -12,5 +12,4 @@ class NoteRepositoryImpl @Inject constructor(private val noteRepositoryImpl: Not
     suspend fun insertNote(note: Note) = noteRepositoryImpl.insertNote(note = note)
     suspend fun deleteNote(note: Note) = noteRepositoryImpl.deleteNote(note = note)
     suspend fun getNoteById(id: Long) = noteRepositoryImpl.getNoteById(nodeId = id)
-
 }

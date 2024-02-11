@@ -16,11 +16,10 @@ import androidx.compose.ui.unit.sp
 fun CustomTextField(
     value: String,
     onValueChange: (String) -> Unit,
-    labletext: String,
+    labelText: String,
     textStyle: TextStyle,
     modifier: Modifier = Modifier
 ) {
-
     TextField(
         value = value,
         onValueChange = onValueChange,
@@ -37,7 +36,7 @@ fun CustomTextField(
         textStyle = textStyle,
         placeholder = {
             Text(
-                text = labletext,
+                text = labelText,
                 fontSize = 18.sp,
                 color = MaterialTheme.colorScheme.onSurface
             )

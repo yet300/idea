@@ -13,8 +13,9 @@ class TaskRepositoryImpl @Inject constructor(private val taskRepository: TaskRep
     suspend fun insertTask(task: Task) =
         taskRepository.insertTask(task)
 
-    suspend fun updateTask(task: Task) =
-        taskRepository.updateTask(task)
+    suspend fun updateTask(id: Long, complete: Boolean) =
+        taskRepository.updateTask(id, complete)
+
 
     suspend fun deleteTask(task: Task) = taskRepository.deleteTask(task)
 

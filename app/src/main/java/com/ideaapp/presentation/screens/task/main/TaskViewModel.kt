@@ -1,57 +1,65 @@
 package com.ideaapp.presentation.screens.task.main
 
 import android.util.Log
+
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ideaapp.domain.model.Task
+import com.ideaapp.domain.usecases.task.CreateTaskUseCase
+import com.ideaapp.domain.usecases.task.DeleteTaskUseCase
 import com.ideaapp.domain.usecases.task.GetTaskUseCase
 import com.ideaapp.domain.usecases.task.UpdateTaskUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class TaskViewModel @Inject constructor(
     private val getTaskUseCase: GetTaskUseCase,
-    private val updateTaskUseCase: UpdateTaskUseCase
+    private val updateTaskUseCase: UpdateTaskUseCase,
+    private val deleteTaskUseCase: DeleteTaskUseCase,
+    private val createTaskUseCase: CreateTaskUseCase,
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow(TaskViewState())
-    val state: StateFlow<TaskViewState>
-        get() = _state
 
-    val selected = MutableStateFlow(false)
+    private var deletedTask: Task? = null
+
+    val getTasks = getTaskUseCase.invoke()
+
 
     init {
-        viewModelScope.launch {
-            combine(getTaskUseCase.invoke(), selected) { taskList: List<Task>, selected: Boolean ->
-                TaskViewState(taskList, selected)
-            }.collect {
-                _state.value = it
-            }
-        }
+        getTasks
     }
 
+
     // Функция для обновления состояния задачи
-    fun updateTaskComplete(task: Task, complete: Boolean) {
-        viewModelScope.launch {
+    fun updateTaskComplete(id: Long, complete: Boolean) {
+        viewModelScope.launch(Dispatchers.IO) {
             try {
                 // Вызов use case для обновления задачи
-                updateTaskUseCase.invoke(task.copy(isComplete = complete))
-
-                selected.value = complete
-                _state.value = _state.value.copy(selected = complete)
+                updateTaskUseCase.invoke(id, complete)
             } catch (e: Exception) {
                 Log.e("TaskViewModel", "Error updating task", e)
             }
         }
     }
-}
 
-data class TaskViewState(
-    var taskList: List<Task> = emptyList(),
-    val selected: Boolean = false,
-)
+    fun deleteTask(task: Task) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                deletedTask = task
+                deleteTaskUseCase.invoke(task)
+            } catch (e: Exception) {
+                Log.e("TaskViewModel", "Error deleting task", e)
+            }
+        }
+    }
+
+    fun undoDeleteTask() = deletedTask?.let { task ->
+        viewModelScope.launch(Dispatchers.IO) {
+            createTaskUseCase.invoke(task)
+        }
+
+    }
+}

@@ -30,8 +30,8 @@ fun NoteItem(title: String, image: String?, modifier: Modifier = Modifier) {
         modifier = modifier
             .size(width = 240.dp, height = 200.dp)
             .clip(MaterialTheme.shapes.medium)
-
     ) {
+
         Column {
             Image(
                 painter = rememberAsyncImagePainter(

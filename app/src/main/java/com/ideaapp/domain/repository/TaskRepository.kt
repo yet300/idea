@@ -4,7 +4,6 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
-import androidx.room.Update
 import com.ideaapp.domain.model.Task
 import kotlinx.coroutines.flow.Flow
 
@@ -18,11 +17,9 @@ interface TaskRepository {
     @Insert
     suspend fun insertTask(task: Task)
 
-
     @Delete
     suspend fun deleteTask(task: Task)
 
-
-    @Update
-    suspend fun updateTask(task: Task)
+    @Query("UPDATE task SET isComplete = :complete WHERE id = :id")
+    suspend fun updateTask(id: Long, complete: Boolean = true)
 }

@@ -9,9 +9,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -40,7 +40,6 @@ import com.ideaapp.presentation.screens.note.main.components.NoteItem
 @Composable
 fun MainScreen(
     navController: NavHostController,
-    listState: LazyGridState,
     viewModel: MainViewModel,
     modifier: Modifier = Modifier
 ) {
@@ -97,7 +96,7 @@ fun MainScreen(
                             .fillMaxWidth()
                             .padding(8.dp),
                         columns = GridCells.Fixed(2),
-                        state = listState
+                        state = rememberLazyGridState()
                     ) {
                         items(
                             queryNotes.filter { !it.isPrivate },
@@ -106,7 +105,7 @@ fun MainScreen(
                             NoteItem(
                                 title = note.title,
                                 image = note.imageUri,
-                                modifier = Modifier
+                                modifier = modifier
                                     .fillMaxWidth()
                                     .padding(vertical = 5.dp, horizontal = 5.dp)
                                     .clickable { navController.navigate(Screens.Details.rout + "/${note.id}") }
@@ -115,7 +114,7 @@ fun MainScreen(
                         // Добавляем пустые элементы в конец списка
                         repeat(10) {
                             item {
-                                Spacer(modifier = Modifier.height(20.dp)) // Выберите высоту, которая вам подходит
+                                Spacer(modifier = modifier.height(20.dp)) // Выберите высоту, которая вам подходит
                             }
                         }
                     }
