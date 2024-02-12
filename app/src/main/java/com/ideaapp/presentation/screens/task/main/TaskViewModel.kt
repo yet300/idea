@@ -11,6 +11,8 @@ import com.ideaapp.domain.usecases.task.GetTaskUseCase
 import com.ideaapp.domain.usecases.task.UpdateTaskUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -22,16 +24,27 @@ class TaskViewModel @Inject constructor(
     private val createTaskUseCase: CreateTaskUseCase,
 ) : ViewModel() {
 
+    private val _tasks = MutableStateFlow<List<Task>>(emptyList())
+    val tasks: StateFlow<List<Task>> = _tasks
 
     private var deletedTask: Task? = null
 
-    val getTasks = getTaskUseCase.invoke()
+
 
 
     init {
-        getTasks
+        loadTasks()
     }
 
+
+
+    private fun loadTasks() {
+        viewModelScope.launch {
+            getTaskUseCase.invoke().collect {
+                _tasks.value = it
+            }
+        }
+    }
 
     // Функция для обновления состояния задачи
     fun updateTaskComplete(id: Long, complete: Boolean) {
@@ -39,6 +52,8 @@ class TaskViewModel @Inject constructor(
             try {
                 // Вызов use case для обновления задачи
                 updateTaskUseCase.invoke(id, complete)
+
+                loadTasks()
             } catch (e: Exception) {
                 Log.e("TaskViewModel", "Error updating task", e)
             }
@@ -50,6 +65,10 @@ class TaskViewModel @Inject constructor(
             try {
                 deletedTask = task
                 deleteTaskUseCase.invoke(task)
+
+                // After deleting a task, load the updated task list
+                loadTasks()
+
             } catch (e: Exception) {
                 Log.e("TaskViewModel", "Error deleting task", e)
             }
@@ -59,6 +78,8 @@ class TaskViewModel @Inject constructor(
     fun undoDeleteTask() = deletedTask?.let { task ->
         viewModelScope.launch(Dispatchers.IO) {
             createTaskUseCase.invoke(task)
+            loadTasks()
+
         }
 
     }

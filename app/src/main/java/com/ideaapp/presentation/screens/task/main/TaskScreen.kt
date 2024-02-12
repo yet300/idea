@@ -61,9 +61,10 @@ fun TaskScreen(
     modifier: Modifier = Modifier
 ) {
 
-    val tasks by viewModel.getTasks.collectAsStateWithLifecycle(initialValue = emptyList())
+    val tasks by viewModel.tasks.collectAsStateWithLifecycle(initialValue = emptyList())
 
     var completedItemsShown by rememberSaveable { mutableStateOf(false) }
+
 
     // Store a mutable version of the list locally so it is updated quickly while dragging.
     val uncompletedTaskItems by rememberUpdatedState(tasks.filter { !it.isComplete }
@@ -119,7 +120,6 @@ fun TaskScreen(
                             task = task,
                             onTaskCheckedChange = {
                                 viewModel.updateTaskComplete(task.id, it)
-                                viewModel.getTasks
                             }, onDelete = {
                                 viewModel.deleteTask(task)
                                 SnackBar(
@@ -173,9 +173,15 @@ fun TaskScreen(
                                 task = task,
                                 onTaskCheckedChange = {
                                     viewModel.updateTaskComplete(task.id, it)
-                                    viewModel.getTasks
                                 }, onDelete = {
                                     viewModel.deleteTask(task)
+                                    SnackBar(
+                                        scope = scope,
+                                        snackbarHostState = snackbarHostState,
+                                        msg = taskDelete,
+                                        actionLabel = undo,
+                                        onAction = { viewModel.undoDeleteTask() }
+                                    )
                                 }
                             )
                         }

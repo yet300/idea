@@ -2,11 +2,8 @@
     android:width="108dp"
     android:height="108dp"
     android:autoMirrored="true"
-    android:tint="#C6F181"
     android:viewportWidth="24"
-    android:viewportHeight="24"
-
-    >
+    android:viewportHeight="24">
     <group
         android:scaleX="0.51181465"
         android:scaleY="0.51181465"
