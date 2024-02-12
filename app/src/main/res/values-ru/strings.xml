@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Идея</string>
+    <string name="settings">Настройки</string>
+    <string name="secure_note">Личные заметки</string>
+    <string name="title">Название</string>
+    <string name="note">Текст....</string>
+    <string name="create">Создать</string>
+    <string name="error_node">Enter notes</string>
+    <string name="delete">Удалить</string>
+    <string name="create_your_note">Создай свою заметку!</string>
+    <string name="cancel">Назад</string>
+    <string name="error_create">Пусто, Введи что нибудь в Название</string>
+    <string name="cover">Обложка</string>
+    <string name="change">Изменить</string>
+    <string name="text_delete">Удалить навсегда?</string>
+    <string name="confirm">Да</string>
+    <string name="dismiss">Отменить</string>
+    <string name="tasks">Задачи</string>
+    <string name="create_your_task">Создай Задачу!</string>
+    <string name="description">Добавь описания</string>
+    <string name="Note">Заметка</string>
+    <string name="Task">Задача</string>
+    <string name="task_delete">Задача удалена</string>
+    <string name="complete">Выполненные</string>
+    <string name="undo">Отменить</string>
+
+</resources>
