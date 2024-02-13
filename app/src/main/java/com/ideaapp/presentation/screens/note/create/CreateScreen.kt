@@ -10,15 +10,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -51,6 +48,7 @@ import com.ideaapp.di.NoteApp
 import com.ideaapp.presentation.navigation.components.Screens
 import com.ideaapp.presentation.screens.note.create.components.CustomTextField
 import com.ideaapp.presentation.screens.note.create.components.EditorControls
+import com.ideaapp.presentation.ui.theme.components.BackButton
 import com.ideaapp.presentation.ui.theme.components.mToast
 import com.mohamedrejeb.richeditor.model.rememberRichTextState
 import com.mohamedrejeb.richeditor.ui.material3.RichTextEditor
@@ -100,28 +98,13 @@ fun CreateScreen(
                     containerColor = MaterialTheme.colorScheme.background,
                     titleContentColor = MaterialTheme.colorScheme.primary,
                 ),
-                title = {
-                    if (title.isEmpty()) {
-                        Text(
-                            text = stringResource(id = R.string.title),
-                            color = MaterialTheme.colorScheme.onBackground,
-                            style = MaterialTheme.typography.titleMedium,
-                        )
-                    } else {
-                        Text(
-                            text = title,
-                            color = MaterialTheme.colorScheme.onBackground,
-                            style = MaterialTheme.typography.titleMedium,
-                            maxLines = 1
-                        )
-                    }
-                },
+                title = {},
                 navigationIcon = {
-                    IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = null
-                        )
-                    }
+                    BackButton(
+                        onClick = {
+                            navController.popBackStack()
+                        }
+                    )
                 },
                 actions = {
 

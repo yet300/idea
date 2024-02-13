@@ -76,8 +76,7 @@ fun TaskScreen(
         SnackbarHostState()
     }
 
-    val appBarState = rememberTopAppBarState()
-    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(appBarState)
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
 
 
     val taskDelete = stringResource(id = R.string.task_delete)

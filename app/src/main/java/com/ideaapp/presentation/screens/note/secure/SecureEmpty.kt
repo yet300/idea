@@ -14,7 +14,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.ideaapp.R
 
 
 @Composable
@@ -32,6 +34,6 @@ fun SecureEmpty() {
             modifier = Modifier.size(80.dp)
         )
         Spacer(modifier = Modifier.padding(20.dp))
-        Text("It's empty here.....")
+        Text(stringResource(id = R.string.empty_secure), style = MaterialTheme.typography.titleMedium)
     }
 }

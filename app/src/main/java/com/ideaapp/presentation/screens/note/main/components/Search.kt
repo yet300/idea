@@ -137,7 +137,9 @@ fun Search(
                         text = stringResource(id = R.string.settings),
                         style = MaterialTheme.typography.titleMedium
                     )
-                }, onClick = { }, trailingIcon = {
+                }, onClick = {
+                             navController.navigate(Screens.Settings.rout)
+                }, trailingIcon = {
                     Icon(
                         imageVector = Icons.Outlined.Settings,
                         contentDescription = stringResource(id = R.string.settings)

@@ -8,11 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -28,6 +24,7 @@ import androidx.navigation.NavHostController
 import com.ideaapp.R
 import com.ideaapp.presentation.navigation.components.Screens
 import com.ideaapp.presentation.screens.note.main.components.NoteItem
+import com.ideaapp.presentation.ui.theme.components.BackButton
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -54,11 +51,11 @@ fun SecureScreen(
                     )
                 },
                 navigationIcon = {
-                    IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(
-                            imageVector = Icons.Filled.ArrowBack, contentDescription = null
-                        )
-                    }
+                    BackButton(
+                        onClick = {
+                            navController.popBackStack()
+                        }
+                    )
                 },
             )
 

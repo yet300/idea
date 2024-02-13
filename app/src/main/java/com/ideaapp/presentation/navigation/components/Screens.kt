@@ -10,6 +10,7 @@ sealed class Screens(val rout: String) {
     data object Create : Screens(rout = "create_screen")
     data object Secure : Screens(rout = "secure_screen")
 
+    data object Settings : Screens(rout = "settings_screen")
 
     /*
     Task Screens

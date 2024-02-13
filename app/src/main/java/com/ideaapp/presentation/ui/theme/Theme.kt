@@ -110,12 +110,10 @@ fun IdeasappTheme(
             }
         }
     }
-
-
-
     MaterialTheme(
         colorScheme = colorScheme,
         typography = Typography,
         content = content
     )
 }
+

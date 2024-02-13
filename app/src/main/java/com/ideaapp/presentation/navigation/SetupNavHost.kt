@@ -40,6 +40,7 @@ import com.ideaapp.presentation.navigation.components.BottomNavigationItem
 import com.ideaapp.presentation.navigation.components.Screens
 import com.ideaapp.presentation.screens.note.details.DetailsScreen
 import com.ideaapp.presentation.screens.note.secure.SecureScreen
+import com.ideaapp.presentation.screens.settings.SettingsScreen
 import com.ideaapp.presentation.screens.task.create.CreateTaskScreen
 import com.ideaapp.presentation.screens.task.main.TaskScreen
 
@@ -72,6 +73,7 @@ fun SetupNavHost(
         Screens.Details.rout + "/{id}" -> false // on this screen bottom bar should be hidden
         Screens.Create.rout -> false
         Screens.Secure.rout -> false
+        Screens.Settings.rout -> false
         else -> true // in all other cases show bottom bar
     }
 
@@ -165,6 +167,16 @@ fun SetupNavHost(
                         hiltViewModel()
                     )
                 }
+
+                composable(
+                    route = Screens.Settings.rout
+                ) {
+                    SettingsScreen(
+                        navController = navController,
+                        context
+                    )
+                }
+
                 composable(
                     route = Screens.Create.rout
                 ) {

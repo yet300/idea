@@ -6,11 +6,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -36,6 +32,7 @@ import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import com.ideaapp.R
 import com.ideaapp.presentation.navigation.components.Screens
+import com.ideaapp.presentation.ui.theme.components.BackButton
 import com.ideaapp.presentation.ui.theme.components.ShowDialogConfirmation
 import com.mohamedrejeb.richeditor.model.rememberRichTextState
 import com.mohamedrejeb.richeditor.ui.material3.RichText
@@ -88,11 +85,11 @@ fun DetailsScreen(
 
                 },
                 navigationIcon = {
-                    IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(
-                            imageVector = Icons.Filled.ArrowBack, contentDescription = null
-                        )
-                    }
+                    BackButton(
+                        onClick = {
+                            navController.popBackStack()
+                        }
+                    )
                 },
                 actions = {
                     TextButton(
