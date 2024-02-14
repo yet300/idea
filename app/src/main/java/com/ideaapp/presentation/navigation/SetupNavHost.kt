@@ -173,9 +173,10 @@ fun SetupNavHost(
                 ) {
                     SettingsScreen(
                         navController = navController,
-                        context
+                        context = context
                     )
                 }
+
 
                 composable(
                     route = Screens.Create.rout

@@ -18,15 +18,16 @@ import com.ideaapp.R
 @Composable
 fun LargeFAB(
     onClick: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     LargeFloatingActionButton(
         onClick = { onClick() },
-        modifier = Modifier.padding(vertical = 80.dp)
+        modifier = modifier.padding(vertical = 80.dp)
     ) {
         Icon(
             Icons.Filled.Create,
             stringResource(id = R.string.create),
-            modifier = Modifier.size(FloatingActionButtonDefaults.LargeIconSize)
+            modifier = modifier.size(FloatingActionButtonDefaults.LargeIconSize)
         )
     }
 }

@@ -4,20 +4,18 @@ package com.ideaapp.presentation.screens.note.main
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -25,7 +23,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
@@ -36,17 +33,12 @@ import com.ideaapp.presentation.screens.note.main.components.Search
 import com.ideaapp.presentation.screens.note.main.components.NoteItem
 
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(
     navController: NavHostController,
     viewModel: MainViewModel,
     modifier: Modifier = Modifier
 ) {
-
-    val appBarState = rememberTopAppBarState()
-    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(appBarState)
-
     val notes by viewModel.notes.collectAsState()
 
     val searchText = remember {
@@ -64,25 +56,13 @@ fun MainScreen(
 
     Scaffold(
         modifier = modifier
-            .fillMaxSize()
-            .nestedScroll(scrollBehavior.nestedScrollConnection),
-
-        topBar = {
-            TopAppBar(
-                modifier = modifier,
-                title = {
-                    Search(
-                        navController,
-                        query = searchText,
-                        context = LocalContext.current
-                    )
-                },
-                scrollBehavior = scrollBehavior,
-            )
-
-        },
+            .fillMaxSize(),
+        contentWindowInsets = WindowInsets(0.dp, 0.dp, 0.dp, 0.dp),
         floatingActionButton = {
-            LargeFAB(onClick = { navController.navigate(Screens.Create.rout) })
+            LargeFAB(
+                onClick = { navController.navigate(Screens.Create.rout) },
+                modifier.safeDrawingPadding()
+            )
         },
         content = { contentPadding ->
             Box(
@@ -91,13 +71,24 @@ fun MainScreen(
                     .clip(MaterialTheme.shapes.medium)
             ) {
                 if (notes.filter { !it.isPrivate }.isNotEmpty()) {
+                    Search(
+                        navController,
+                        query = searchText,
+                        context = LocalContext.current,
+                        modifier = modifier
+                    )
                     LazyVerticalGrid(
                         modifier = modifier
-                            .fillMaxWidth()
-                            .padding(8.dp),
+                            .fillMaxWidth(),
                         columns = GridCells.Fixed(2),
                         state = rememberLazyGridState()
                     ) {
+                        repeat(20) {
+                            item {
+                                Spacer(modifier = modifier.height(15.dp)) // Выберите высоту, которая вам подходит
+                            }
+                        }
+
                         items(
                             queryNotes.filter { !it.isPrivate },
                             key = { note -> note.id }
@@ -112,9 +103,9 @@ fun MainScreen(
                             )
                         }
                         // Добавляем пустые элементы в конец списка
-                        repeat(10) {
+                        repeat(20) {
                             item {
-                                Spacer(modifier = modifier.height(20.dp)) // Выберите высоту, которая вам подходит
+                                Spacer(modifier = modifier.height(15.dp)) // Выберите высоту, которая вам подходит
                             }
                         }
                     }
