@@ -27,10 +27,11 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import com.ideaapp.R
+import com.ideaapp.presentation.navigation.canGoBack
 import com.ideaapp.presentation.navigation.components.Screens
 import com.ideaapp.presentation.ui.theme.components.BackButton
 import com.ideaapp.presentation.ui.theme.components.ShowDialogConfirmation
@@ -41,7 +42,7 @@ import com.mohamedrejeb.richeditor.ui.material3.RichText
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailsScreen(
-    navController: NavController,
+    navController: NavHostController,
     id: String?,
     viewModel: DetailsViewModel,
     modifier: Modifier = Modifier
@@ -87,7 +88,9 @@ fun DetailsScreen(
                 navigationIcon = {
                     BackButton(
                         onClick = {
-                            navController.popBackStack()
+                            if (navController.canGoBack) {
+                                navController.popBackStack()
+                            }
                         }
                     )
                 },

@@ -45,6 +45,7 @@ import coil.compose.AsyncImage
 import com.ideaapp.domain.model.Note
 import com.ideaapp.R
 import com.ideaapp.di.NoteApp
+import com.ideaapp.presentation.navigation.canGoBack
 import com.ideaapp.presentation.navigation.components.Screens
 import com.ideaapp.presentation.screens.note.create.components.CustomTextField
 import com.ideaapp.presentation.screens.note.create.components.EditorControls
@@ -102,7 +103,9 @@ fun CreateScreen(
                 navigationIcon = {
                     BackButton(
                         onClick = {
-                            navController.popBackStack()
+                            if (navController.canGoBack) {
+                                navController.popBackStack()
+                            }
                         }
                     )
                 },

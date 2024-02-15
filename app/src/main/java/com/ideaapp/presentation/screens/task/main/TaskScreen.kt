@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -104,9 +105,10 @@ fun TaskScreen(
             )
         },
         floatingActionButton = {
-            LargeFAB(onClick = {
-                navController.navigate(Screens.CreateTask.rout)
-            })
+            LargeFAB(
+                onClick = { navController.navigate(Screens.CreateTask.rout) },
+                modifier = modifier.safeDrawingPadding()
+            )
         },
         snackbarHost = {
             SnackbarHost(hostState = snackbarHostState)

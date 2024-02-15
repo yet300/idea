@@ -22,19 +22,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
-import androidx.navigation.NavController
 import com.ideaapp.R
 import com.ideaapp.presentation.ui.theme.components.BackButton
 import android.provider.Settings
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.Alignment
+import androidx.navigation.NavHostController
+import com.ideaapp.presentation.navigation.canGoBack
 import com.ideaapp.presentation.screens.settings.components.SettingComponent
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsScreen(
-    navController: NavController,
+    navController: NavHostController,
     context: Context,
     modifier: Modifier = Modifier
 ) {
@@ -55,10 +56,17 @@ fun SettingsScreen(
                 Text(
                     modifier = modifier,
                     text = stringResource(id = R.string.settings),
-                )
+                    style = MaterialTheme.typography.headlineSmall,
+
+                    )
             }, navigationIcon = {
                 BackButton(
-                    onClick = { navController.popBackStack() }
+                    onClick = {
+                        if (navController.canGoBack) {
+
+                            navController.popBackStack()
+                        }
+                    }
                 )
             },
                 scrollBehavior = scrollBehavior

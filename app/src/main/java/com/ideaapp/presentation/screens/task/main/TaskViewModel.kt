@@ -11,6 +11,7 @@ import com.ideaapp.domain.usecases.task.GetTaskUseCase
 import com.ideaapp.domain.usecases.task.UpdateTaskUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -30,12 +31,9 @@ class TaskViewModel @Inject constructor(
     private var deletedTask: Task? = null
 
 
-
-
     init {
         loadTasks()
     }
-
 
 
     private fun loadTasks() {
@@ -53,6 +51,7 @@ class TaskViewModel @Inject constructor(
                 // Вызов use case для обновления задачи
                 updateTaskUseCase.invoke(id, complete)
 
+                delay(200)
                 loadTasks()
             } catch (e: Exception) {
                 Log.e("TaskViewModel", "Error updating task", e)
@@ -66,6 +65,7 @@ class TaskViewModel @Inject constructor(
                 deletedTask = task
                 deleteTaskUseCase.invoke(task)
 
+                delay(200)
                 // After deleting a task, load the updated task list
                 loadTasks()
 

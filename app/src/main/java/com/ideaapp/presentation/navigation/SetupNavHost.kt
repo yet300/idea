@@ -33,6 +33,7 @@ import androidx.navigation.navArgument
 import com.ideaapp.presentation.screens.note.create.CreateScreen
 import com.ideaapp.presentation.screens.note.main.MainScreen
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.dialog
 import com.ideaapp.R
@@ -43,6 +44,9 @@ import com.ideaapp.presentation.screens.note.secure.SecureScreen
 import com.ideaapp.presentation.screens.settings.SettingsScreen
 import com.ideaapp.presentation.screens.task.create.CreateTaskScreen
 import com.ideaapp.presentation.screens.task.main.TaskScreen
+
+val NavHostController.canGoBack: Boolean
+    get() = this.currentBackStackEntry?.lifecycle?.currentState == Lifecycle.State.RESUMED
 
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -67,6 +71,7 @@ fun SetupNavHost(
             unselectedIcon = Icons.Outlined.Task
         )
     )
+
 
 
     showBottomBar = when (navBackStackEntry?.destination?.route) {
@@ -96,12 +101,14 @@ fun SetupNavHost(
                                 Text(text = item.label)
                             },
                             onClick = {
-                                selectedItemIndex = index
-                                navController.navigate(item.route) {
-                                    launchSingleTop = true
-                                    restoreState = true
-                                    popUpTo(navController.graph.findStartDestination().id) {
-                                        saveState = true
+                                if (navController.canGoBack) {
+                                    selectedItemIndex = index
+                                    navController.navigate(item.route) {
+                                        launchSingleTop = true
+                                        restoreState = true
+                                        popUpTo(navController.graph.findStartDestination().id) {
+                                            saveState = true
+                                        }
                                     }
                                 }
                             },
