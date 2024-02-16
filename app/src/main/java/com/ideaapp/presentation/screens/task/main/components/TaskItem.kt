@@ -7,13 +7,12 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Checkbox
-import androidx.compose.material3.DismissDirection
-import androidx.compose.material3.DismissValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.SwipeToDismiss
+import androidx.compose.material3.SwipeToDismissBox
+import androidx.compose.material3.SwipeToDismissBoxValue
 import androidx.compose.material3.Text
-import androidx.compose.material3.rememberDismissState
+import androidx.compose.material3.rememberSwipeToDismissBoxState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -37,17 +36,7 @@ fun TaskItem(
     onDelete: (focusPreviousItem: Boolean) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val dismissState = rememberDismissState(
-        positionalThreshold = { distance -> distance * 0.33f },
-        confirmValueChange = {
-            if (it != DismissValue.Default) {
-                onDelete(false)
-                true
-            } else {
-                false
-            }
-        }
-    )
+
     var isChecked by remember { mutableStateOf(task.isComplete) }
 
 
@@ -60,43 +49,98 @@ fun TaskItem(
         AnnotatedString(task.name)
     }
 
-    SwipeToDismiss(state = dismissState,
-        directions = setOf(DismissDirection.StartToEnd, DismissDirection.EndToStart),
-        background = {}, dismissContent = {
-            Row(
-                modifier = modifier
-                    .fillMaxWidth()
-                    .alpha(if (dismissState.progress == 1f) 1f else 1f - dismissState.progress)
-                    .padding(12.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center
+
+    val dismissState = rememberSwipeToDismissBoxState(
+        initialValue = SwipeToDismissBoxValue.Settled,
+        confirmValueChange = { value ->
+            // Обработка события отклонения элемента
+            if (value != SwipeToDismissBoxValue.Settled) {
+                onDelete(false)
+                true
+            } else {
+                false
+            }
+        },
+        positionalThreshold = { distance -> distance * 0.33f }
+    )
+
+    SwipeToDismissBox(
+        state = dismissState,
+        backgroundContent = {}
+    ) {
+        Row(
+            modifier = modifier
+                .fillMaxWidth()
+                .alpha(if (dismissState.progress == 1f) 1f else 1f - dismissState.progress)
+                .padding(12.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
+        ) {
+            Checkbox(
+                checked = isChecked,
+                onCheckedChange = { checked ->
+                    onTaskCheckedChange(checked)
+                    isChecked = checked
+                }
+            )
+
+            Column(
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(end = 8.dp)
             ) {
-                Checkbox(
-                    checked = isChecked,
-                    onCheckedChange = { checked ->
-                        onTaskCheckedChange(checked)
-                        isChecked = checked
-                    }
+                Text(
+                    text = textDecoration,
+                    style = MaterialTheme.typography.titleMedium,
+                    maxLines = 2
                 )
 
-                Column(
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(end = 8.dp)
-                ) {
-                    Text(
-                        text = textDecoration,
-                        style = MaterialTheme.typography.titleMedium,
-                        maxLines = 2
-                    )
-
-                    Text(
-                        text = task.description ?: "",
-                        style = MaterialTheme.typography.titleSmall,
-                    )
-                }
+                Text(
+                    text = task.description ?: "",
+                    style = MaterialTheme.typography.titleSmall,
+                )
             }
-        })
+        }
+    }
+
+//    SwipeToDismiss(state = dismissState,
+//        directions = setOf(DismissDirection.StartToEnd, DismissDirection.EndToStart),
+//        background = {}, dismissContent = {
+//            Row(
+//                modifier = modifier
+//                    .fillMaxWidth()
+//                    .alpha(if (dismissState.progress == 1f) 1f else 1f - dismissState.progress)
+//                    .padding(12.dp),
+//                verticalAlignment = Alignment.CenterVertically,
+//                horizontalArrangement = Arrangement.Center
+//            ) {
+//                Checkbox(
+//                    checked = isChecked,
+//                    onCheckedChange = { checked ->
+//                        onTaskCheckedChange(checked)
+//                        isChecked = checked
+//                    }
+//                )
+//
+//                Column(
+//                    modifier = Modifier
+//                        .weight(1f)
+//                        .padding(end = 8.dp)
+//                ) {
+//                    Text(
+//                        text = textDecoration,
+//                        style = MaterialTheme.typography.titleMedium,
+//                        maxLines = 2
+//                    )
+//
+//                    Text(
+//                        text = task.description ?: "",
+//                        style = MaterialTheme.typography.titleSmall,
+//                    )
+//                }
+//            }
+//        }
+//    )
 }
 
 

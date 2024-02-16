@@ -36,7 +36,7 @@ class MainActivity : FragmentActivity() {
             val navController = rememberNavController()
 
 
-            IdeasappTheme() {
+            IdeasappTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier
