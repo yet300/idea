@@ -23,5 +23,7 @@
     <string name="task_delete">Task Delete</string>
     <string name="complete">Complete</string>
     <string name="undo">UNDO</string>
-    <string name="empty_secure">It\'s empty here......</string>
+    <string name="empty_secure">Create Secure Note!</string>
+    <string name="language">Language</string>
+    <string name="telegram">Telegram</string>
 </resources>
