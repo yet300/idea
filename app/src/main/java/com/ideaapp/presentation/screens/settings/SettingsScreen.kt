@@ -27,6 +27,8 @@ import com.ideaapp.presentation.ui.theme.components.BackButton
 import android.provider.Settings
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavHostController
 import com.ideaapp.presentation.navigation.canGoBack
 import com.ideaapp.presentation.screens.settings.components.SettingComponent
@@ -45,7 +47,7 @@ fun SettingsScreen(
 
 
     val packageName = context.packageName
-
+    val uriHandler = LocalUriHandler.current
 
     Scaffold(
         modifier = modifier
@@ -93,7 +95,7 @@ fun SettingsScreen(
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                     SettingComponent(
-                        content = "Language",
+                        content = stringResource(id = R.string.language),
                         icon = Icons.Default.Language,
                         onClick = {
                             context.startActivity(
@@ -105,14 +107,14 @@ fun SettingsScreen(
                         }
                     )
                 }
-//                    SwitchSettings(
-//                        content = "Dynamic theme",
-//                        icon = if (viewModel.isDynamicThemeEnabled.value) Icons.Outlined.DarkMode else Icons.Outlined.LightMode,
-//                        isChecked = viewModel.isDynamicThemeEnabled.value,
-//                        onClick = {
-//                            viewModel.setDynamicThemeEnabled(!viewModel.isDynamicThemeEnabled.value)
-//                        }
-//                    )
+                SettingComponent(
+                    content =  stringResource(id = R.string.telegram),
+                    icon = painterResource(id = R.drawable.icons_telegram),
+                    onClick = {
+                        uriHandler.openUri("https://t.me/doodleGB")
+
+                    }
+                )
 
             }
         }

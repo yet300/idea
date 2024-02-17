@@ -113,55 +113,55 @@ fun DetailsScreen(
         modifier = modifier
             .fillMaxSize(),
     ) { contentPadding ->
-
-        Box(modifier = modifier.padding(contentPadding)) {
-            LazyColumn(
-                modifier = modifier
-                    .fillMaxWidth()
-                    .fillMaxSize(),
-            ) {
-                item {
-                    Image(
-                        painter = rememberAsyncImagePainter(
-                            ImageRequest
-                                .Builder(LocalContext.current)
-                                .data(data = Uri.parse(note?.imageUri ?: ""))
-                                .build()
-                        ),
-                        contentDescription = null,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(240.dp)
-                            .background(MaterialTheme.colorScheme.surfaceColorAtElevation(2.8.dp)),
-                        contentScale = ContentScale.Crop
-                    )
-                }
-                item {
-                    Text(
-                        text = note?.title ?: "",
-                        style = TextStyle(
-                            fontSize = 20.sp,
-                            fontWeight = FontWeight.Medium,
-                            color = MaterialTheme.colorScheme.onSurface
-                        ),
-                    )
-                }
-                item {
-                    RichText(
-                        state = state,
-                        style = TextStyle(
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Normal,
-                            color = MaterialTheme.colorScheme.onSurface
-                        ),
-                    )
-                }
+        LazyColumn(
+            modifier = modifier
+                .fillMaxSize(),
+            contentPadding = contentPadding
+        ) {
+            item {
+                Image(
+                    painter = rememberAsyncImagePainter(
+                        ImageRequest
+                            .Builder(LocalContext.current)
+                            .data(data = Uri.parse(note?.imageUri ?: ""))
+                            .build()
+                    ),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(240.dp)
+                        .background(MaterialTheme.colorScheme.surfaceColorAtElevation(2.8.dp)),
+                    contentScale = ContentScale.Crop
+                )
             }
-
+            item {
+                Text(
+                    text = note?.title ?: "",
+                    style = TextStyle(
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Medium,
+                        color = MaterialTheme.colorScheme.onSurface
+                    ),
+                )
+            }
+            item {
+                Spacer(modifier = modifier.padding(10.dp))
+            }
+            item {
+                RichText(
+                    state = state,
+                    style = TextStyle(
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Normal,
+                        color = MaterialTheme.colorScheme.onSurface
+                    ),
+                )
+            }
         }
-
 
     }
 
+
 }
+
 

@@ -12,6 +12,7 @@ import androidx.compose.material.icons.automirrored.outlined.Note
 import androidx.compose.material.icons.filled.Task
 import androidx.compose.material.icons.outlined.Task
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
@@ -98,17 +99,22 @@ fun SetupNavHost(
                         NavigationBarItem(
                             selected = isSelected,
                             label = {
-                                Text(text = item.label)
+                                Text(
+                                    text = item.label,
+                                    style = MaterialTheme.typography.titleSmall
+                                )
                             },
                             onClick = {
                                 if (navController.canGoBack) {
                                     selectedItemIndex = index
                                     navController.navigate(item.route) {
-                                        launchSingleTop = true
-                                        restoreState = true
                                         popUpTo(navController.graph.findStartDestination().id) {
                                             saveState = true
                                         }
+
+                                        launchSingleTop = true
+
+                                        restoreState = true
                                     }
                                 }
                             },
