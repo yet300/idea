@@ -23,7 +23,7 @@
         android:theme="@style/Theme.Ideasapp"
         tools:targetApi="tiramisu">
         <activity
-            android:name=".presentation.MainActivity"
+            android:name=".ui.MainActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Ideasapp">

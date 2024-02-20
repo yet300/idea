@@ -27,4 +27,6 @@
     <string name="empty_secure">Создай личную заметку!</string>
     <string name="language">Язык</string>
     <string name="telegram">Телеграм</string>
+    <string name="faild">Аутентификация не удалась</string>
+    <string name="error">Произошла ошибка в процессе аутентификации, включите в настройках вход с помощью биометрии</string>
 </resources>

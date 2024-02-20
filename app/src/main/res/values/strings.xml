@@ -26,4 +26,7 @@
     <string name="empty_secure">Create Secure Note!</string>
     <string name="language">Language</string>
     <string name="telegram">Telegram</string>
+
+    <string name="faild">Authentication failed</string>
+    <string name="error">There was an error in the authentication process, enable biometric login in the settings</string>
 </resources>
