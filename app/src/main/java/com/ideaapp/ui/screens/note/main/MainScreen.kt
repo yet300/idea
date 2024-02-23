@@ -64,6 +64,14 @@ fun MainScreen(
                 modifier.safeDrawingPadding()
             )
         },
+        topBar = {
+            Search(
+                navController,
+                query = searchText,
+                context = LocalContext.current,
+                modifier = modifier
+            )
+        },
         content = { contentPadding ->
             Box(
                 modifier = modifier
@@ -71,24 +79,12 @@ fun MainScreen(
                     .clip(MaterialTheme.shapes.medium)
             ) {
                 if (notes.filter { !it.isPrivate }.isNotEmpty()) {
-                    Search(
-                        navController,
-                        query = searchText,
-                        context = LocalContext.current,
-                        modifier = modifier
-                    )
                     LazyVerticalGrid(
                         modifier = modifier
                             .fillMaxWidth(),
                         columns = GridCells.Fixed(2),
                         state = rememberLazyGridState()
                     ) {
-                        repeat(20) {
-                            item {
-                                Spacer(modifier = modifier.height(15.dp)) // Выберите высоту, которая вам подходит
-                            }
-                        }
-
                         items(
                             queryNotes.filter { !it.isPrivate },
                             key = { note -> note.id }
@@ -105,7 +101,7 @@ fun MainScreen(
                         // Добавляем пустые элементы в конец списка
                         repeat(20) {
                             item {
-                                Spacer(modifier = modifier.height(15.dp)) // Выберите высоту, которая вам подходит
+                                Spacer(modifier = modifier.height(15.dp))
                             }
                         }
                     }
