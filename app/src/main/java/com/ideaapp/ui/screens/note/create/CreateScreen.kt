@@ -42,7 +42,6 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
-import com.ideaapp.domain.model.Note
 import com.ideaapp.R
 import com.ideaapp.di.NoteApp
 import com.ideaapp.ui.navigation.canGoBack
@@ -51,6 +50,7 @@ import com.ideaapp.ui.screens.note.create.components.CustomTextField
 import com.ideaapp.ui.screens.note.create.components.EditorControls
 import com.ideaapp.ui.components.BackButton
 import com.ideaapp.ui.components.mToast
+import com.ideasapp.domain.model.Note
 import com.mohamedrejeb.richeditor.model.rememberRichTextState
 import com.mohamedrejeb.richeditor.ui.material3.RichTextEditor
 

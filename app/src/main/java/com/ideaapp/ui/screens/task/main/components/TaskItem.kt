@@ -25,7 +25,7 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
-import com.ideaapp.domain.model.Task
+import com.ideasapp.domain.model.Task
 
 
 @OptIn(ExperimentalMaterial3Api::class)

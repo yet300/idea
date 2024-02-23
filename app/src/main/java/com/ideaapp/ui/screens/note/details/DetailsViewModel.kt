@@ -3,9 +3,9 @@ package com.ideaapp.ui.screens.note.details
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ideaapp.domain.model.Note
-import com.ideaapp.domain.usecases.note.DeleteNoteUseCase
-import com.ideaapp.domain.usecases.note.GetNoteByIdUseCase
+import com.ideasapp.domain.model.Note
+import com.ideasapp.domain.usecase.note.DeleteNoteUseCase
+import com.ideasapp.domain.usecase.note.GetNoteByIdUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

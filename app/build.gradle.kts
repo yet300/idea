@@ -12,7 +12,7 @@ android {
 
     defaultConfig {
         applicationId = "com.ideaapp"
-        minSdk = 23
+        minSdk = 24
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -64,8 +64,10 @@ dependencies {
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
 
-    //preferences
-//    implementation("androidx.preference:preference-ktx:1.2.1")
+    implementation(project(":domain"))
+    implementation(project(":data"))
+
+
 
     //test
     testImplementation("junit:junit:4.13.2")

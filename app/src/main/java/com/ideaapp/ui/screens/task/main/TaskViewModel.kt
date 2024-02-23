@@ -1,14 +1,13 @@
 package com.ideaapp.ui.screens.task.main
 
 import android.util.Log
-
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ideaapp.domain.model.Task
-import com.ideaapp.domain.usecases.task.CreateTaskUseCase
-import com.ideaapp.domain.usecases.task.DeleteTaskUseCase
-import com.ideaapp.domain.usecases.task.GetTaskUseCase
-import com.ideaapp.domain.usecases.task.UpdateTaskUseCase
+import com.ideasapp.domain.model.Task
+import com.ideasapp.domain.usecase.task.CreateTaskUseCase
+import com.ideasapp.domain.usecase.task.DeleteTaskUseCase
+import com.ideasapp.domain.usecase.task.GetTaskUseCase
+import com.ideasapp.domain.usecase.task.UpdateTaskUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay

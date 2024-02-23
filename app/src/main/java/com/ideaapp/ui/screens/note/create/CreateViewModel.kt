@@ -2,8 +2,8 @@ package com.ideaapp.ui.screens.note.create
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ideaapp.domain.model.Note
-import com.ideaapp.domain.usecases.note.CreateNoteUseCase
+import com.ideasapp.domain.model.Note
+import com.ideasapp.domain.usecase.note.CreateNoteUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -15,7 +15,7 @@ class CreateViewModel @Inject constructor(
 ) : ViewModel() {
     fun createNote(note: Note, onSuccess: () -> Unit) {
         viewModelScope.launch {
-            createNoteUseCase.invoke(note = note)
+            createNoteUseCase.invoke(note)
             onSuccess()
         }
     }

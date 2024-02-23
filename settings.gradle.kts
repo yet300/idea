@@ -15,3 +15,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "ideasapp"
 include(":app")
+include(":domain")
+include(":data")

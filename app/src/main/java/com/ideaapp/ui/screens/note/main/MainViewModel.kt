@@ -3,8 +3,8 @@ package com.ideaapp.ui.screens.note.main
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ideaapp.domain.model.Note
-import com.ideaapp.domain.usecases.note.GetNoteUseCase
+import com.ideasapp.domain.model.Note
+import com.ideasapp.domain.usecase.note.GetNoteUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val getNoteUseCase: GetNoteUseCase
+    private val getNoteUseCase:GetNoteUseCase
 ) : ViewModel() {
 
     private val _notes = MutableStateFlow<List<Note>>(emptyList())

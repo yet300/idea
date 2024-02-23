@@ -24,10 +24,10 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.ideaapp.R
-import com.ideaapp.domain.model.Task
 import com.ideaapp.ui.screens.note.create.components.CustomTextField
 import com.ideaapp.ui.components.mToast
 import androidx.compose.ui.unit.dp
+import com.ideasapp.domain.model.Task
 
 
 @Composable
