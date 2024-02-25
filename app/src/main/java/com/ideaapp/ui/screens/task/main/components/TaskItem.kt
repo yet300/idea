@@ -4,6 +4,7 @@ package com.ideaapp.ui.screens.task.main.components
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Checkbox
@@ -99,48 +100,10 @@ fun TaskItem(
                     text = task.description ?: "",
                     style = MaterialTheme.typography.titleSmall,
                 )
+                Spacer(modifier = Modifier.padding(5.dp))
             }
         }
     }
-
-//    SwipeToDismiss(state = dismissState,
-//        directions = setOf(DismissDirection.StartToEnd, DismissDirection.EndToStart),
-//        background = {}, dismissContent = {
-//            Row(
-//                modifier = modifier
-//                    .fillMaxWidth()
-//                    .alpha(if (dismissState.progress == 1f) 1f else 1f - dismissState.progress)
-//                    .padding(12.dp),
-//                verticalAlignment = Alignment.CenterVertically,
-//                horizontalArrangement = Arrangement.Center
-//            ) {
-//                Checkbox(
-//                    checked = isChecked,
-//                    onCheckedChange = { checked ->
-//                        onTaskCheckedChange(checked)
-//                        isChecked = checked
-//                    }
-//                )
-//
-//                Column(
-//                    modifier = Modifier
-//                        .weight(1f)
-//                        .padding(end = 8.dp)
-//                ) {
-//                    Text(
-//                        text = textDecoration,
-//                        style = MaterialTheme.typography.titleMedium,
-//                        maxLines = 2
-//                    )
-//
-//                    Text(
-//                        text = task.description ?: "",
-//                        style = MaterialTheme.typography.titleSmall,
-//                    )
-//                }
-//            }
-//        }
-//    )
 }
 
 

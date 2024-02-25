@@ -47,15 +47,17 @@ fun NoteItem(title: String, image: String?, modifier: Modifier = Modifier) {
                     .background(MaterialTheme.colorScheme.surfaceColorAtElevation(2.8.dp)),
                 contentScale = ContentScale.Crop
             )
-            Spacer(modifier = Modifier.padding(10.dp))
+            Spacer(modifier = Modifier.padding(5.dp))
 
             Text(
                 text = title,
                 modifier = Modifier
                     .padding(10.dp),
                 style = MaterialTheme.typography.titleMedium,
-                maxLines = 2
+                maxLines = 3
             )
+            Spacer(modifier = Modifier.padding(5.dp))
+
         }
     }
 }
