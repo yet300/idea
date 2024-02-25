@@ -1,13 +1,12 @@
 package com.ideaapp.di
 
 import android.content.Context
-import androidx.room.Room
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import com.ideasapp.data.AppDatabase
+import com.ideasapp.data.IdeaDataBase
 import com.ideasapp.data.dao.NoteDAO
 import com.ideasapp.data.dao.TaskDAO
 import com.ideasapp.data.repository.NoteRepositoryImpl
@@ -30,18 +29,15 @@ import javax.inject.Singleton
 class DatabaseModule {
 
     @Provides
-    fun provideAppDate(@ApplicationContext appContext: Context): AppDatabase {
-        return Room.databaseBuilder(
-            appContext,
-            AppDatabase::class.java,
-            "notes_database"
-        ).build()
+    fun provideAppDate(@ApplicationContext appContext: Context): IdeaDataBase {
+        return IdeaDataBase(appContext)
     }
+
 
     @Provides
     @Singleton
-    fun provideNoteRepository(appDatabase: AppDatabase): NoteRepository {
-        return NoteRepositoryImpl(appDatabase.noteDao())
+    fun provideNoteRepository(appDatabase: IdeaDataBase): NoteRepository {
+        return NoteRepositoryImpl(appDatabase.noteDao)
     }
 
     @Provides
@@ -73,21 +69,21 @@ class DatabaseModule {
     }
 
     @Provides
-    fun provideNoteDao(appDatabase: AppDatabase): NoteDAO {
-        return appDatabase.noteDao()
+    fun provideNoteDao(appDatabase: IdeaDataBase): NoteDAO {
+        return appDatabase.noteDao
     }
 
 
     @Provides
     @Singleton
-    fun provideTaskRepository(appDatabase: AppDatabase): TaskRepository {
-        return TaskRepositoryImpl(appDatabase.taskDao())
+    fun provideTaskRepository(appDatabase: IdeaDataBase): TaskRepository {
+        return TaskRepositoryImpl(appDatabase.taskDao)
     }
 
 
     @Provides
-    fun provideTaskDao(appDatabase: AppDatabase): TaskDAO {
-        return appDatabase.taskDao()
+    fun provideTaskDao(appDatabase: IdeaDataBase): TaskDAO {
+        return appDatabase.taskDao
     }
 
     @Provides

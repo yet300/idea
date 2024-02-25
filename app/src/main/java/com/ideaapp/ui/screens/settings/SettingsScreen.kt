@@ -26,7 +26,6 @@ import com.ideaapp.R
 import com.ideaapp.ui.components.BackButton
 import android.provider.Settings
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavHostController
@@ -74,17 +73,6 @@ fun SettingsScreen(
                 scrollBehavior = scrollBehavior
             )
         },
-        floatingActionButton = {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Text(
-                    text = "Created by Ruslan Gadzhiev",
-                    style = MaterialTheme.typography.titleSmall
-                )
-
-            }
-        },
         content = {
             Column(
                 modifier = modifier
@@ -108,14 +96,13 @@ fun SettingsScreen(
                     )
                 }
                 SettingComponent(
-                    content =  stringResource(id = R.string.telegram),
+                    content = stringResource(id = R.string.telegram),
                     icon = painterResource(id = R.drawable.icons_telegram),
                     onClick = {
                         uriHandler.openUri("https://t.me/doodleGB")
 
                     }
                 )
-
             }
         }
     )

@@ -1,8 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.android.kotlin)
-
-    kotlin("kapt")
+    alias(libs.plugins.ksp)
     alias(libs.plugins.android.hilt)
 }
 
@@ -90,19 +89,12 @@ dependencies {
     //biometric
     implementation(libs.androidx.biometric.ktx)
 
-
-    // Room
-    implementation(libs.androidx.room.runtime)
-    implementation(libs.androidx.room.ktx)
-    annotationProcessor(libs.androidx.room.compiler)
-    kapt(libs.androidx.room.compiler)
-
     //coil
     implementation(libs.coil.compose)
 
 
     // Hilt
     implementation(libs.hilt.android)
-    kapt(libs.dagger.hilt.android.compiler)
+    ksp(libs.dagger.hilt.android.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
 }

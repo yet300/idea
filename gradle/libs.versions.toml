@@ -13,14 +13,15 @@ kotlinxCoroutinesCore = "1.8.0"
 ktx = "1.12.0"
 lifecycleRuntimeKtx = "2.7.0"
 materialIconsExtended = "1.6.1"
-navigationCompose = "2.7.6"
+navigationCompose = "2.7.7"
 richeditorCompose = "1.0.0-rc01"
 roomRuntime = "2.6.1"
 runtimeLivedata = "1.6.1"
-bom = "2024.02.00"
+bom = "2024.02.01"
 
 andoid-gradle = "8.2.0"
 kotlin = "1.9.22"
+ksp = "1.9.22-1.0.17"
 
 [libraries]
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
@@ -56,8 +57,8 @@ compose-ui-graphics = { module = "androidx.compose.ui:ui-graphics" }
 compose-ui-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
 compose-ui-material3 = { module = "androidx.compose.material3:material3" }
 
-compose-test = { module = "androidx.compose.ui:ui-test-junit4"}
-compose-ui-test-manifest = {module = "compose.ui:ui-test-manifest"}
+compose-test = { module = "androidx.compose.ui:ui-test-junit4" }
+compose-ui-test-manifest = { module = "compose.ui:ui-test-manifest" }
 
 
 [bundles]
@@ -70,6 +71,7 @@ compose = ["compose-ui",
 [plugins]
 android-application = { id = "com.android.application", version.ref = "andoid-gradle" }
 android-kotlin = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin"}
-android-library  ={id = "com.android.library", version.ref ="andoid-gradle" }
-android-hilt = {id ="com.google.dagger.hilt.android",version.ref = "hiltAndroid"}
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+android-library = { id = "com.android.library", version.ref = "andoid-gradle" }
+android-hilt = { id = "com.google.dagger.hilt.android", version.ref = "hiltAndroid" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }

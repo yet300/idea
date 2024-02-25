@@ -1,9 +1,7 @@
-
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.android.kotlin)
-
-    kotlin("kapt")
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -48,5 +46,5 @@ dependencies {
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
     annotationProcessor(libs.androidx.room.compiler)
-    kapt(libs.androidx.room.compiler)
+    ksp(libs.androidx.room.compiler)
 }
