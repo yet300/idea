@@ -78,7 +78,6 @@ class TaskViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             createTaskUseCase.invoke(task)
             loadTasks()
-
         }
 
     }
