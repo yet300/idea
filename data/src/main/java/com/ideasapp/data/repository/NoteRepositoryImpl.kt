@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.map
 
 class NoteRepositoryImpl(private val dao: NoteDAO) : NoteRepository {
     override suspend fun insertNote(note: Note) {
-        dao.insertNote(note.toRoomNote())
+         dao.insertNote(note.toRoomNote())
     }
 
     override fun getNotes(): Flow<List<Note>> {

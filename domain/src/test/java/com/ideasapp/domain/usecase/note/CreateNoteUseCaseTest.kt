@@ -3,20 +3,18 @@ package com.ideasapp.domain.usecase.note
 import com.ideasapp.domain.model.Note
 import com.ideasapp.domain.repository.NoteRepository
 import kotlinx.coroutines.runBlocking
-import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Test
-import org.mockito.Mockito
 import org.mockito.kotlin.mock
+import org.mockito.kotlin.verify
 
 class CreateNoteUseCaseTest {
 
     private val noteRepository = mock<NoteRepository>()
+    private val useCase = CreateNoteUseCase(noteRepository = noteRepository)
 
     @Test
     fun `test CreateNoteUseCase`() {
 
-
-        val useCase = CreateNoteUseCase(noteRepository = noteRepository)
 
         val testNote = Note(
             id = 0,
@@ -25,12 +23,11 @@ class CreateNoteUseCaseTest {
         )
 
         runBlocking {
-            Mockito.`when`(noteRepository.insertNote(testNote)).thenAnswer { Note(id = 0, title = "Test", content = null) }
+            useCase.invoke(testNote)
+            verify(noteRepository).insertNote(testNote)
 
         }
 
-        val actual = runBlocking { useCase.invoke(testNote) }
 
-        assertNotNull(actual)
     }
 }
