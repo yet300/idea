@@ -68,11 +68,14 @@ dependencies {
 
     //test
     testImplementation(libs.junit)
+    testImplementation(libs.mockito.core)
+
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.compose.bom))
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
+
 
     //LiveData
     implementation(libs.androidx.lifecycle.runtime.compose)

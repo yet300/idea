@@ -13,6 +13,7 @@ import javax.inject.Inject
 class CreateViewModel @Inject constructor(
     private val createNoteUseCase: CreateNoteUseCase
 ) : ViewModel() {
+
     fun createNote(note: Note, onSuccess: () -> Unit) {
         viewModelScope.launch {
             createNoteUseCase.invoke(note)

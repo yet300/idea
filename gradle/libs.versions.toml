@@ -6,7 +6,7 @@ espressoCore = "3.5.1"
 
 hiltAndroid = "2.50"
 hiltAndroidCompiler = "2.50"
-hiltNavigationCompose = "1.1.0"
+hiltNavigationCompose = "1.2.0"
 
 junitJupiter = "5.10.2"
 mockitoCore = "5.7.0"
@@ -24,7 +24,7 @@ roomRuntime = "2.6.1"
 runtimeLivedata = "1.6.1"
 bom = "2024.02.01"
 
-andoid-gradle = "8.2.0"
+andoid-gradle = "8.3.0"
 kotlin = "1.9.22"
 ksp = "1.9.22-1.0.17"
 
