@@ -12,7 +12,7 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.fragment.app.FragmentActivity
 import androidx.navigation.compose.rememberNavController
 import com.ideaapp.ui.navigation.SetupNavHost
-import com.ideaapp.ui.theme.IdeasappTheme
+import com.ideaapp.ui.theme.IdeasAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -37,7 +37,7 @@ class MainActivity : FragmentActivity() {
             val navController = rememberNavController()
 
 
-            IdeasappTheme {
+            IdeasAppTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier

@@ -16,6 +16,5 @@ sealed class Screens(val rout: String) {
     Task Screens
      */
     data object Task : Screens(rout = "task_screen")
-    data object CreateTask : Screens(rout = "create_task_screen")
 
 }

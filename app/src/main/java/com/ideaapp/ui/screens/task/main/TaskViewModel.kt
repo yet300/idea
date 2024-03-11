@@ -34,6 +34,12 @@ class TaskViewModel @Inject constructor(
         loadTasks()
     }
 
+    fun createTask(task: Task, onSuccess: () -> Unit) {
+        viewModelScope.launch {
+            createTaskUseCase.invoke(task)
+            onSuccess()
+        }
+    }
 
     private fun loadTasks() {
         viewModelScope.launch {

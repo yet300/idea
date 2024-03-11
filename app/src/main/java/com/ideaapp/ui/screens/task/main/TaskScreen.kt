@@ -1,18 +1,23 @@
 package com.ideaapp.ui.screens.task.main
 
 
+import android.content.Context
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -25,12 +30,14 @@ import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -38,10 +45,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
-import androidx.navigation.NavHostController
 import com.ideaapp.R
-import com.ideaapp.ui.navigation.components.Screens
-import com.ideaapp.ui.screens.note.main.components.LargeFAB
+import com.ideaapp.ui.components.FAB
 import com.ideaapp.ui.screens.task.main.components.EmptyScreen
 import com.ideaapp.ui.screens.task.main.components.TaskItem
 import androidx.compose.runtime.mutableStateOf
@@ -51,15 +56,21 @@ import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.toMutableStateList
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ideaapp.ui.components.SnackBar
+import com.ideaapp.ui.components.mToast
+import com.ideaapp.ui.screens.note.create.components.CustomTextField
+import com.ideasapp.domain.model.Task
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TaskScreen(
-    navController: NavHostController,
+    context: Context,
     viewModel: TaskViewModel,
     modifier: Modifier = Modifier
 ) {
@@ -85,6 +96,7 @@ fun TaskScreen(
     val taskDelete = stringResource(id = R.string.task_delete)
     val undo = stringResource(id = R.string.undo)
 
+    var showBottomSheet by remember { mutableStateOf(false) }
 
 
     Scaffold(
@@ -105,8 +117,10 @@ fun TaskScreen(
             )
         },
         floatingActionButton = {
-            LargeFAB(
-                onClick = { navController.navigate(Screens.CreateTask.rout) },
+            FAB(
+                onClick = {
+                    showBottomSheet = true
+                },
                 modifier = modifier.safeDrawingPadding()
             )
         },
@@ -115,6 +129,18 @@ fun TaskScreen(
         },
         content = { contentPadding ->
             if (tasks.isNotEmpty() || completedTaskItems.isNotEmpty() || uncompletedTaskItems.isNotEmpty()) {
+
+                CreateTaskModal(
+                    showBottomSheet = showBottomSheet,
+                    onDismiss = { showBottomSheet = false },
+                    onCreateTask = { name, description ->
+                        viewModel.createTask(Task(name = name, description = description)) {
+                            showBottomSheet = false
+                        }
+                    },
+                    context = context
+                )
+
                 LazyColumn(
                     state = rememberLazyListState(),
                     contentPadding = contentPadding,
@@ -206,6 +232,80 @@ fun TaskScreen(
             }
         }
     )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun CreateTaskModal(
+    showBottomSheet: Boolean,
+    onDismiss: () -> Unit,
+    onCreateTask: (String, String) -> Unit,
+    context: Context,
+    modifier: Modifier = Modifier
+) {
+    if (showBottomSheet) {
+        ModalBottomSheet(
+            onDismissRequest = onDismiss,
+            sheetState = rememberModalBottomSheetState()
+        ) {
+            Column(
+                modifier = modifier.padding(16.dp)
+            ) {
+                var taskName by remember { mutableStateOf("") }
+                var taskDescription by remember { mutableStateOf("") }
+
+                CustomTextField(
+                    value = taskName,
+                    onValueChange = { taskName = it },
+                    labelText = stringResource(id = R.string.title),
+                    textStyle = TextStyle(
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Medium,
+                        color = MaterialTheme.colorScheme.onSurface
+                    ),
+                    modifier = Modifier.fillMaxWidth()
+                )
+
+                Spacer(modifier = Modifier.padding(6.dp))
+
+                CustomTextField(
+                    value = taskDescription,
+                    onValueChange = { taskDescription = it },
+                    labelText = stringResource(id = R.string.description),
+                    textStyle = TextStyle(
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Medium,
+                        color = MaterialTheme.colorScheme.onSurface
+                    ),
+                    modifier = Modifier.fillMaxWidth()
+                )
+
+                Row(
+                    horizontalArrangement = Arrangement.End,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    TextButton(
+                        onClick = {
+                            if (taskName.isNotEmpty()) {
+                                onCreateTask(taskName, taskDescription)
+                                onDismiss()
+                            } else {
+                                mToast(
+                                    context,
+                                    context.getString(R.string.error_create)
+                                )
+                            }
+                        }
+                    ) {
+                        Text(
+                            stringResource(id = R.string.create),
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+                    }
+                }
+            }
+        }
+    }
 }
 
 

@@ -1,13 +1,11 @@
-package com.ideaapp.ui.screens.note.main.components
+package com.ideaapp.ui.components
 
 
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Create
-import androidx.compose.material3.FloatingActionButtonDefaults
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LargeFloatingActionButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -16,18 +14,17 @@ import com.ideaapp.R
 
 
 @Composable
-fun LargeFAB(
+fun FAB(
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    LargeFloatingActionButton(
+    FloatingActionButton(
         onClick = { onClick() },
         modifier = modifier.padding(vertical = 80.dp)
     ) {
         Icon(
             Icons.Filled.Create,
             stringResource(id = R.string.create),
-            modifier = modifier.size(FloatingActionButtonDefaults.LargeIconSize)
         )
     }
 }

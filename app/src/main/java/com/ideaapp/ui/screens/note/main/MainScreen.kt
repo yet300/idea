@@ -28,7 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.ideaapp.ui.navigation.components.Screens
 import com.ideaapp.ui.screens.note.main.components.EmptyScreen
-import com.ideaapp.ui.screens.note.main.components.LargeFAB
+import com.ideaapp.ui.components.FAB
 import com.ideaapp.ui.screens.note.main.components.Search
 import com.ideaapp.ui.screens.note.main.components.NoteItem
 
@@ -59,7 +59,7 @@ fun MainScreen(
             .fillMaxSize(),
         contentWindowInsets = WindowInsets(0.dp, 0.dp, 0.dp, 0.dp),
         floatingActionButton = {
-            LargeFAB(
+            FAB(
                 onClick = { navController.navigate(Screens.Create.rout) },
                 modifier.safeDrawingPadding()
             )

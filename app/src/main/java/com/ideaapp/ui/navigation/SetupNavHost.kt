@@ -34,7 +34,6 @@ import androidx.navigation.navArgument
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.dialog
 import com.ideaapp.R
 import com.ideaapp.ui.navigation.components.BottomNavigationItem
 import com.ideaapp.ui.navigation.components.Screens
@@ -43,7 +42,6 @@ import com.ideaapp.ui.screens.note.details.DetailsScreen
 import com.ideaapp.ui.screens.note.main.MainScreen
 import com.ideaapp.ui.screens.note.secure.SecureScreen
 import com.ideaapp.ui.screens.settings.SettingsScreen
-import com.ideaapp.ui.screens.task.create.CreateTaskScreen
 import com.ideaapp.ui.screens.task.main.TaskScreen
 
 
@@ -203,18 +201,7 @@ fun SetupNavHost(
                 composable(
                     route = Screens.Task.rout,
                 ) {
-                    TaskScreen(navController, hiltViewModel())
-                }
-
-                dialog(
-                    route = Screens.CreateTask.rout,
-
-                    ) {
-                    CreateTaskScreen(
-                        onDismissRequest = { navController.navigate(Screens.Task.rout) },
-                        context,
-                        hiltViewModel()
-                    )
+                    TaskScreen(context, hiltViewModel())
                 }
             }
         }
