@@ -60,6 +60,8 @@ dependencies {
 
     implementation(platform(libs.compose.bom))
     implementation(libs.bundles.compose)
+    //SplashScreen
+    implementation(libs.androidx.core.splashscreen)
 
 
     implementation(project(":domain"))

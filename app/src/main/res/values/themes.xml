@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.Ideasapp" parent="android:Theme.Material.Light.NoActionBar" />
+    <style name="Theme.Ideasapp" parent="android:Theme.Material.Light.NoActionBar">
+
+    </style>
+
+    <style name="Theme.Ideasapp.SplashScreen" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/black</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/baseline_tips</item>
+        <item name="postSplashScreenTheme">@style/Theme.Ideasapp</item>
+    </style>
+
 </resources>
