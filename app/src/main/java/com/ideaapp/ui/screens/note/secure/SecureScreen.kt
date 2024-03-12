@@ -80,6 +80,7 @@ fun SecureScreen(
             Box(
                 modifier = modifier
                     .padding(contentPadding)
+                    .fillMaxSize()
                     .clip(MaterialTheme.shapes.medium)
             ) {
                 if (notes.isNotEmpty()) {
