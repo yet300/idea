@@ -11,16 +11,10 @@ import androidx.compose.material.icons.automirrored.filled.Note
 import androidx.compose.material.icons.automirrored.outlined.Note
 import androidx.compose.material.icons.filled.Task
 import androidx.compose.material.icons.outlined.Task
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
@@ -36,6 +30,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.ideaapp.R
 import com.ideaapp.ui.navigation.components.BottomNavigationItem
+import com.ideaapp.ui.navigation.components.NavBar
 import com.ideaapp.ui.navigation.components.Screens
 import com.ideaapp.ui.screens.note.create.CreateScreen
 import com.ideaapp.ui.screens.note.details.DetailsScreen
@@ -54,8 +49,10 @@ val NavHostController.canGoBack: Boolean
 fun SetupNavHost(
     navController: NavHostController,
 ) {
-    var showBottomBar by rememberSaveable { mutableStateOf(true) }
     val navBackStackEntry by navController.currentBackStackEntryAsState()
+
+    val bottomBarRoutes = setOf(Screens.Home.rout, Screens.Task.rout)
+    val showBottomBar = navBackStackEntry?.destination?.route in bottomBarRoutes
 
     val items = listOf(
         BottomNavigationItem(
@@ -72,65 +69,28 @@ fun SetupNavHost(
         )
     )
 
-
-
-    showBottomBar = when (navBackStackEntry?.destination?.route) {
-        Screens.Details.rout + "/{id}" -> false // on this screen bottom bar should be hidden
-        Screens.Create.rout -> false
-        Screens.Secure.rout -> false
-        Screens.Settings.rout -> false
-        else -> true // in all other cases show bottom bar
-    }
-
     val context = LocalContext.current
 
 
     Scaffold(
         bottomBar = {
-            var selectedItemIndex by rememberSaveable {
-                mutableIntStateOf(0)
-            }
-            if (showBottomBar)
-//                TODO("Исправить навигацию(MarketApp)")
-            NavigationBar {
-                    items.forEachIndexed { index, item ->
-                        val isSelected =  selectedItemIndex == index && navBackStackEntry?.destination?.route == item.route
-                        NavigationBarItem(
-                            selected = isSelected,
-                            label = {
-                                Text(
-                                    text = item.label,
-                                    style = MaterialTheme.typography.titleSmall
-                                )
-                            },
-                            onClick = {
-                                if (navController.canGoBack) {
-                                    selectedItemIndex = index
-                                    navController.navigate(item.route) {
-                                        popUpTo(navController.graph.findStartDestination().id) {
-                                            saveState = true
-                                        }
-                                        launchSingleTop = true
 
-                                        restoreState = true
-                                    }
-                                }
-                            },
-                            icon = {
-                                Icon(
-                                    imageVector = if (isSelected) {
-                                        item.selectedIcon
-                                    } else {
-                                        item.unselectedIcon
-                                    },
-                                    contentDescription = item.route
-                                )
+            if (showBottomBar) {
+                var selectedItemIndex by rememberSaveable { mutableIntStateOf(0) }
+
+                NavBar(
+                    items = items,
+                    selectedItemIndex = selectedItemIndex,
+                    onItemSelected = { index ->
+                        if (navController.canGoBack) {
+                            selectedItemIndex = index
+                            navController.navigate(items[index].route) {
+                                popUpTo(navController.graph.findStartDestination().id)
+                                launchSingleTop = true
                             }
-                        )
-
-                    }
-
-                }
+                        }
+                    })
+            }
         },
         content = {
             NavHost(
