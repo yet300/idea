@@ -11,6 +11,7 @@ data class TaskDBO(
     val id: Long = 0,
     val name: String,
     val description: String?,
+    val reminderTime: Long? = null,
     val isComplete: Boolean = false
 )
 
@@ -20,6 +21,7 @@ fun TaskDBO.toDomainTask(): Task {
         id = this.id,
         name = this.name,
         description = this.description,
+        reminderTime = this.reminderTime,
         isComplete = this.isComplete
     )
 }
@@ -29,6 +31,7 @@ fun Task.toRoomNote(): TaskDBO {
         id = this.id,
         name = this.name,
         description = this.description,
+        reminderTime = this.reminderTime,
         isComplete = this.isComplete
     )
 }

@@ -3,6 +3,7 @@ package com.ideaapp.ui.screens.task.main
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ideaapp.ui.notification.ReminderNotification
 import com.ideasapp.domain.model.Task
 import com.ideasapp.domain.usecase.task.CreateTaskUseCase
 import com.ideasapp.domain.usecase.task.DeleteTaskUseCase
@@ -15,6 +16,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.random.Random
 
 @HiltViewModel
 class TaskViewModel @Inject constructor(
@@ -22,6 +24,7 @@ class TaskViewModel @Inject constructor(
     private val updateTaskUseCase: UpdateTaskUseCase,
     private val deleteTaskUseCase: DeleteTaskUseCase,
     private val createTaskUseCase: CreateTaskUseCase,
+    private val reminderNotification: ReminderNotification
 ) : ViewModel() {
 
     private val _tasks = MutableStateFlow<List<Task>>(emptyList())
@@ -29,6 +32,9 @@ class TaskViewModel @Inject constructor(
 
     private var deletedTask: Task? = null
 
+    private fun generateNotificationId(): Long {
+        return Random.nextLong()
+    }
 
     init {
         loadTasks()
@@ -37,6 +43,14 @@ class TaskViewModel @Inject constructor(
     fun createTask(task: Task, onSuccess: () -> Unit) {
         viewModelScope.launch {
             createTaskUseCase.invoke(task)
+            if (task.reminderTime != null) {
+                createReminderTask(
+                    id = generateNotificationId(),
+                    reminder = task.reminderTime!!,
+                    name = task.name,
+                    description = task.description!!
+                )
+            }
             onSuccess()
         }
     }
@@ -53,7 +67,6 @@ class TaskViewModel @Inject constructor(
     fun updateTaskComplete(id: Long, complete: Boolean) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                // Вызов use case для обновления задачи
                 updateTaskUseCase.invoke(id, complete)
 
                 delay(200)
@@ -71,7 +84,6 @@ class TaskViewModel @Inject constructor(
                 deleteTaskUseCase.invoke(task)
 
                 delay(200)
-                // After deleting a task, load the updated task list
                 loadTasks()
 
             } catch (e: Exception) {
@@ -85,6 +97,14 @@ class TaskViewModel @Inject constructor(
             createTaskUseCase.invoke(task)
             loadTasks()
         }
+    }
 
+    private fun createReminderTask(id: Long, reminder: Long, name: String, description: String) =
+        viewModelScope.launch {
+            reminderNotification.setReminder(id, reminder, name, description)
+        }
+
+    fun cancelReminderTask(id: Long) = viewModelScope.launch {
+        reminderNotification.cancelReminder(id)
     }
 }

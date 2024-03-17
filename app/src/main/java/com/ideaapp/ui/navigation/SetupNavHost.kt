@@ -91,10 +91,10 @@ fun SetupNavHost(
                 mutableIntStateOf(0)
             }
             if (showBottomBar)
-                NavigationBar {
+//                TODO("Исправить навигацию(MarketApp)")
+            NavigationBar {
                     items.forEachIndexed { index, item ->
-                        val isSelected =
-                            selectedItemIndex == index && navBackStackEntry?.destination?.route == item.route
+                        val isSelected =  selectedItemIndex == index && navBackStackEntry?.destination?.route == item.route
                         NavigationBarItem(
                             selected = isSelected,
                             label = {
@@ -110,7 +110,6 @@ fun SetupNavHost(
                                         popUpTo(navController.graph.findStartDestination().id) {
                                             saveState = true
                                         }
-
                                         launchSingleTop = true
 
                                         restoreState = true

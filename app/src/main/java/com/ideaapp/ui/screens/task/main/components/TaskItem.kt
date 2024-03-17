@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SuggestionChip
 import androidx.compose.material3.SwipeToDismissBox
 import androidx.compose.material3.SwipeToDismissBoxValue
 import androidx.compose.material3.Text
@@ -26,6 +27,7 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
+import com.ideaapp.ui.screens.task.create.Tools
 import com.ideasapp.domain.model.Task
 
 
@@ -35,6 +37,8 @@ fun TaskItem(
     task: Task,
     onTaskCheckedChange: (checked: Boolean) -> Unit,
     onDelete: (focusPreviousItem: Boolean) -> Unit,
+    reminder: Long?,
+    CancelReminder: () -> Unit,
     modifier: Modifier = Modifier
 ) {
 
@@ -100,6 +104,15 @@ fun TaskItem(
                     text = task.description ?: "",
                     style = MaterialTheme.typography.titleSmall,
                 )
+                if (reminder != null) {
+                    SuggestionChip(
+                        onClick = {
+                            CancelReminder()
+                        },
+                        label = { Text(Tools.convertLongToTime(reminder)) }
+                    )
+                }
+
                 Spacer(modifier = Modifier.padding(5.dp))
             }
         }
