@@ -27,7 +27,7 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
-import com.ideaapp.ui.screens.task.create.Tools
+import com.ideaapp.ui.components.DateTimeConvertor
 import com.ideasapp.domain.model.Task
 
 
@@ -38,10 +38,9 @@ fun TaskItem(
     onTaskCheckedChange: (checked: Boolean) -> Unit,
     onDelete: (focusPreviousItem: Boolean) -> Unit,
     reminder: Long?,
-    CancelReminder: () -> Unit,
+    endReminder: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-
     var isChecked by remember { mutableStateOf(task.isComplete) }
 
 
@@ -107,9 +106,9 @@ fun TaskItem(
                 if (reminder != null) {
                     SuggestionChip(
                         onClick = {
-                            CancelReminder()
+                            endReminder()
                         },
-                        label = { Text(Tools.convertLongToTime(reminder)) }
+                        label = { Text(DateTimeConvertor.convertLongToDateTime(reminder)) }
                     )
                 }
 

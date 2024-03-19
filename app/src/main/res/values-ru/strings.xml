@@ -29,4 +29,6 @@
     <string name="telegram">Телеграм</string>
     <string name="faild">Аутентификация не удалась</string>
     <string name="error">Произошла ошибка в процессе аутентификации, включите в настройках вход с помощью биометрии</string>
+    <string name="error_invalid_datetime">Дата или время устарело</string>
+
 </resources>

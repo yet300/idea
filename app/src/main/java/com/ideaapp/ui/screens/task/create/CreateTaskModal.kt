@@ -30,7 +30,6 @@ import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -43,10 +42,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ideaapp.R
 import com.ideaapp.ui.components.TimePickerDialog
+import com.ideaapp.ui.components.DateTimeConvertor
+import com.ideaapp.ui.components.DateTimeConvertor.isValidDateTime
 import com.ideaapp.ui.components.mToast
 import com.ideaapp.ui.screens.note.create.components.CustomTextField
-import java.text.SimpleDateFormat
-import java.util.Date
+import java.time.Instant
+import java.time.LocalDateTime
+import java.time.LocalTime
+import java.time.ZoneId
+import java.util.Calendar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -73,11 +77,17 @@ fun CreateTaskModal(
         var showDatePicker by remember {
             mutableStateOf(false)
         }
-
-
         var selectedDate by remember { mutableStateOf("Select Date") }
-
+        val currentDateTime = LocalDateTime.now()
+        val date = remember {
+            Calendar.getInstance().apply {
+                set(Calendar.YEAR, currentDateTime.year)
+                set(Calendar.MONTH, currentDateTime.monthValue - 1)
+                set(Calendar.DAY_OF_MONTH, currentDateTime.dayOfMonth)
+            }.timeInMillis
+        }
         val datePickerState = rememberDatePickerState(
+            initialSelectedDateMillis = date,
             yearRange = 2020..2060
         )
 
@@ -86,22 +96,37 @@ fun CreateTaskModal(
         var showTimePicker by remember {
             mutableStateOf(false)
         }
+
+        val currentTime = LocalTime.now()
+        val timeInMillis = remember {
+            Calendar.getInstance().apply {
+                set(Calendar.HOUR_OF_DAY, currentTime.hour)
+                set(Calendar.MINUTE, currentTime.minute)
+            }.timeInMillis
+        }
+
         var selectedTime by remember { mutableStateOf("Select Time") }
 
-        var selectedHour by remember { mutableIntStateOf(0) }
-        var selectedMinute by remember { mutableIntStateOf(0) }
+
         val timePickerState = rememberTimePickerState(
-            initialHour = selectedHour,
-            initialMinute = selectedMinute,
+            initialHour = LocalDateTime.ofInstant(
+                Instant.ofEpochMilli(timeInMillis),
+                ZoneId.systemDefault()
+            ).hour,
+            initialMinute = LocalDateTime.ofInstant(
+                Instant.ofEpochMilli(timeInMillis),
+                ZoneId.systemDefault()
+            ).minute,
             is24Hour = true
         )
 
+        //Соединение даты и времени
         val combinedDateTime = datePickerState.selectedDateMillis?.let { dateMillis ->
-            timePickerState.hour.let { hour ->
-                timePickerState.minute.let { minute ->
-                    dateMillis + hour + minute
-                }
-            }
+            val calendar = Calendar.getInstance()
+            calendar.timeInMillis = dateMillis
+            calendar.set(Calendar.HOUR_OF_DAY, timePickerState.hour)
+            calendar.set(Calendar.MINUTE, timePickerState.minute)
+            calendar.timeInMillis
         } ?: 0L
 
         val permissionLauncher = rememberLauncherForActivityResult(
@@ -168,7 +193,7 @@ fun CreateTaskModal(
                             TextButton(
                                 onClick = {
                                     datePickerState.selectedDateMillis?.let { selectedDateMillis ->
-                                        selectedDate = Tools.convertLongToTime(selectedDateMillis)
+                                        selectedDate = DateTimeConvertor.convertLongToDate(selectedDateMillis)
                                     }
                                     showDatePicker = false
                                 }
@@ -196,9 +221,9 @@ fun CreateTaskModal(
                         title = "Select time",
                         onCancel = { showTimePicker = false },
                         onConfirm = {
-                            selectedHour = timePickerState.hour
-                            selectedMinute = timePickerState.minute
-                            selectedTime = "${timePickerState.hour} : ${timePickerState.minute}"
+                            timePickerState.let { time ->
+                                selectedTime = DateTimeConvertor.convertIntToTime(time.hour, time.minute)
+                            }
                             showTimePicker = false
                         },
                         content = {
@@ -235,8 +260,12 @@ fun CreateTaskModal(
                     TextButton(
                         onClick = {
                             if (taskName.isNotEmpty()) {
-                                onCreateTask(taskName, taskDescription, combinedDateTime)
-                                onDismiss()
+                                if (isValidDateTime(combinedDateTime)) {
+                                    onCreateTask(taskName, taskDescription, combinedDateTime)
+                                    onDismiss()
+                                } else {
+                                    mToast(context, context.getString(R.string.error_invalid_datetime))
+                                }
                             } else {
                                 mToast(
                                     context,
@@ -253,16 +282,6 @@ fun CreateTaskModal(
                 }
             }
         }
-    }
-}
-
-
-object Tools {
-    fun convertLongToTime(time: Long): String {
-
-        val date = Date(time)
-        val format = SimpleDateFormat("dd MM yyyy")
-        return format.format(date)
     }
 }
 

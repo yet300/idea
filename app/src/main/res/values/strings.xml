@@ -29,4 +29,5 @@
 
     <string name="faild">Authentication failed</string>
     <string name="error">There was an error in the authentication process, enable biometric login in the settings</string>
+    <string name="error_invalid_datetime">Date or time is out of date</string>
 </resources>

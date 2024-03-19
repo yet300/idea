@@ -157,7 +157,7 @@ fun TaskScreen(
                                     onAction = { viewModel.undoDeleteTask() })
                             },
                             reminder = task.reminderTime,
-                            CancelReminder = {
+                            endReminder = {
                                 viewModel.cancelReminderTask(task.id)
                             }
                         )
@@ -215,7 +215,7 @@ fun TaskScreen(
                                     )
                                 },
                                 reminder = task.reminderTime,
-                                CancelReminder = {
+                                endReminder = {
                                     viewModel.cancelReminderTask(task.id)
                                 }
                             )
