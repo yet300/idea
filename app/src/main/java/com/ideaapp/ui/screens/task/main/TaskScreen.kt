@@ -131,6 +131,14 @@ fun TaskScreen(
                     ) {
                         showBottomSheet = false
                     }
+                    if (onTaskCreated != 0L) {
+                        viewModel.createReminderTask(
+                            id = viewModel.generateNotificationId(),
+                            reminder = onTaskCreated,
+                            name = name,
+                            description = description
+                        )
+                    }
                 },
                 context = context
             )
@@ -156,7 +164,6 @@ fun TaskScreen(
                                     actionLabel = undo,
                                     onAction = { viewModel.undoDeleteTask() })
                             },
-                            reminder = task.reminderTime,
                             endReminder = {
                                 viewModel.cancelReminderTask(task.id)
                             }
@@ -214,7 +221,6 @@ fun TaskScreen(
                                         onAction = { viewModel.undoDeleteTask() }
                                     )
                                 },
-                                reminder = task.reminderTime,
                                 endReminder = {
                                     viewModel.cancelReminderTask(task.id)
                                 }

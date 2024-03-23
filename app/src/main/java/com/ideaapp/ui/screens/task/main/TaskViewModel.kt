@@ -32,7 +32,7 @@ class TaskViewModel @Inject constructor(
 
     private var deletedTask: Task? = null
 
-    private fun generateNotificationId(): Long {
+     fun generateNotificationId(): Long {
         return Random.nextLong()
     }
 
@@ -43,15 +43,6 @@ class TaskViewModel @Inject constructor(
     fun createTask(task: Task, onSuccess: () -> Unit) {
         viewModelScope.launch {
             createTaskUseCase.invoke(task)
-            if (task.reminderTime != null) {
-
-                createReminderTask(
-                    id = generateNotificationId(),
-                    reminder = task.reminderTime!!,
-                    name = task.name,
-                    description = task.description!!
-                )
-            }
             onSuccess()
         }
     }
@@ -83,7 +74,7 @@ class TaskViewModel @Inject constructor(
             try {
                 deletedTask = task
                 deleteTaskUseCase.invoke(task)
-
+                cancelReminderTask(id = task.id)
                 delay(200)
                 loadTasks()
 
@@ -100,7 +91,7 @@ class TaskViewModel @Inject constructor(
         }
     }
 
-    private fun createReminderTask(id: Long, reminder: Long, name: String, description: String) =
+     fun createReminderTask(id: Long, reminder: Long, name: String, description: String) =
         viewModelScope.launch {
             reminderNotification.setReminder(id, reminder, name, description)
         }

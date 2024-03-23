@@ -15,21 +15,18 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ChatBubbleOutline
 import androidx.compose.material.icons.filled.WatchLater
-import androidx.compose.material3.DatePicker
-import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.SuggestionChip
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.material3.TimePicker
-import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.material3.rememberModalBottomSheetState
-import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -41,16 +38,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ideaapp.R
-import com.ideaapp.ui.components.TimePickerDialog
 import com.ideaapp.ui.components.DateTimeConvertor
-import com.ideaapp.ui.components.DateTimeConvertor.isValidDateTime
+import com.ideaapp.ui.components.DateTimeDialog
 import com.ideaapp.ui.components.mToast
 import com.ideaapp.ui.screens.note.create.components.CustomTextField
-import java.time.Instant
-import java.time.LocalDateTime
-import java.time.LocalTime
-import java.time.ZoneId
-import java.util.Calendar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -69,70 +60,16 @@ fun CreateTaskModal(
         }
 
         //Date and Time
-        var showDateTimeButton by remember {
+        var showDateTimeDialog by remember {
             mutableStateOf(false)
         }
+        var combinedDateTime by remember { mutableLongStateOf(0L) }
 
-        //date
-        var showDatePicker by remember {
-            mutableStateOf(false)
-        }
-        var selectedDate by remember { mutableStateOf("Select Date") }
-        val currentDateTime = LocalDateTime.now()
-        val date = remember {
-            Calendar.getInstance().apply {
-                set(Calendar.YEAR, currentDateTime.year)
-                set(Calendar.MONTH, currentDateTime.monthValue - 1)
-                set(Calendar.DAY_OF_MONTH, currentDateTime.dayOfMonth)
-            }.timeInMillis
-        }
-        val datePickerState = rememberDatePickerState(
-            initialSelectedDateMillis = date,
-            yearRange = 2020..2060
-        )
-
-
-        //time
-        var showTimePicker by remember {
-            mutableStateOf(false)
-        }
-
-        val currentTime = LocalTime.now()
-        val timeInMillis = remember {
-            Calendar.getInstance().apply {
-                set(Calendar.HOUR_OF_DAY, currentTime.hour)
-                set(Calendar.MINUTE, currentTime.minute)
-            }.timeInMillis
-        }
-
-        var selectedTime by remember { mutableStateOf("Select Time") }
-
-
-        val timePickerState = rememberTimePickerState(
-            initialHour = LocalDateTime.ofInstant(
-                Instant.ofEpochMilli(timeInMillis),
-                ZoneId.systemDefault()
-            ).hour,
-            initialMinute = LocalDateTime.ofInstant(
-                Instant.ofEpochMilli(timeInMillis),
-                ZoneId.systemDefault()
-            ).minute,
-            is24Hour = true
-        )
-
-        //Соединение даты и времени
-        val combinedDateTime = datePickerState.selectedDateMillis?.let { dateMillis ->
-            val calendar = Calendar.getInstance()
-            calendar.timeInMillis = dateMillis
-            calendar.set(Calendar.HOUR_OF_DAY, timePickerState.hour)
-            calendar.set(Calendar.MINUTE, timePickerState.minute)
-            calendar.timeInMillis
-        } ?: 0L
 
         val permissionLauncher = rememberLauncherForActivityResult(
             ActivityResultContracts.RequestPermission()
         ) { isGranted ->
-            showDateTimeButton = isGranted
+            showDateTimeDialog = isGranted
         }
         ModalBottomSheet(
             onDismissRequest = onDismiss,
@@ -170,67 +107,24 @@ fun CreateTaskModal(
                     )
                 }
 
-
-                if (showDateTimeButton) {
-
-                    TextButton(onClick = { showDatePicker = true }) {
-                        Text(text = selectedDate)
-                    }
-                    Spacer(modifier = modifier.padding(3.dp))
-
-                    TextButton(onClick = { showTimePicker = true }) {
-                        Text(text = selectedTime)
-
-                    }
-
-
+                if (combinedDateTime != 0L) {
+                    SuggestionChip(
+                        onClick = { showDateTimeDialog = true },
+                        label = { Text(DateTimeConvertor.convertLongToDateTime(combinedDateTime)) }
+                    )
                 }
-
-                if (showDatePicker) {
-                    DatePickerDialog(
-                        onDismissRequest = { showDatePicker = false },
-                        confirmButton = {
-                            TextButton(
-                                onClick = {
-                                    datePickerState.selectedDateMillis?.let { selectedDateMillis ->
-                                        selectedDate = DateTimeConvertor.convertLongToDate(selectedDateMillis)
-                                    }
-                                    showDatePicker = false
-                                }
-                            ) { Text(stringResource(id = R.string.confirm)) }
+                if (showDateTimeDialog) {
+                    DateTimeDialog(
+                        onCancel = { showDateTimeDialog = false },
+                        onConfirm = { dateTime ->
+                            combinedDateTime = dateTime
+                            showDateTimeDialog = false
                         },
-                        dismissButton = {
-                            TextButton(
-                                onClick = {
-                                    showDatePicker = false
-                                }
-                            ) { Text(stringResource(id = R.string.cancel)) }
-                        },
-                        content = {
-                            DatePicker(
-                                state = datePickerState,
-                                showModeToggle = false,
-                            )
-
-                        }
+                        context = context
                     )
                 }
 
-                if (showTimePicker) {
-                    TimePickerDialog(
-                        title = "Select time",
-                        onCancel = { showTimePicker = false },
-                        onConfirm = {
-                            timePickerState.let { time ->
-                                selectedTime = DateTimeConvertor.convertIntToTime(time.hour, time.minute)
-                            }
-                            showTimePicker = false
-                        },
-                        content = {
-                            TimePicker(state = timePickerState)
-                        }
-                    )
-                }
+
 
                 Row(
                     horizontalArrangement = Arrangement.End,
@@ -248,7 +142,7 @@ fun CreateTaskModal(
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                             permissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
                         } else {
-                            showDateTimeButton = true
+                            showDateTimeDialog = true
                         }
                     }) {
                         Icon(
@@ -260,11 +154,12 @@ fun CreateTaskModal(
                     TextButton(
                         onClick = {
                             if (taskName.isNotEmpty()) {
-                                if (isValidDateTime(combinedDateTime)) {
+                                if (combinedDateTime != 0L) {
                                     onCreateTask(taskName, taskDescription, combinedDateTime)
                                     onDismiss()
                                 } else {
-                                    mToast(context, context.getString(R.string.error_invalid_datetime))
+                                    onCreateTask(taskName, taskDescription, 0L)
+                                    onDismiss()
                                 }
                             } else {
                                 mToast(
@@ -272,6 +167,7 @@ fun CreateTaskModal(
                                     context.getString(R.string.error_create)
                                 )
                             }
+
                         }
                     ) {
                         Text(

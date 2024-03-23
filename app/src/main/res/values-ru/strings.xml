@@ -31,4 +31,8 @@
     <string name="error">Произошла ошибка в процессе аутентификации, включите в настройках вход с помощью биометрии</string>
     <string name="error_invalid_datetime">Дата или время устарело</string>
 
+    <string name="reminder">Добавить напоминания</string>
+    <string name="date">Дата</string>
+    <string name="time">Время</string>
+    <string name="select_time">Выбрать время</string>
 </resources>

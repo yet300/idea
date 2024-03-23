@@ -9,46 +9,43 @@ import javax.inject.Inject
 
 class ReminderManager @Inject constructor(@ApplicationContext private val context: Context) :
     ReminderNotification {
+    private val alarmManager by lazy { context.getSystemService(AlarmManager::class.java) }
 
     override suspend fun setReminder(
-        id: Long,
+        id: Long?,
         reminderTime: Long,
         name: String,
         description: String,
 
-    ) {
-        val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        ) {
         val intent = Intent(context, NotificationService::class.java).apply {
             putExtra(NotificationService.TASK_ID, id)
             putExtra(NotificationService.TASK_NAME_KEY, name)
             putExtra(NotificationService.TASK_DESCRIPTION_KEY, description)
         }
 
-        val pendingIntent = PendingIntent.getService(
-            context,
-            id.toInt(),
-            intent,
-            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
-        )
         alarmManager.setExactAndAllowWhileIdle(
             AlarmManager.RTC_WAKEUP,
             reminderTime,
-            pendingIntent
+            pendingIntent(id, intent)
         )
     }
 
-    override suspend fun cancelReminder(id: Long) {
-        val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+    override suspend fun cancelReminder(id: Long?) {
         val intent = Intent(context, NotificationService::class.java)
-        val pendingIntent = PendingIntent.getService(
-            context,
-            id.toInt(),
-            intent,
-            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
-        )
-        pendingIntent?.let {
+
+        pendingIntent(id, intent).let {
             alarmManager.cancel(it)
             it.cancel()
         }
     }
+    private fun pendingIntent(
+        id: Long?,
+        intent: Intent
+    ): PendingIntent = PendingIntent.getService(
+        context,
+        id?.toInt() ?: 0,
+        intent,
+        PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+    )
 }
