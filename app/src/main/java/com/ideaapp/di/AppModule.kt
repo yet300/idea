@@ -1,8 +1,10 @@
 package com.ideaapp.di
 
 import android.content.Context
-import com.ideaapp.ui.notification.ReminderManager
-import com.ideaapp.ui.notification.ReminderNotification
+import com.ideaapp.utils.ManagerNotification
+import com.ideaapp.utils.ManagerNotificationImpl
+import com.ideaapp.utils.ReminderSchedulerImpl
+import com.ideasapp.domain.utils.ReminderScheduler
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,9 +16,15 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 class AppModule {
 
-    @Provides
     @Singleton
-    fun provideReminderNotification(@ApplicationContext context: Context): ReminderNotification {
-        return ReminderManager(context)
+    @Provides
+    fun provideReminderScheduler(@ApplicationContext context: Context): ReminderScheduler {
+        return ReminderSchedulerImpl(context)
+    }
+
+    @Singleton
+    @Provides
+    fun provideManagerNotification(@ApplicationContext context: Context): ManagerNotification {
+        return ManagerNotificationImpl(context)
     }
 }

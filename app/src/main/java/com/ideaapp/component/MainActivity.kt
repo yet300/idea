@@ -1,4 +1,4 @@
-package com.ideaapp.ui
+package com.ideaapp.component
 
 import android.os.Bundle
 import androidx.activity.SystemBarStyle

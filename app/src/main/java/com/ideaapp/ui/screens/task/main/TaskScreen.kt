@@ -54,6 +54,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ideaapp.ui.components.SnackBar
 import com.ideaapp.ui.screens.task.create.CreateTaskModal
+import com.ideasapp.domain.model.Reminder
 import com.ideasapp.domain.model.Task
 
 
@@ -122,21 +123,24 @@ fun TaskScreen(
                 showBottomSheet = showBottomSheet,
                 onDismiss = { showBottomSheet = false },
                 onCreateTask = { name, description, onTaskCreated ->
+                    val task = Task(
+                        name = name,
+                        description = description,
+                        reminderTime = onTaskCreated
+                    )
                     viewModel.createTask(
-                        Task(
-                            name = name,
-                            description = description,
-                            reminderTime = onTaskCreated
-                        )
+                        task
                     ) {
                         showBottomSheet = false
                     }
                     if (onTaskCreated != 0L) {
                         viewModel.createReminderTask(
-                            id = viewModel.generateNotificationId(),
-                            reminder = onTaskCreated,
-                            name = name,
-                            description = description
+                            Reminder(
+                                itemId = task.id,
+                                name = name,
+                                description = description,
+                                reminderTime = onTaskCreated
+                            )
                         )
                     }
                 },

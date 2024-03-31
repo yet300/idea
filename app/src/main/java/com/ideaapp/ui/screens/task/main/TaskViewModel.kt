@@ -3,8 +3,10 @@ package com.ideaapp.ui.screens.task.main
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ideaapp.ui.notification.ReminderNotification
+import com.ideasapp.domain.model.Reminder
 import com.ideasapp.domain.model.Task
+import com.ideasapp.domain.usecase.reminder.CreateReminderUseCase
+import com.ideasapp.domain.usecase.reminder.DeleteReminderUseCase
 import com.ideasapp.domain.usecase.task.CreateTaskUseCase
 import com.ideasapp.domain.usecase.task.DeleteTaskUseCase
 import com.ideasapp.domain.usecase.task.GetTaskUseCase
@@ -16,7 +18,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import kotlin.random.Random
 
 @HiltViewModel
 class TaskViewModel @Inject constructor(
@@ -24,17 +25,14 @@ class TaskViewModel @Inject constructor(
     private val updateTaskUseCase: UpdateTaskUseCase,
     private val deleteTaskUseCase: DeleteTaskUseCase,
     private val createTaskUseCase: CreateTaskUseCase,
-    private val reminderNotification: ReminderNotification
+    private val createReminderUseCase: CreateReminderUseCase,
+    private val deleteReminderUseCase: DeleteReminderUseCase
 ) : ViewModel() {
 
     private val _tasks = MutableStateFlow<List<Task>>(emptyList())
     val tasks: StateFlow<List<Task>> = _tasks
 
     private var deletedTask: Task? = null
-
-     fun generateNotificationId(): Long {
-        return Random.nextLong()
-    }
 
     init {
         loadTasks()
@@ -91,12 +89,12 @@ class TaskViewModel @Inject constructor(
         }
     }
 
-     fun createReminderTask(id: Long, reminder: Long, name: String, description: String) =
+    fun createReminderTask(reminder: Reminder) =
         viewModelScope.launch {
-            reminderNotification.setReminder(id, reminder, name, description)
+            createReminderUseCase.invoke(reminder)
         }
 
     fun cancelReminderTask(id: Long) = viewModelScope.launch {
-        reminderNotification.cancelReminder(id)
+        deleteReminderUseCase.invoke(id)
     }
 }
