@@ -27,16 +27,16 @@ class ManagerNotificationImpl @Inject constructor(
 
     override fun post(
         id: Int,
-        title: String,
-        text: String,
+        name: String,
+        description: String,
         pendingIntent: PendingIntent,
         channel: CustomNotificationChannel
     ) {
         val groupNotification = buildNotificationGroup(channel)
 
         val taskNotification = buildNotification(
-            title,
-            text,
+            name,
+            description,
             channel
         )
 
@@ -57,14 +57,14 @@ class ManagerNotificationImpl @Inject constructor(
 
     private fun buildNotification(
         title: String,
-        body: String,
+        text: String,
         channel: CustomNotificationChannel,
     ): Notification {
         return Notification
             .Builder(context, channel.info.id)
             .setSmallIcon(R.drawable.baseline_tips_monochrome)
             .setContentTitle(title)
-            .setContentText(body)
+            .setContentText(text)
             .setShowWhen(true)
             .setWhen(System.currentTimeMillis())
             .setGroup("com.android.example.TASK")

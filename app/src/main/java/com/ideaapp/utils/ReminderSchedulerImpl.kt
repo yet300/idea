@@ -44,7 +44,8 @@ class ReminderSchedulerImpl @Inject constructor(@ApplicationContext private val 
             putExtras(
                 bundleOf(
                     Arguments.ReminderId.key to reminder.id,
-                    Arguments.Message.key to reminder.name,
+                    Arguments.Name.key to reminder.name,
+                    Arguments.Description.key to reminder.description,
                     Arguments.ItemId.key to reminder.itemId,
                 ),
             )

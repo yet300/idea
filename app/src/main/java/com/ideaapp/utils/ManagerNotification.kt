@@ -9,8 +9,8 @@ interface ManagerNotification {
 
     fun post(
         id: Int,
-        title: String,
-        text: String,
+        name: String,
+        description: String,
         pendingIntent: PendingIntent,
         channel: CustomNotificationChannel
     )
@@ -22,14 +22,14 @@ interface ManagerNotification {
 
 fun ManagerNotification.postReminderNotification(
     id: Int = (Int.MIN_VALUE..Int.MAX_VALUE).random(),
-    title: String = "",
-    body: String = "",
+    name: String,
+    description: String?,
     pendingIntent: PendingIntent,
 ) {
     post(
         id = id,
-        title = title,
-        text = body,
+        name = name,
+        description = description ?: "",
         pendingIntent = pendingIntent,
         channel = CustomNotificationChannel.Reminders,
     )

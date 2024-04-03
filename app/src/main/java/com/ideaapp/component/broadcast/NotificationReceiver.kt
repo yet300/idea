@@ -20,12 +20,13 @@ class NotificationReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
         if (context == null || intent == null) return
 
-        val taskName = intent.getStringExtra(Arguments.Message.key)
+        val taskName = intent.getStringExtra(Arguments.Name.key)
+        val taskDescription = intent.getStringExtra(Arguments.Description.key)
         val reminderId = intent.getLongExtra(Arguments.ReminderId.key, -1)
         if (taskName != null) {
-
             notificationManager.postReminderNotification(
-                body = taskName,
+                name = taskName,
+                description = taskDescription ,
                 pendingIntent = pendingIntent(
                     context = context,
                     id = reminderId.toInt(),
@@ -33,12 +34,13 @@ class NotificationReceiver : BroadcastReceiver() {
                 )
             )
 
-            Log.e("Notification id", "id is  $reminderId ")
+            Log.e("Notification id", "id is  $reminderId, $taskName and $taskDescription ")
 
         } else {
-            Log.e("Notification Service", "$taskName or  is null")
+            Log.e("Notification Broadcast", "$taskName and $taskDescription or  is null")
         }
     }
+
     private fun pendingIntent(
         id: Int,
         intent: Intent,
