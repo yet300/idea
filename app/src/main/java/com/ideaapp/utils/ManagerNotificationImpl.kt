@@ -60,7 +60,7 @@ class ManagerNotificationImpl @Inject constructor(
         channel: CustomNotificationChannel,
     ): Notification {
         return Notification
-            .Builder(context, channel.info.id)
+            .Builder(context, channel.id)
             .setSmallIcon(R.drawable.baseline_tips_monochrome)
             .setContentTitle(title)
             .setContentText(text)
@@ -74,7 +74,7 @@ class ManagerNotificationImpl @Inject constructor(
         channel: CustomNotificationChannel,
     ): Notification.Builder {
         return Notification
-            .Builder(context, channel.info.id)
+            .Builder(context, channel.id)
             .setContentTitle(context.getString(R.string.Task))
             .setSmallIcon(R.drawable.baseline_task_24)
             .setGroup("com.android.example.TASK")
@@ -84,10 +84,10 @@ class ManagerNotificationImpl @Inject constructor(
     private fun getNotificationChannels(): List<NotificationChannel> {
         return CustomNotificationChannel.asList()
             .map { channel ->
-                val channelInfo = channel.info
+                val channelInfo = channel
                 NotificationChannel(
                     channelInfo.id,
-                    channelInfo.name,
+                    channelInfo.title,
                     channelInfo.importance,
                 )
                     .apply {

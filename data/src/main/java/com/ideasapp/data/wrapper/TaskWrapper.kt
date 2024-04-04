@@ -1,4 +1,4 @@
-package com.ideasapp.data.mapper
+package com.ideasapp.data.wrapper
 
 import com.ideasapp.data.model.TaskDBO
 import com.ideasapp.domain.model.Task

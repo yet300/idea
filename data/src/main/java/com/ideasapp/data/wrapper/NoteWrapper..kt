@@ -1,4 +1,4 @@
-package com.ideasapp.data.mapper
+package com.ideasapp.data.wrapper
 
 import com.ideasapp.data.model.NoteDBO
 import com.ideasapp.domain.model.Note

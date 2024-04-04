@@ -1,8 +1,8 @@
 package com.ideasapp.data.repository
 
 import com.ideasapp.data.dao.NoteDAO
-import com.ideasapp.data.mapper.toDomainNote
-import com.ideasapp.data.mapper.toRoomNote
+import com.ideasapp.data.wrapper.toDomainNote
+import com.ideasapp.data.wrapper.toRoomNote
 import com.ideasapp.domain.model.Note
 import com.ideasapp.domain.repository.NoteRepository
 import kotlinx.coroutines.flow.Flow

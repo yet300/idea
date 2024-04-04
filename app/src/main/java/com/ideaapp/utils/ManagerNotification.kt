@@ -31,6 +31,6 @@ fun ManagerNotification.postReminderNotification(
         name = name,
         description = description ?: "",
         pendingIntent = pendingIntent,
-        channel = CustomNotificationChannel.Reminders,
+        channel = CustomNotificationChannel.REMINDERS,
     )
 }

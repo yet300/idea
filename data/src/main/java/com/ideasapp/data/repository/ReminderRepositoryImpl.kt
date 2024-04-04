@@ -1,8 +1,8 @@
 package com.ideasapp.data.repository
 
 import com.ideasapp.data.dao.ReminderDAO
-import com.ideasapp.data.mapper.toDomainReminder
-import com.ideasapp.data.mapper.toRoomReminder
+import com.ideasapp.data.wrapper.toDomainReminder
+import com.ideasapp.data.wrapper.toRoomReminder
 import com.ideasapp.domain.model.Reminder
 import com.ideasapp.domain.repository.ReminderRepository
 import javax.inject.Inject

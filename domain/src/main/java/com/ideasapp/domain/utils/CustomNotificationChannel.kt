@@ -1,20 +1,20 @@
 package com.ideasapp.domain.utils
 
-import com.ideasapp.domain.model.NotificationChannelInfo
+enum class CustomNotificationChannel(
+    val id: String,
+    val title: String,
+    val importance: Int
+) {
+    REMINDERS(
+        id = "reminder_channel",
+        title = "Reminders",
+        importance = 3
+    );
 
-sealed class CustomNotificationChannel(val info: NotificationChannelInfo) {
-
-    data object Reminders : CustomNotificationChannel(
-        NotificationChannelInfo(
-            id = "reminder_channel",
-            name = "Reminders",
-            importance = 3
-        )
-    )
     companion object {
         fun asList(): List<CustomNotificationChannel> {
             return listOf(
-                Reminders
+                REMINDERS
             )
         }
     }

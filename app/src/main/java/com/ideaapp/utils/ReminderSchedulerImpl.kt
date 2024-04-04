@@ -12,10 +12,11 @@ import com.ideasapp.domain.utils.ReminderScheduler
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
-class ReminderSchedulerImpl @Inject constructor(@ApplicationContext private val context: Context) :
+class ReminderSchedulerImpl @Inject constructor(
+    @ApplicationContext private val context: Context,
+    private val alarmManager: AlarmManager
+) :
     ReminderScheduler {
-    private val alarmManager by lazy { context.getSystemService(AlarmManager::class.java) }
-
     override suspend fun scheduleAlarm(
         reminder: Reminder
     ) {
