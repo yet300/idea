@@ -7,7 +7,6 @@ import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import  android.app.NotificationManager
-import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.ideaapp.R
 import com.ideasapp.domain.utils.CustomNotificationChannel
@@ -73,8 +72,8 @@ class ManagerNotificationImpl @Inject constructor(
 
     private fun buildNotificationGroup(
         channel: CustomNotificationChannel,
-    ): NotificationCompat.Builder {
-        return NotificationCompat
+    ): Notification.Builder {
+        return Notification
             .Builder(context, channel.info.id)
             .setContentTitle(context.getString(R.string.Task))
             .setSmallIcon(R.drawable.baseline_task_24)

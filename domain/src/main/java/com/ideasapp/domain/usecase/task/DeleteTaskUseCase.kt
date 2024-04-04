@@ -8,7 +8,7 @@ import jakarta.inject.Inject
 
 class DeleteTaskUseCase @Inject constructor(
     private val taskRepository: TaskRepository,
-    private val reminderRepository: ReminderRepository
+    private val reminderRepository: ReminderRepository,
 ) {
 
     suspend operator fun invoke(task: Task) {

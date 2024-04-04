@@ -5,8 +5,9 @@ import com.ideasapp.data.mapper.toDomainReminder
 import com.ideasapp.data.mapper.toRoomReminder
 import com.ideasapp.domain.model.Reminder
 import com.ideasapp.domain.repository.ReminderRepository
+import javax.inject.Inject
 
-class ReminderRepositoryImpl(
+class ReminderRepositoryImpl @Inject constructor(
     private val dao: ReminderDAO
 ) : ReminderRepository {
     override suspend fun insertReminder(reminder: Reminder): Long {

@@ -7,8 +7,9 @@ import com.ideasapp.domain.model.Task
 import com.ideasapp.domain.repository.TaskRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
-class TaskRepositoryImpl(private val dao: TaskDAO) : TaskRepository {
+class TaskRepositoryImpl @Inject constructor(private val dao: TaskDAO) : TaskRepository {
     override fun getTasks(): Flow<List<Task>> {
         return dao.getTasks().map { list ->
             list.map { it.toDomainTask() }

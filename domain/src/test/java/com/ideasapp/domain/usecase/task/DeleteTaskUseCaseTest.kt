@@ -1,6 +1,7 @@
 package com.ideasapp.domain.usecase.task
 
 import com.ideasapp.domain.model.Task
+import com.ideasapp.domain.repository.ReminderRepository
 import com.ideasapp.domain.repository.TaskRepository
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -10,7 +11,11 @@ import org.mockito.kotlin.mock
 
 class DeleteTaskUseCaseTest {
     private val taskRepository = mock<TaskRepository>()
-    private val useCase = DeleteTaskUseCase(taskRepository)
+    private val reminderRepository = mock<ReminderRepository>()
+    private val useCase = DeleteTaskUseCase(
+        taskRepository,
+        reminderRepository
+    )
 
     @Test
     fun `test DeleteTask`() {

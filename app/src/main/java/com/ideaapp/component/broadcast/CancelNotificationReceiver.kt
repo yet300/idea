@@ -20,6 +20,4 @@ class CancelNotificationReceiver : BroadcastReceiver() {
 
         notificationManager.cancel(notificationId)
     }
-
-
 }

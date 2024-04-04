@@ -1,4 +1,4 @@
-package com.ideaapp.di
+package com.ideasapp.data.di
 
 import android.content.Context
 import dagger.Module
@@ -21,48 +21,41 @@ import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
 @Module
-class DataModule {
-
-    @Provides
-    fun provideAppDate(@ApplicationContext appContext: Context): IdeaDataBase {
-        return IdeaDataBase(appContext)
-    }
-
+object DataModule {
 
     @Provides
     @Singleton
+    fun provideAppDate(@ApplicationContext appContext: Context): IdeaDataBase =
+        IdeaDataBase(appContext)
+
+
+    @Provides
     fun provideNoteRepository(appDatabase: IdeaDataBase): NoteRepository {
         return NoteRepositoryImpl(appDatabase.noteDao)
     }
 
 
     @Provides
-    fun provideNoteDao(appDatabase: IdeaDataBase): NoteDAO {
-        return appDatabase.noteDao
-    }
+    fun provideNoteDao(appDatabase: IdeaDataBase): NoteDAO = appDatabase.noteDao
 
 
     @Provides
-    @Singleton
     fun provideTaskRepository(appDatabase: IdeaDataBase): TaskRepository {
         return TaskRepositoryImpl(appDatabase.taskDao)
     }
 
 
     @Provides
-    fun provideTaskDao(appDatabase: IdeaDataBase): TaskDAO {
-        return appDatabase.taskDao
-    }
+    fun provideTaskDao(appDatabase: IdeaDataBase): TaskDAO = appDatabase.taskDao
+
 
     @Provides
-    @Singleton
     fun provideReminderRepository(appDatabase: IdeaDataBase): ReminderRepository {
         return ReminderRepositoryImpl(appDatabase.reminderDAO)
     }
 
     @Provides
-    fun providerReminderDao(appDatabase: IdeaDataBase): ReminderDAO {
-        return appDatabase.reminderDAO
-    }
+    fun providerReminderDao(appDatabase: IdeaDataBase): ReminderDAO = appDatabase.reminderDAO
+
 }
 
