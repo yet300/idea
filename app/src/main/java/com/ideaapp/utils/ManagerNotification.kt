@@ -20,7 +20,7 @@ interface ManagerNotification {
 
 }
 
-fun ManagerNotification.postReminderNotification(
+fun ManagerNotification.postTaskNotification(
     id: Int = (Int.MIN_VALUE..Int.MAX_VALUE).random(),
     name: String,
     description: String?,
@@ -31,6 +31,6 @@ fun ManagerNotification.postReminderNotification(
         name = name,
         description = description ?: "",
         pendingIntent = pendingIntent,
-        channel = CustomNotificationChannel.REMINDERS,
+        channel = CustomNotificationChannel.TASKS,
     )
 }

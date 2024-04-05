@@ -30,7 +30,7 @@ import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavHostController
 import com.ideaapp.ui.navigation.canGoBack
-import com.ideaapp.ui.screens.settings.components.SettingComponent
+import com.ideaapp.ui.components.TextIconComponentButton
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -82,7 +82,7 @@ fun SettingsScreen(
             ) {
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                    SettingComponent(
+                    TextIconComponentButton(
                         content = stringResource(id = R.string.language),
                         icon = Icons.Default.Language,
                         onClick = {
@@ -95,7 +95,7 @@ fun SettingsScreen(
                         }
                     )
                 }
-                SettingComponent(
+                TextIconComponentButton(
                     content = stringResource(id = R.string.telegram),
                     icon = painterResource(id = R.drawable.icons_telegram),
                     onClick = {

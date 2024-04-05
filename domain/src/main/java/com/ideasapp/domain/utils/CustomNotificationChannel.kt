@@ -5,16 +5,23 @@ enum class CustomNotificationChannel(
     val title: String,
     val importance: Int
 ) {
-    REMINDERS(
-        id = "reminder_channel",
-        title = "Reminders",
-        importance = 3
+    TASKS(
+        id = "task_channel",
+        title = "Tasks",
+        importance = 3,
+    ),
+
+    //TODO add later
+    NOTES(
+        id = "note_channel",
+        title = "Notes",
+        importance = 3,
     );
 
     companion object {
         fun asList(): List<CustomNotificationChannel> {
             return listOf(
-                REMINDERS
+                TASKS
             )
         }
     }

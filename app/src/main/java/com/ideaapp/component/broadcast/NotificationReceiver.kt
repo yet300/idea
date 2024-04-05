@@ -7,7 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.util.Log
 import com.ideaapp.utils.ManagerNotification
-import com.ideaapp.utils.postReminderNotification
+import com.ideaapp.utils.postTaskNotification
 import com.ideasapp.domain.utils.Arguments
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -24,7 +24,7 @@ class NotificationReceiver : BroadcastReceiver() {
         val taskDescription = intent.getStringExtra(Arguments.Description.key)
         val reminderId = intent.getLongExtra(Arguments.ReminderId.key, -1)
         if (taskName != null) {
-            notificationManager.postReminderNotification(
+            notificationManager.postTaskNotification(
                 name = taskName,
                 description = taskDescription ,
                 pendingIntent = pendingIntent(
