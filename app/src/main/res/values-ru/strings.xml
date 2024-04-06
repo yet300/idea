@@ -35,4 +35,10 @@
     <string name="date">Дата</string>
     <string name="time">Время</string>
     <string name="select_time">Выбрать время</string>
+
+    <!-- authentication    -->
+    <string name="auth_faild">Аутентификация не удалась</string>
+    <string name="auth_not_set">Аутентификация не установлена</string>
+    <string name="auth_unavailable">Аутентификация недоступна</string>
+    <string name="auth_hardware_unavailable">Аутентификация недоступна</string>
 </resources>

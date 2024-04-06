@@ -34,4 +34,10 @@
     <string name="date">Date</string>
     <string name="time">Time</string>
     <string name="select_time">Select time</string>
+
+    <!-- authentication    -->
+    <string name="auth_faild">Authentication failed</string>
+    <string name="auth_not_set">Authentication not set</string>
+    <string name="auth_unavailable">Feature unavailable</string>
+    <string name="auth_hardware_unavailable">Hardware unavailable</string>
 </resources>

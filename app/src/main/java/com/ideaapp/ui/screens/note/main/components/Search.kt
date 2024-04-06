@@ -60,47 +60,47 @@ fun Search(
     val enrollLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartActivityForResult(),
         onResult = {
-            println("Activity result: $it")
             navController.navigate(Screens.Secure.rout)
         }
     )
     LaunchedEffect(biometricResult) {
-        if (biometricResult is BiometricPromptManager.BiometricResult.AuthenticationSuccess) {
-            navController.navigate(Screens.Secure.rout)
-        } else if (biometricResult is BiometricPromptManager.BiometricResult.AuthenticationNotSet) {
-            if (Build.VERSION.SDK_INT >= 30) {
-                val enrollIntent = Intent(Settings.ACTION_BIOMETRIC_ENROLL).apply {
-                    putExtra(
-                        Settings.EXTRA_BIOMETRIC_AUTHENTICATORS_ALLOWED,
-                        BIOMETRIC_STRONG or DEVICE_CREDENTIAL
-                    )
+        biometricResult?.let { result ->
+            when (result) {
+                is BiometricPromptManager.BiometricResult.AuthenticationSuccess -> {
+                    navController.navigate(Screens.Secure.rout)
                 }
-                enrollLauncher.launch(enrollIntent)
-            }
-        }
-    }
-    biometricResult?.let { result ->
-        when (result) {
-            is BiometricPromptManager.BiometricResult.AuthenticationError -> {
-                showToastMessage(result.error)
-            }
 
-            BiometricPromptManager.BiometricResult.AuthenticationFailed -> {
-                showToastMessage("Authentication failed")
-            }
+                is BiometricPromptManager.BiometricResult.AuthenticationNotSet -> {
+                    if (Build.VERSION.SDK_INT >= 30) {
+                        // Запуск активности установки пароля при отсутствии аутентификации
+                        val enrollIntent = Intent(Settings.ACTION_BIOMETRIC_ENROLL).apply {
+                            putExtra(
+                                Settings.EXTRA_BIOMETRIC_AUTHENTICATORS_ALLOWED,
+                                BIOMETRIC_STRONG or DEVICE_CREDENTIAL
+                            )
+                        }
+                        enrollLauncher.launch(enrollIntent)
+                    } else {
+                        showToastMessage(activity.getString(R.string.auth_not_set))
+                    }
+                }
 
-            BiometricPromptManager.BiometricResult.AuthenticationNotSet -> {
-                showToastMessage("Authentication not set")
-            }
+                is BiometricPromptManager.BiometricResult.AuthenticationError -> {
+                    showToastMessage(result.error)
+                }
 
-            BiometricPromptManager.BiometricResult.FeatureUnavailable -> {
-                showToastMessage("Feature unavailable")
-            }
+                BiometricPromptManager.BiometricResult.AuthenticationFailed -> {
+                    showToastMessage(activity.getString(R.string.auth_faild))
+                }
 
-            BiometricPromptManager.BiometricResult.HardwareUnavailable -> {
-                showToastMessage("Hardware unavailable")
+                BiometricPromptManager.BiometricResult.FeatureUnavailable -> {
+                    showToastMessage(activity.getString(R.string.auth_unavailable))
+                }
+
+                BiometricPromptManager.BiometricResult.HardwareUnavailable -> {
+                    showToastMessage(activity.getString(R.string.auth_hardware_unavailable))
+                }
             }
-            else -> {}
         }
     }
 
