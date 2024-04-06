@@ -29,6 +29,7 @@ bom = "2024.02.01"
 andoid-gradle = "8.3.0"
 kotlin = "1.9.22"
 ksp = "1.9.22-1.0.17"
+appcompat = "1.6.1"
 
 [libraries]
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
@@ -73,6 +74,7 @@ compose-ui-material3 = { module = "androidx.compose.material3:material3" }
 compose-test = { module = "androidx.compose.ui:ui-test-junit4" }
 compose-ui-test-manifest = { module = "compose.ui:ui-test-manifest" }
 compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 
 
 [bundles]

@@ -1,6 +1,7 @@
 package com.ideaapp.ui.screens.note.main
 
 
+import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
@@ -66,9 +67,9 @@ fun MainScreen(
         },
         topBar = {
             Search(
-                navController,
+                navController = navController,
                 query = searchText,
-                context = LocalContext.current,
+                activity = LocalContext.current as AppCompatActivity,
                 modifier = modifier
             )
         },

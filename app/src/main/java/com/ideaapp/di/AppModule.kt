@@ -2,6 +2,7 @@ package com.ideaapp.di
 
 import android.app.AlarmManager
 import android.content.Context
+import androidx.appcompat.app.AppCompatActivity
 import com.ideaapp.utils.ManagerNotification
 import com.ideaapp.utils.ManagerNotificationImpl
 import com.ideaapp.utils.ReminderSchedulerImpl
@@ -16,6 +17,11 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 class AppModule {
+
+    @Provides
+    fun provideAppCompatActivity(@ApplicationContext context: Context): AppCompatActivity {
+        return context as AppCompatActivity
+    }
 
     @Singleton
     @Provides

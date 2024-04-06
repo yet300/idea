@@ -35,7 +35,9 @@ fun TrailingItem(
             modifier = modifier.imePadding()
         ) {
             Column(
-                modifier = modifier.padding(16.dp)
+                modifier = modifier
+                    .padding(8.dp)
+                    .fillMaxWidth()
             ) {
                 TextIconComponentButton(
                     content = stringResource(id = R.string.secure_note),
