@@ -46,7 +46,7 @@ import com.ideaapp.R
 import com.ideaapp.di.NoteApp
 import com.ideaapp.ui.navigation.canGoBack
 import com.ideaapp.ui.navigation.components.Screens
-import com.ideaapp.ui.screens.note.create.components.CustomTextField
+import com.ideaapp.ui.components.CustomTextField
 import com.ideaapp.ui.screens.note.create.components.EditorControls
 import com.ideaapp.ui.components.BackButton
 import com.ideaapp.ui.components.mToast

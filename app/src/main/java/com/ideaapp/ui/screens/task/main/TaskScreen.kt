@@ -8,6 +8,7 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
@@ -52,7 +53,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
 import com.ideaapp.ui.components.SnackBar
+import com.ideaapp.ui.navigation.components.Screens
 import com.ideaapp.ui.screens.task.create.CreateTaskModal
 import com.ideasapp.domain.model.Reminder
 import com.ideasapp.domain.model.Task
@@ -63,6 +66,7 @@ import com.ideasapp.domain.model.Task
 fun TaskScreen(
     context: Context,
     viewModel: TaskViewModel,
+    navController: NavController,
     modifier: Modifier = Modifier
 ) {
 
@@ -168,8 +172,10 @@ fun TaskScreen(
                                     actionLabel = undo,
                                     onAction = { viewModel.undoDeleteTask() })
                             },
-                            endReminder = {
-                                viewModel.cancelReminderTask(task.id)
+                            modifier = modifier.clickable {
+                                navController.navigate(
+                                    Screens.TaskDetail.rout + "?taskId=${task.id}"
+                                )
                             }
                         )
                     }
@@ -225,8 +231,10 @@ fun TaskScreen(
                                         onAction = { viewModel.undoDeleteTask() }
                                     )
                                 },
-                                endReminder = {
-                                    viewModel.cancelReminderTask(task.id)
+                                modifier = modifier.clickable {
+                                    navController.navigate(
+                                        Screens.TaskDetail.rout + "?taskId=${task.id}"
+                                    )
                                 }
                             )
                         }

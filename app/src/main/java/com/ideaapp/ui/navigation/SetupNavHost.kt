@@ -37,6 +37,7 @@ import com.ideaapp.ui.screens.note.details.DetailsScreen
 import com.ideaapp.ui.screens.note.main.MainScreen
 import com.ideaapp.ui.screens.note.secure.SecureScreen
 import com.ideaapp.ui.screens.settings.SettingsScreen
+import com.ideaapp.ui.screens.task.detail.TaskDetailScreen
 import com.ideaapp.ui.screens.task.main.TaskScreen
 
 
@@ -89,7 +90,8 @@ fun SetupNavHost(
                                 launchSingleTop = true
                             }
                         }
-                    })
+                    }
+                )
             }
         },
         content = {
@@ -160,7 +162,21 @@ fun SetupNavHost(
                 composable(
                     route = Screens.Task.rout,
                 ) {
-                    TaskScreen(context, hiltViewModel())
+                    TaskScreen(context, hiltViewModel(), navController)
+                }
+
+                composable(
+                    route = Screens.TaskDetail.rout + "?taskId={taskId}",
+                    arguments = listOf(
+                        navArgument(
+                            name = "taskId"
+                        ) {
+                            type = NavType.LongType
+                            defaultValue = -1L
+                        }
+                    )
+                ) {
+                    TaskDetailScreen(viewModel = hiltViewModel(), navController = navController)
                 }
             }
         }

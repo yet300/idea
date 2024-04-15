@@ -21,7 +21,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.ideaapp.R
 
 
@@ -75,9 +78,71 @@ fun TextComponentButton(
 }
 
 @Composable
-fun TextIconComponentButton(
+fun TextIconComponentTextField(
+    value: String,
+    label: String,
+    icon: Any? = null,
+    onValueChange: ((String) -> Unit),
     modifier: Modifier = Modifier,
-    content: String,
+) {
+    Surface {
+        Row(
+            modifier = modifier
+                .fillMaxWidth()
+                .padding(12.dp),
+
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
+        ) {
+            when (icon) {
+                is ImageVector -> {
+                    Icon(
+                        imageVector = icon,
+                        contentDescription = null,
+                        modifier = modifier
+                            .size(24.dp),
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+
+                is Painter -> {
+                    Icon(
+                        painter = icon,
+                        contentDescription = null,
+                        modifier = modifier
+                            .size(24.dp),
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+            }
+
+            Spacer(modifier = modifier.padding(8.dp))
+
+            Column(
+                modifier = modifier
+                    .weight(1f)
+                    .padding(end = 8.dp)
+            ) {
+                CustomTextField(
+                    value = value,
+                    onValueChange = onValueChange,
+                    labelText = label,
+                    textStyle = TextStyle(
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Medium,
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                )
+            }
+        }
+    }
+
+}
+
+@Composable
+fun IconComponentButton(
+    modifier: Modifier = Modifier,
+    content: @Composable () -> Unit,
     icon: Any? = null,
     onClick: (() -> Unit) = {},
 ) {
@@ -93,14 +158,12 @@ fun TextIconComponentButton(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {
-
             when (icon) {
                 is ImageVector -> {
                     Icon(
                         imageVector = icon,
                         contentDescription = null,
-                        modifier = Modifier
-                            .padding(start = 8.dp, end = 16.dp)
+                        modifier = modifier
                             .size(24.dp),
                         tint = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -110,27 +173,24 @@ fun TextIconComponentButton(
                     Icon(
                         painter = icon,
                         contentDescription = null,
-                        modifier = Modifier
-                            .padding(start = 8.dp, end = 16.dp)
+                        modifier = modifier
                             .size(24.dp),
                         tint = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
             }
 
-            Spacer(modifier = modifier.padding(8.dp))
+            Spacer(modifier = modifier.padding(10.dp))
 
             Column(
                 modifier = modifier
                     .weight(1f)
                     .padding(end = 8.dp)
             ) {
-                Text(
-                    text = content,
-                    style = MaterialTheme.typography.titleMedium,
-                )
+                content()
             }
         }
     }
 
 }
+

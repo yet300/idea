@@ -22,13 +22,12 @@
     <string name="Task">Task</string>
     <string name="task_delete">Task Delete</string>
     <string name="complete">Complete</string>
+    <string name="completed">completed</string>
+    <string name="uncompleted">uncompleted</string>
     <string name="undo">UNDO</string>
     <string name="empty_secure">Create Secure Note!</string>
     <string name="language">Language</string>
     <string name="telegram">Telegram</string>
-
-    <string name="faild">Authentication failed</string>
-    <string name="error">There was an error in the authentication process, enable biometric login in the settings</string>
     <string name="error_invalid_datetime">Date or time is out of date</string>
     <string name="reminder">Add reminder</string>
     <string name="date">Date</string>
@@ -40,4 +39,5 @@
     <string name="auth_not_set">Authentication not set</string>
     <string name="auth_unavailable">Feature unavailable</string>
     <string name="auth_hardware_unavailable">Hardware unavailable</string>
+    <string name="error">There was an error in the authentication process, enable biometric login in the settings</string>
 </resources>

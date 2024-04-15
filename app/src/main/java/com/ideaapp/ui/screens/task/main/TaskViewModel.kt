@@ -6,7 +6,6 @@ import androidx.lifecycle.viewModelScope
 import com.ideasapp.domain.model.Reminder
 import com.ideasapp.domain.model.Task
 import com.ideasapp.domain.usecase.reminder.CreateReminderUseCase
-import com.ideasapp.domain.usecase.reminder.DeleteReminderUseCase
 import com.ideasapp.domain.usecase.task.CreateTaskUseCase
 import com.ideasapp.domain.usecase.task.DeleteTaskUseCase
 import com.ideasapp.domain.usecase.task.GetTaskUseCase
@@ -26,7 +25,6 @@ class TaskViewModel @Inject constructor(
     private val deleteTaskUseCase: DeleteTaskUseCase,
     private val createTaskUseCase: CreateTaskUseCase,
     private val createReminderUseCase: CreateReminderUseCase,
-    private val deleteReminderUseCase: DeleteReminderUseCase
 ) : ViewModel() {
 
     private val _tasks = MutableStateFlow<List<Task>>(emptyList())
@@ -46,14 +44,13 @@ class TaskViewModel @Inject constructor(
     }
 
     private fun loadTasks() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.Main) {
             getTaskUseCase.invoke().collect {
                 _tasks.value = it
             }
         }
     }
 
-    // Функция для обновления состояния задачи
     fun updateTaskComplete(id: Long, complete: Boolean) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
@@ -72,7 +69,6 @@ class TaskViewModel @Inject constructor(
             try {
                 deletedTask = task
                 deleteTaskUseCase.invoke(task)
-                cancelReminderTask(id = task.id)
                 delay(200)
                 loadTasks()
 
@@ -93,8 +89,4 @@ class TaskViewModel @Inject constructor(
         viewModelScope.launch {
             createReminderUseCase.invoke(reminder)
         }
-
-    fun cancelReminderTask(id: Long) = viewModelScope.launch {
-        deleteReminderUseCase.invoke(id)
-    }
 }

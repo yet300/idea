@@ -37,7 +37,6 @@ fun TaskItem(
     task: Task,
     onTaskCheckedChange: (checked: Boolean) -> Unit,
     onDelete: (focusPreviousItem: Boolean) -> Unit,
-    endReminder: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     var isChecked by remember { mutableStateOf(task.isComplete) }
@@ -104,10 +103,14 @@ fun TaskItem(
                 )
                 if (task.reminderTime != 0L) {
                     SuggestionChip(
-                        onClick = {
-                            endReminder()
-                        },
-                        label = { Text(DateTimeConvertor.convertLongToDateTime(task.reminderTime?:0L)) }
+                        onClick = {},
+                        label = {
+                            Text(
+                                DateTimeConvertor.convertLongToDateTime(
+                                    task.reminderTime ?: 0L
+                                )
+                            )
+                        }
                     )
                 }
 

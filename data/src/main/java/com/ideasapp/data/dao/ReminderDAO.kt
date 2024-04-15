@@ -3,13 +3,15 @@ package com.ideasapp.data.dao
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.ideasapp.data.model.ReminderDBO
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ReminderDAO {
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertReminder(reminder: ReminderDBO): Long
 
     @Query(
@@ -19,6 +21,11 @@ interface ReminderDAO {
     )
     suspend fun getReminderById(id: Long): ReminderDBO?
 
+
+    @Query(
+        " SELECT * FROM reminder"
+    )
+    fun getReminders(): Flow<List<ReminderDBO>>
 
     @Delete
     suspend fun deleteReminder(reminder: ReminderDBO)

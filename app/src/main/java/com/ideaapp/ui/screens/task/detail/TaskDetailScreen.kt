@@ -1,0 +1,83 @@
+package com.ideaapp.ui.screens.task.detail
+
+
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.navigation.NavHostController
+import com.ideaapp.ui.navigation.canGoBack
+import com.ideaapp.ui.screens.task.detail.component.DetailBottomBar
+import com.ideaapp.ui.screens.task.detail.component.DetailTopBar
+import com.ideaapp.ui.screens.task.detail.component.TaskDetailComponent
+import kotlinx.coroutines.flow.collectLatest
+
+
+@Composable
+fun TaskDetailScreen(
+    viewModel: TaskDetailViewModel,
+    navController: NavHostController,
+    modifier: Modifier = Modifier
+) {
+    val taskState by viewModel.taskState.collectAsState()
+
+    var complete by remember {
+        mutableStateOf(taskState.isComplete)
+    }
+    val snackBarHostState = remember { SnackbarHostState() }
+    LaunchedEffect(key1 = true) {
+        viewModel.eventFlow.collectLatest { event ->
+            when (event) {
+                is TaskDetailViewModel.UiEvent.Save -> {
+                    navController.navigateUp()
+                }
+
+                is TaskDetailViewModel.UiEvent.ShowSnackBar -> {
+                    snackBarHostState.showSnackbar(event.message)
+                }
+
+                TaskDetailViewModel.UiEvent.Delete -> {
+                    navController.navigateUp()
+                }
+            }
+        }
+    }
+    Scaffold(
+        modifier = modifier,
+        snackbarHost = {
+            SnackbarHost(hostState = snackBarHostState)
+        },
+        topBar = {
+            DetailTopBar(save = {
+                if (navController.canGoBack) {
+                    viewModel.onEvent(TaskDetailUiEvent.Save)
+                }
+            }, delete = {
+                if (navController.canGoBack) {
+                    viewModel.onEvent(TaskDetailUiEvent.Delete)
+                }
+            })
+        },
+        bottomBar = {
+            DetailBottomBar(complete = complete) {
+                viewModel.onEvent(TaskDetailUiEvent.UpdateComplete(!complete))
+                complete = !complete
+            }
+        },
+        content = {
+            TaskDetailComponent(
+                viewModel = viewModel,
+                taskState = taskState,
+                innerPadding = it,
+                modifier = modifier
+            )
+        }
+    )
+}

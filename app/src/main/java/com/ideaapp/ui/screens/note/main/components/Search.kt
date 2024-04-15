@@ -36,6 +36,7 @@ import android.provider.Settings
 import android.widget.Toast
 import androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_STRONG
 import androidx.biometric.BiometricManager.Authenticators.DEVICE_CREDENTIAL
+import com.ideaapp.ui.components.TrailingItem
 
 
 @OptIn(ExperimentalMaterial3Api::class)

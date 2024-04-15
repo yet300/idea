@@ -1,4 +1,4 @@
-package com.ideaapp.ui.screens.note.create.components
+package com.ideaapp.ui.components
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.MaterialTheme

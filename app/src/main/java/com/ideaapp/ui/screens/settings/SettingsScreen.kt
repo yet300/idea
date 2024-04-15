@@ -30,7 +30,7 @@ import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavHostController
 import com.ideaapp.ui.navigation.canGoBack
-import com.ideaapp.ui.components.TextIconComponentButton
+import com.ideaapp.ui.components.IconComponentButton
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -82,8 +82,13 @@ fun SettingsScreen(
             ) {
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                    TextIconComponentButton(
-                        content = stringResource(id = R.string.language),
+                    IconComponentButton(
+                        content = {
+                            Text(
+                                text = stringResource(id = R.string.language),
+                                style = MaterialTheme.typography.titleMedium,
+                            )
+                        },
                         icon = Icons.Default.Language,
                         onClick = {
                             context.startActivity(
@@ -95,8 +100,13 @@ fun SettingsScreen(
                         }
                     )
                 }
-                TextIconComponentButton(
-                    content = stringResource(id = R.string.telegram),
+                IconComponentButton(
+                    content = {
+                        Text(
+                            text = stringResource(id = R.string.telegram),
+                            style = MaterialTheme.typography.titleMedium,
+                        )
+                    },
                     icon = painterResource(id = R.drawable.icons_telegram),
                     onClick = {
                         uriHandler.openUri("https://t.me/doodleGB")

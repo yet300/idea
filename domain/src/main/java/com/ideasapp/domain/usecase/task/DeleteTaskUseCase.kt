@@ -12,8 +12,7 @@ class DeleteTaskUseCase @Inject constructor(
 ) {
 
     suspend operator fun invoke(task: Task) {
-        val  id = task.id
         taskRepository.deleteTask(task)
-        reminderRepository.deleteReminderByItemId(id)
+        reminderRepository.deleteReminderByItemId(task.id)
     }
 }

@@ -16,6 +16,10 @@ class TaskRepositoryImpl @Inject constructor(private val dao: TaskDAO) : TaskRep
         }
     }
 
+    override suspend fun getTaskById(id: Long): Task? {
+        return dao.getTaskById(id)?.toDomainTask()
+    }
+
     override suspend fun insertTask(task: Task) {
         dao.insertTask(task.toRoomNote())
     }

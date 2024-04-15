@@ -14,7 +14,7 @@ import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ChatBubbleOutline
-import androidx.compose.material.icons.filled.WatchLater
+import androidx.compose.material.icons.outlined.WatchLater
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -41,7 +41,7 @@ import com.ideaapp.R
 import com.ideaapp.ui.components.DateTimeConvertor
 import com.ideaapp.ui.components.DateTimeDialog
 import com.ideaapp.ui.components.mToast
-import com.ideaapp.ui.screens.note.create.components.CustomTextField
+import com.ideaapp.ui.components.CustomTextField
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -146,7 +146,7 @@ fun CreateTaskModal(
                         }
                     }) {
                         Icon(
-                            imageVector = Icons.Filled.WatchLater,
+                            imageVector = Icons.Outlined.WatchLater,
                             contentDescription = null
                         )
                     }

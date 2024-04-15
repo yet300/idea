@@ -3,6 +3,7 @@ package com.ideasapp.data.dao
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.ideasapp.data.model.TaskDBO
 import kotlinx.coroutines.flow.Flow
@@ -14,7 +15,10 @@ interface TaskDAO {
     @Query("SELECT * FROM task")
     fun getTasks(): Flow<List<TaskDBO>>
 
-    @Insert
+    @Query("SELECT * FROM task WHERE id=:id")
+    suspend fun getTaskById(id: Long): TaskDBO?
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertTask(task: TaskDBO)
 
     @Delete

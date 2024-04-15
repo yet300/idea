@@ -18,7 +18,7 @@ class DetailsViewModel @Inject constructor(
     private val deleteNoteUseCase: DeleteNoteUseCase,
 ) : ViewModel() {
 
-    private val _note = MutableStateFlow<Note?>(null)
+    private val _note = MutableStateFlow<Note?>(Note())
     val note: StateFlow<Note?>
         get() = _note
 
