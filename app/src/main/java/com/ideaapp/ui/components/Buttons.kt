@@ -79,11 +79,11 @@ fun TextComponentButton(
 
 @Composable
 fun TextIconComponentTextField(
+    modifier: Modifier = Modifier,
     value: String,
     label: String,
     icon: Any? = null,
     onValueChange: ((String) -> Unit),
-    modifier: Modifier = Modifier,
 ) {
     Surface {
         Row(
@@ -192,5 +192,37 @@ fun IconComponentButton(
         }
     }
 
+}
+
+@Composable
+fun TextIconComponent(
+    modifier: Modifier = Modifier,
+    onClick: (() -> Unit) = {},
+    text: String,
+    icon: ImageVector,
+) {
+    Surface(
+        modifier = modifier.clickable {
+            onClick()
+        }
+    ) {
+        Row(
+            modifier = modifier
+                .fillMaxWidth()
+                .padding(12.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
+        ) {
+            Text(
+                text = text,
+                style = MaterialTheme.typography.titleMedium,
+                modifier = Modifier.weight(1f)
+            )
+            Icon(
+                imageVector = icon,
+                contentDescription = text
+            )
+        }
+    }
 }
 
