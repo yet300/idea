@@ -2,6 +2,7 @@ package com.ideaapp.ui.navigation
 
 
 import android.annotation.SuppressLint
+import android.content.Context
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -15,9 +16,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
@@ -27,7 +27,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
-import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
 import com.ideaapp.R
 import com.ideaapp.ui.navigation.components.BottomNavigationItem
 import com.ideaapp.ui.navigation.components.NavBar
@@ -48,12 +48,9 @@ val NavHostController.canGoBack: Boolean
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun SetupNavHost(
-    navController: NavHostController,
+    context: Context
 ) {
-    val navBackStackEntry by navController.currentBackStackEntryAsState()
-
-    val bottomBarRoutes = setOf(Screens.Home.rout, Screens.Task.rout)
-    val showBottomBar = navBackStackEntry?.destination?.route in bottomBarRoutes
+    val navController = rememberNavController()
 
     val items = listOf(
         BottomNavigationItem(
@@ -70,29 +67,23 @@ fun SetupNavHost(
         )
     )
 
-    val context = LocalContext.current
-
-
     Scaffold(
         bottomBar = {
-
-            if (showBottomBar) {
-                var selectedItemIndex by rememberSaveable { mutableIntStateOf(0) }
-
-                NavBar(
-                    items = items,
-                    selectedItemIndex = selectedItemIndex,
-                    onItemSelected = { index ->
-                        if (navController.canGoBack) {
-                            selectedItemIndex = index
-                            navController.navigate(items[index].route) {
-                                popUpTo(navController.graph.findStartDestination().id)
-                                launchSingleTop = true
-                            }
+            var selectedItemIndex by remember { mutableIntStateOf(0) }
+            NavBar(
+                navController = navController,
+                items = items,
+                selectedItemIndex = selectedItemIndex,
+                onItemSelected = { index ->
+                    if (navController.canGoBack) {
+                        selectedItemIndex = index
+                        navController.navigate(items[index].route) {
+                            popUpTo(navController.graph.findStartDestination().id)
+                            launchSingleTop = true
                         }
                     }
-                )
-            }
+                }
+            )
         },
         content = {
             NavHost(
@@ -121,7 +112,6 @@ fun SetupNavHost(
             ) {
                 composable(route = Screens.Home.rout) {
                     MainScreen(navController = navController, hiltViewModel())
-
                 }
 
                 composable(

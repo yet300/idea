@@ -34,7 +34,6 @@ class TaskDetailViewModel @Inject constructor(
     private var currentTaskId: Long? = null
 
     //TODO(исправить reminder)
-    private var currentReminderTime: Long? = 0L
 
     private val _eventFlow = MutableSharedFlow<UiEvent>()
     val eventFlow = _eventFlow.asSharedFlow()
