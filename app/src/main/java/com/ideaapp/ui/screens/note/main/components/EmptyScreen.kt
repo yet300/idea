@@ -23,7 +23,6 @@ fun EmptyScreen() {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-
         Text(
             text = stringResource(id = R.string.create_your_note),
             style = TextStyle(

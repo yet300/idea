@@ -32,10 +32,9 @@ import com.ideaapp.R
 import com.ideaapp.ui.navigation.components.BottomNavigationItem
 import com.ideaapp.ui.navigation.components.NavBar
 import com.ideaapp.ui.navigation.components.Screens
-import com.ideaapp.ui.screens.note.create.CreateScreen
-import com.ideaapp.ui.screens.note.details.DetailsScreen
-import com.ideaapp.ui.screens.note.main.MainScreen
-import com.ideaapp.ui.screens.note.secure.SecureScreen
+import com.ideaapp.ui.screens.note.create_edit.NoteCreateEditScreen
+import com.ideaapp.ui.screens.note.main.NoteScreen
+import com.ideaapp.ui.screens.note.secure.NoteSecureScreen
 import com.ideaapp.ui.screens.settings.SettingsScreen
 import com.ideaapp.ui.screens.task.detail.TaskDetailScreen
 import com.ideaapp.ui.screens.task.main.TaskScreen
@@ -43,7 +42,6 @@ import com.ideaapp.ui.screens.task.main.TaskScreen
 
 val NavHostController.canGoBack: Boolean
     get() = this.currentBackStackEntry?.lifecycle?.currentState == Lifecycle.State.RESUMED
-
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
@@ -111,23 +109,30 @@ fun SetupNavHost(
                 },
             ) {
                 composable(route = Screens.Home.rout) {
-                    MainScreen(navController = navController, hiltViewModel())
+                    NoteScreen(navController = navController, hiltViewModel())
                 }
 
                 composable(
                     route = Screens.Secure.rout
                 ) {
-                    SecureScreen(navController = navController, hiltViewModel())
+                    NoteSecureScreen(navController = navController, hiltViewModel())
                 }
 
                 composable(
-                    route = Screens.Details.rout + "/{id}",
-                    arguments = listOf(navArgument("id") { type = NavType.StringType })
+                    route = Screens.NoteCreateEdit.rout + "?noteId={noteId}",
+                    arguments = listOf(
+                        navArgument(
+                            name = "noteId"
+                        ) {
+                            type = NavType.LongType
+                            defaultValue = -1L
+                        }
+                    )
                 ) {
-                    DetailsScreen(
+                    NoteCreateEditScreen(
                         navController = navController,
-                        it.arguments?.getString("id"),
-                        hiltViewModel()
+                        viewModel = hiltViewModel(),
+                        context = context
                     )
                 }
 
@@ -140,14 +145,6 @@ fun SetupNavHost(
                     )
                 }
 
-
-                composable(
-                    route = Screens.Create.rout
-                ) {
-
-                    CreateScreen(navController = navController, context, hiltViewModel())
-
-                }
 
                 composable(
                     route = Screens.Task.rout,

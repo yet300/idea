@@ -1,4 +1,4 @@
-package com.ideaapp.ui.screens.note.secure
+package com.ideaapp.ui.screens.note.secure.component
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -20,7 +20,7 @@ import com.ideaapp.R
 
 
 @Composable
-fun SecureEmpty() {
+fun EmptyScreen() {
     Column(
         modifier = Modifier
             .fillMaxSize(),

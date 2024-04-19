@@ -28,7 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.ideaapp.ui.screens.task.create.CreateTaskModal
-import com.ideaapp.ui.screens.task.main.components.TaskScreenContent
+import com.ideaapp.ui.screens.task.main.components.TaskContent
 import com.ideasapp.domain.model.Reminder
 import com.ideasapp.domain.model.Task
 
@@ -106,7 +106,7 @@ fun TaskScreen(
                 },
                 context = context
             )
-            TaskScreenContent(
+            TaskContent(
                 viewModel = viewModel,
                 navController = navController,
                 contentPadding = it,

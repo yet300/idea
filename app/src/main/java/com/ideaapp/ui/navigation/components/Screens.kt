@@ -1,13 +1,15 @@
 package com.ideaapp.ui.navigation.components
 
 sealed class Screens(val rout: String) {
-
     /*
     Note Screens
      */
     object Home : Screens(rout = "main_screen")
-    object Details : Screens(rout = "details_screen")
-    object Create : Screens(rout = "create_screen")
+//    object Details : Screens(rout = "details_screen")
+//    object Create : Screens(rout = "create_screen")
+//
+    object NoteCreateEdit : Screens(rout ="create_edit_screen" )
+
     object Secure : Screens(rout = "secure_screen")
 
     object Settings : Screens(rout = "settings_screen")

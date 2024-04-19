@@ -3,10 +3,12 @@
 package com.ideaapp.ui.components
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Shield
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -27,6 +29,7 @@ fun DeleteModelSheet(
     showBottomSheet: Boolean,
     onDismiss: () -> Unit,
     delete: () -> Unit,
+    content: @Composable (ColumnScope.() -> Unit),
     modifier: Modifier = Modifier
 ) {
     if (showBottomSheet) {
@@ -40,6 +43,7 @@ fun DeleteModelSheet(
                     .padding(8.dp)
                     .fillMaxWidth()
             ) {
+                content()
                 IconComponentButton(
                     content = {
                         Text(
@@ -47,7 +51,7 @@ fun DeleteModelSheet(
                             style = MaterialTheme.typography.titleMedium,
                         )
                     },
-                    icon = Icons.Default.Shield,
+                    icon = Icons.Default.Delete,
                     onClick = delete
                 )
             }

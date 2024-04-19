@@ -12,14 +12,17 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MainViewModel @Inject constructor(
-    private val getNoteUseCase:GetNoteUseCase
+class NoteViewModel @Inject constructor(
+    private val getNoteUseCase: GetNoteUseCase
 ) : ViewModel() {
 
     private val _notes = MutableStateFlow<List<Note>>(emptyList())
     val notes: StateFlow<List<Note>>
         get() = _notes
 
+    private val _searchText = MutableStateFlow("")
+    val searchText: StateFlow<String>
+        get() = _searchText
 
 
     init {
@@ -34,8 +37,19 @@ class MainViewModel @Inject constructor(
                 }
             } catch (e: Exception) {
                 // Handle the exception if needed
-                Log.e("MainViewModel", "Error loading notes", e)
+                Log.e("NoteViewModel", "Error loading notes", e)
             }
+        }
+    }
+
+    fun setSearchText(text: String) {
+        _searchText.value = text
+    }
+
+    fun performSearch() {
+        val searchTextValue = _searchText.value
+        _notes.value = _notes.value.filter { note ->
+            !note.isPrivate && note.title.contains(searchTextValue, ignoreCase = true)
         }
     }
 }

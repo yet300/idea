@@ -88,8 +88,6 @@ dependencies {
     // Navigation
     implementation(libs.androidx.navigation.compose)
 
-    //richText
-    implementation(libs.richeditor.compose)
     implementation(libs.androidx.material.icons.extended)
 
     //biometric

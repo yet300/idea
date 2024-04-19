@@ -19,7 +19,6 @@ import androidx.compose.material3.SearchBar
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -43,11 +42,12 @@ import com.ideaapp.ui.components.TrailingItem
 @Composable
 fun Search(
     navController: NavHostController,
-    query: MutableState<String>,
+    query: String,
+    onQueryChange: (String) -> Unit,
+    onSearchChange: (String) -> Unit,
     activity: AppCompatActivity,
     modifier: Modifier = Modifier,
 ) {
-
     val showToastMessage: (String) -> Unit = { message ->
         Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
     }
@@ -106,13 +106,9 @@ fun Search(
     }
 
     SearchBar(
-        query = query.value,
-        onQueryChange = {
-            query.value = it
-        },
-        onSearch = {
-            query.value = it
-        },
+        query = query,
+        onQueryChange = onQueryChange,
+        onSearch = onSearchChange,
         active = false,
         onActiveChange = {},
 

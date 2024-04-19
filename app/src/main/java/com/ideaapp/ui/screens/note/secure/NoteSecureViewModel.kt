@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SecureViewModel @Inject constructor(
+class NoteSecureViewModel @Inject constructor(
     private val getNoteUseCase: GetNoteUseCase
 ) : ViewModel() {
     private val _notes = MutableStateFlow<List<Note>>(emptyList())

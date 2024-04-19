@@ -41,7 +41,7 @@ import com.ideasapp.domain.model.Task
 
 
 @Composable
-fun TaskScreenContent(
+fun TaskContent(
     modifier: Modifier = Modifier,
     viewModel: TaskViewModel,
     navController: NavController,

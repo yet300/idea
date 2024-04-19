@@ -1,5 +1,6 @@
-package com.ideaapp.ui.screens.task.detail.component
+package com.ideaapp.ui.components
 
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -14,16 +15,17 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import com.ideaapp.ui.components.BackButton
-import com.ideaapp.ui.components.DeleteModelSheet
+
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DetailTopBar(
+fun TopBar(
+    modifier: Modifier = Modifier,
     save: () -> Unit,
     delete: () -> Unit,
-    modifier: Modifier = Modifier
+    action: @Composable (ColumnScope.() -> Unit),
+    additionalAction: (@Composable () -> Unit)? = null,
 ) {
     var showBottomSheet by remember { mutableStateOf(false) }
 
@@ -41,6 +43,8 @@ fun DetailTopBar(
             )
         },
         actions = {
+            additionalAction?.invoke()
+
             IconButton(onClick = {
                 showBottomSheet = true
             }) {
@@ -52,6 +56,7 @@ fun DetailTopBar(
                 showBottomSheet = showBottomSheet,
                 onDismiss = { showBottomSheet = false },
                 delete = delete,
+                content = action,
                 modifier = modifier
             )
         },
