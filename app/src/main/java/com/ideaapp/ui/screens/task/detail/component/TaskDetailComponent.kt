@@ -13,7 +13,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -43,10 +42,9 @@ fun TaskDetailComponent(
     var showDateTimeDialog by remember {
         mutableStateOf(false)
     }
-    var combinedDateTime by remember {
-        mutableLongStateOf(0L)
+    var createdReminder by remember(taskState.reminderTime) {
+        mutableStateOf(taskState.reminderTime)
     }
-    combinedDateTime = taskState.reminderTime ?: 0L
 
     LazyColumn(
         modifier = modifier
@@ -87,7 +85,8 @@ fun TaskDetailComponent(
                 DateTimeDialog(
                     onCancel = { showDateTimeDialog = false },
                     onConfirm = { dateTime ->
-                        combinedDateTime = dateTime
+                        createdReminder = dateTime
+                        viewModel.onEvent(TaskDetailUiEvent.UpdateReminder(createdReminder ?: 0L))
                         showDateTimeDialog = false
                     },
                     context = LocalContext.current
@@ -96,21 +95,21 @@ fun TaskDetailComponent(
             IconComponentButton(
                 icon = Icons.Outlined.WatchLater,
                 content = {
-                    if (combinedDateTime != 0L) {
+                    if (createdReminder != 0L) {
                         InputChip(
                             selected = false,
                             onClick = {
                                 viewModel.onEvent(
                                     TaskDetailUiEvent.CancelReminder(
-                                        combinedDateTime
+                                        createdReminder ?: 0L
                                     )
                                 )
-                                combinedDateTime = 0L
+                                createdReminder = 0L
                             },
                             label = {
                                 Text(
                                     DateTimeConvertor.convertLongToDateTime(
-                                        combinedDateTime
+                                        createdReminder ?: 0L
                                     )
                                 )
                             },
@@ -128,11 +127,14 @@ fun TaskDetailComponent(
                             style = TextStyle(
                                 fontWeight = FontWeight.Medium,
                                 color = MaterialTheme.colorScheme.onSurface
-                            )
+                            ),
+                            fontSize = 20.sp,
                         )
                     }
                 },
-                onClick = { showDateTimeDialog = true }
+                onClick = {
+                    showDateTimeDialog = true
+                }
             )
         }
     }

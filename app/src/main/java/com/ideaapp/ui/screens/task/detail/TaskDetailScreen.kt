@@ -28,7 +28,7 @@ fun TaskDetailScreen(
 ) {
     val taskState by viewModel.taskState.collectAsState()
 
-    var complete by remember {
+    var complete by remember(taskState.isComplete) {
         mutableStateOf(taskState.isComplete)
     }
     val snackBarHostState = remember { SnackbarHostState() }

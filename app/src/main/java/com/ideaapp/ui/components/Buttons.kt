@@ -117,7 +117,7 @@ fun TextIconComponentTextField(
                 }
             }
 
-            Spacer(modifier = modifier.padding(8.dp))
+            Spacer(modifier = modifier.padding(10.dp))
 
             Column(
                 modifier = modifier
