@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">idea</string>
+    <string name="app_name">Idea</string>
     <string name="settings">Settings</string>
     <string name="secure_note">Secure Note</string>
     <string name="title">Untitled</string>
@@ -40,4 +40,5 @@
     <string name="auth_unavailable">Feature unavailable</string>
     <string name="auth_hardware_unavailable">Hardware unavailable</string>
     <string name="error">There was an error in the authentication process, enable biometric login in the settings</string>
+    <string name="search">Search</string>
 </resources>

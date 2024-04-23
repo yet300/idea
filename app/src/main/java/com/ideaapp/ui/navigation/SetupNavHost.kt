@@ -3,6 +3,7 @@ package com.ideaapp.ui.navigation
 
 import android.annotation.SuppressLint
 import android.content.Context
+import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -109,7 +110,11 @@ fun SetupNavHost(
                 },
             ) {
                 composable(route = Screens.Home.rout) {
-                    NoteScreen(navController = navController, hiltViewModel())
+                    NoteScreen(
+                        navController = navController,
+                        hiltViewModel(),
+                        context as AppCompatActivity,
+                    )
                 }
 
                 composable(

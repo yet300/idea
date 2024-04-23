@@ -41,7 +41,7 @@ fun NoteContent(
                 image = note.imageUri,
                 modifier = modifier
                     .fillMaxWidth()
-                    .padding(vertical = 5.dp, horizontal = 5.dp)
+                    .padding(2.dp)
                     .clickable { navController.navigate(Screens.NoteCreateEdit.rout + "?noteId=${note.id}") }
             )
         }

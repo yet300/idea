@@ -1,4 +1,5 @@
-package com.ideaapp.ui.components
+package com.ideaapp.ui.components.custiom_bar
+
 
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.material.icons.Icons
@@ -15,7 +16,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-
+import com.ideaapp.ui.components.BackButton
+import com.ideaapp.ui.components.DeleteModelSheet
 
 
 @OptIn(ExperimentalMaterial3Api::class)
