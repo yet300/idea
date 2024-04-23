@@ -43,4 +43,5 @@
     <string name="auth_unavailable">Аутентификация недоступна</string>
     <string name="error">Произошла ошибка в процессе аутентификации, включите в настройках вход с помощью биометрии</string>
     <string name="auth_hardware_unavailable">Аутентификация недоступна</string>
+    <string name="search">Поиск</string>
 </resources>
