@@ -50,7 +50,6 @@ fun SetupNavHost(
     context: Context
 ) {
     val navController = rememberNavController()
-
     val items = listOf(
         BottomNavigationItem(
             label = stringResource(R.string.Note),
@@ -174,6 +173,4 @@ fun SetupNavHost(
         }
     )
 }
-
-
 

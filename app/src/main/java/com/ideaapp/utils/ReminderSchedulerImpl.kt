@@ -17,6 +17,7 @@ class ReminderSchedulerImpl @Inject constructor(
     private val alarmManager: AlarmManager
 ) :
     ReminderScheduler {
+    //TODO(переписать на work manager )
     override suspend fun scheduleAlarm(
         reminder: Reminder
     ) {
