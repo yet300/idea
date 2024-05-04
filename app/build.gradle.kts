@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.android.kotlin)
     alias(libs.plugins.ksp)
     alias(libs.plugins.android.hilt)
+    alias(libs.plugins.kotlin.serialzation)
 }
 
 android {
@@ -43,7 +44,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.9"
+        kotlinCompilerExtensionVersion = "1.5.13"
     }
     packaging {
         resources {
@@ -88,6 +89,12 @@ dependencies {
     // Navigation
     implementation(libs.androidx.navigation.compose)
 
+    //decompose navigation
+    implementation(libs.decompose)
+    implementation(libs.decompose.jetpack)
+
+    //serialization
+    implementation(libs.kotlinx.serialization.json)
     implementation(libs.androidx.material.icons.extended)
 
     //biometric
