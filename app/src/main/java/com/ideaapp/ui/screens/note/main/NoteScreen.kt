@@ -28,12 +28,12 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
 import com.ideaapp.R
-import com.ideaapp.ui.navigation.components.Screens
 import com.ideaapp.ui.components.FAB
 import com.ideaapp.ui.components.TrailingItem
 import com.ideaapp.ui.components.custiom_bar.CollapsingTitle
-import com.ideaapp.ui.components.custiom_bar.CustomSearchTopBar
+import com.ideaapp.ui.components.custiom_bar.CustomTopBar
 import com.ideaapp.ui.components.custiom_bar.rememberToolbarScrollBehavior
+import com.ideaapp.ui.navigation.components.Screens
 import com.ideaapp.ui.screens.note.main.components.EmptyScreen
 import com.ideaapp.ui.screens.note.main.components.NoteContent
 import com.ideaapp.ui.screens.note.main.components.Search
@@ -130,7 +130,7 @@ fun NoteScreen(
             )
         },
         topBar = {
-            CustomSearchTopBar(
+            CustomTopBar(
                 actions = {
                     IconButton(onClick = {
                         showBottomSheet = true

@@ -30,7 +30,7 @@ import kotlin.math.roundToInt
  * Created in HH [url](https://habr.com/ru/companies/hh/articles/703192/)
  */
 @Composable
-fun CustomSearchTopBar(
+fun CustomTopBar(
     modifier: Modifier = Modifier,
     navigationIcon: (@Composable () -> Unit)? = null,
     actions: (@Composable RowScope.() -> Unit)? = null,

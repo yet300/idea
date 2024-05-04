@@ -39,14 +39,14 @@ fun NoteSecureContent(
                 image = note.imageUri,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 5.dp, horizontal = 5.dp)
+                    .padding(2.dp)
                     .clickable { navController.navigate(Screens.NoteCreateEdit.rout + "?noteId=${note.id}") }
             )
         }
 
         repeat(20) {
             item {
-                Spacer(modifier = modifier.height(15.dp))
+                Spacer(modifier = modifier.height(20.dp))
             }
         }
 
