@@ -27,7 +27,7 @@ fun NavBar(
     navController: NavController,
     items: List<CustomBottomNavigationItem>,
 ) {
-    val bottomBarRoutes = setOf(Screens.Home.rout, Screens.Task.rout)
+    val bottomBarRoutes = setOf(Screens.Note.rout, Screens.Task.rout)
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val showBottomBar = navBackStackEntry?.destination?.route in bottomBarRoutes
     if (showBottomBar) {

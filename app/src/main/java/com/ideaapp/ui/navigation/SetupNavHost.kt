@@ -19,7 +19,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Note
+import androidx.compose.material.icons.automirrored.filled.Note
 import androidx.compose.material.icons.filled.Task
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -27,10 +27,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.Lifecycle
-import androidx.navigation.NavController
-import androidx.navigation.NavGraph.Companion.findStartDestination
-import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -38,6 +34,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.ideaapp.R
+import com.ideaapp.ui.navigation.NavController.Companion.navigateToMain
 import com.ideaapp.ui.navigation.components.CustomBottomNavigationItem
 import com.ideaapp.ui.navigation.components.NavBar
 import com.ideaapp.ui.navigation.components.Screens
@@ -48,35 +45,6 @@ import com.ideaapp.ui.screens.settings.SettingsScreen
 import com.ideaapp.ui.screens.task.detail.TaskDetailScreen
 import com.ideaapp.ui.screens.task.main.TaskScreen
 
-
-val NavHostController.canGoBack: Boolean
-    get() = this.currentBackStackEntry?.lifecycle?.currentState == Lifecycle.State.RESUMED
-
-fun NavController.canNavigate(): Boolean {
-    return this.currentBackStackEntry?.lifecycle?.currentState == Lifecycle.State.RESUMED
-}
-
-fun NavController.checkIsDestinationCurrent(route: String): Boolean {
-    return currentDestination?.route?.substringBefore("/") == route.substringBefore("/")
-}
-
-fun NavController.navigateToMain(destination: String) = run {
-    if (canNavigate().not()) return@run
-    if (checkIsDestinationCurrent(destination)) return@run
-    navigate(destination) {
-        // Pop up to the start destination of the graph to
-        // avoid building up a large stack of destinations
-        // on the back stack as users select items
-        popUpTo(graph.findStartDestination().id) {
-            saveState = true
-        }
-        // Avoid multiple copies of the same destination when
-        // reselecting the same item
-        launchSingleTop = true
-        // Restore state when reselecting a previously selected item
-        restoreState = true
-    }
-}
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
@@ -89,11 +57,11 @@ fun SetupNavHost(
 
     val items = listOf(
         CustomBottomNavigationItem(
-            icon = Icons.Default.Note,
+            icon = Icons.AutoMirrored.Filled.Note,
             description = R.string.Note,
-            isSelected = currentRoute == Screens.Home.rout,
+            isSelected = currentRoute == Screens.Note.rout,
             onClick = {
-                navController.navigateToMain(destination = Screens.Home.rout)
+                navController.navigateToMain(destination = Screens.Note.rout)
 
             }
         ),
@@ -128,7 +96,7 @@ fun SetupNavHost(
         content = {
             NavHost(
                 navController = navController,
-                startDestination = Screens.Home.rout,
+                startDestination = Screens.Note.rout,
                 enterTransition = {
                     fadeIn(animationSpec = tween(220, delayMillis = 90)) +
                             scaleIn(
@@ -150,7 +118,7 @@ fun SetupNavHost(
                     fadeOut(animationSpec = tween(90))
                 },
             ) {
-                composable(route = Screens.Home.rout) {
+                composable(route = Screens.Note.rout) {
                     NoteScreen(
                         navController = navController,
                         hiltViewModel(),

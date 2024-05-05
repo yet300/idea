@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
+import android.provider.Settings
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -14,6 +15,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Language
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LargeTopAppBar
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
@@ -21,16 +23,14 @@ import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.res.stringResource
-import com.ideaapp.R
-import com.ideaapp.ui.components.BackButton
-import android.provider.Settings
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
-import com.ideaapp.ui.navigation.canGoBack
+import com.ideaapp.R
+import com.ideaapp.ui.components.BackButton
 import com.ideaapp.ui.components.IconComponentButton
+import com.ideaapp.ui.navigation.NavController.Companion.canNavigate
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -63,7 +63,7 @@ fun SettingsScreen(
             }, navigationIcon = {
                 BackButton(
                     onClick = {
-                        if (navController.canGoBack) {
+                        if (navController.canNavigate()) {
 
                             navController.popBackStack()
                         }

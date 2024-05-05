@@ -18,7 +18,7 @@ import com.ideaapp.ui.components.BackButton
 import com.ideaapp.ui.components.custiom_bar.CollapsingTitle
 import com.ideaapp.ui.components.custiom_bar.CustomTopBar
 import com.ideaapp.ui.components.custiom_bar.rememberToolbarScrollBehavior
-import com.ideaapp.ui.navigation.canGoBack
+import com.ideaapp.ui.navigation.NavController.Companion.canNavigate
 import com.ideaapp.ui.screens.note.secure.component.EmptyScreen
 import com.ideaapp.ui.screens.note.secure.component.NoteSecureContent
 
@@ -42,7 +42,7 @@ fun NoteSecureScreen(
                 navigationIcon = {
                     BackButton(
                         onClick = {
-                            if (navController.canGoBack) {
+                            if (navController.canNavigate()) {
 
 
                                 navController.popBackStack()

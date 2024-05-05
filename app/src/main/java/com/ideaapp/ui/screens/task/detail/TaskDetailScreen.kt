@@ -13,9 +13,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
-import com.ideaapp.ui.navigation.canGoBack
-import com.ideaapp.ui.screens.task.detail.component.DetailBottomBar
 import com.ideaapp.ui.components.custiom_bar.TopBar
+import com.ideaapp.ui.navigation.NavController.Companion.canNavigate
+import com.ideaapp.ui.screens.task.detail.component.DetailBottomBar
 import com.ideaapp.ui.screens.task.detail.component.TaskDetailComponent
 import kotlinx.coroutines.flow.collectLatest
 
@@ -56,11 +56,11 @@ fun TaskDetailScreen(
         },
         topBar = {
             TopBar(save = {
-                if (navController.canGoBack) {
+                if (navController.canNavigate()) {
                     viewModel.onEvent(TaskDetailUiEvent.Save)
                 }
             }, delete = {
-                if (navController.canGoBack) {
+                if (navController.canNavigate()) {
                     viewModel.onEvent(TaskDetailUiEvent.Delete)
                 }
             },

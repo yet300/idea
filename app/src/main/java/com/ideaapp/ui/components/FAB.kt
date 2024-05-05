@@ -20,7 +20,7 @@ fun FAB(
 ) {
     FloatingActionButton(
         onClick = { onClick() },
-        modifier = modifier.padding(vertical = 80.dp)
+        modifier = modifier.padding(vertical = 50.dp)
     ) {
         Icon(
             Icons.Filled.Create,
