@@ -8,29 +8,37 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.only
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBars
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.Note
-import androidx.compose.material.icons.automirrored.outlined.Note
+import androidx.compose.material.icons.filled.Note
 import androidx.compose.material.icons.filled.Task
-import androidx.compose.material.icons.outlined.Task
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
+import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.navArgument
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.Lifecycle
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.ideaapp.R
-import com.ideaapp.ui.navigation.components.BottomNavigationItem
+import com.ideaapp.ui.navigation.components.CustomBottomNavigationItem
 import com.ideaapp.ui.navigation.components.NavBar
 import com.ideaapp.ui.navigation.components.Screens
 import com.ideaapp.ui.screens.note.create_edit.NoteCreateEditScreen
@@ -44,44 +52,78 @@ import com.ideaapp.ui.screens.task.main.TaskScreen
 val NavHostController.canGoBack: Boolean
     get() = this.currentBackStackEntry?.lifecycle?.currentState == Lifecycle.State.RESUMED
 
+fun NavController.canNavigate(): Boolean {
+    return this.currentBackStackEntry?.lifecycle?.currentState == Lifecycle.State.RESUMED
+}
+
+fun NavController.checkIsDestinationCurrent(route: String): Boolean {
+    return currentDestination?.route?.substringBefore("/") == route.substringBefore("/")
+}
+
+fun NavController.navigateToMain(destination: String) = run {
+    if (canNavigate().not()) return@run
+    if (checkIsDestinationCurrent(destination)) return@run
+    navigate(destination) {
+        // Pop up to the start destination of the graph to
+        // avoid building up a large stack of destinations
+        // on the back stack as users select items
+        popUpTo(graph.findStartDestination().id) {
+            saveState = true
+        }
+        // Avoid multiple copies of the same destination when
+        // reselecting the same item
+        launchSingleTop = true
+        // Restore state when reselecting a previously selected item
+        restoreState = true
+    }
+}
+
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun SetupNavHost(
     context: Context
 ) {
     val navController = rememberNavController()
+
+    val currentRoute = navController.currentBackStackEntryAsState().value?.destination?.route
+
     val items = listOf(
-        BottomNavigationItem(
-            label = stringResource(R.string.Note),
-            route = Screens.Home.rout,
-            selectedIcon = Icons.AutoMirrored.Filled.Note,
-            unselectedIcon = Icons.AutoMirrored.Outlined.Note
+        CustomBottomNavigationItem(
+            icon = Icons.Default.Note,
+            description = R.string.Note,
+            isSelected = currentRoute == Screens.Home.rout,
+            onClick = {
+                navController.navigateToMain(destination = Screens.Home.rout)
+
+            }
         ),
-        BottomNavigationItem(
-            label = stringResource(id = R.string.Task),
-            route = Screens.Task.rout,
-            selectedIcon = Icons.Filled.Task,
-            unselectedIcon = Icons.Outlined.Task
+        CustomBottomNavigationItem(
+            icon = Icons.Default.Task,
+            description = R.string.Task,
+            isSelected = currentRoute == Screens.Task.rout,
+            onClick = {
+                navController.navigateToMain(destination = Screens.Task.rout)
+            }
         )
     )
 
     Scaffold(
         bottomBar = {
-            var selectedItemIndex by remember { mutableIntStateOf(0) }
-            NavBar(
-                navController = navController,
-                items = items,
-                selectedItemIndex = selectedItemIndex,
-                onItemSelected = { index ->
-                    if (navController.canGoBack) {
-                        selectedItemIndex = index
-                        navController.navigate(items[index].route) {
-                            popUpTo(navController.graph.findStartDestination().id)
-                            launchSingleTop = true
-                        }
-                    }
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .windowInsetsPadding(WindowInsets.systemBars.only(WindowInsetsSides.Bottom))
+                    .padding(bottom = 20.dp), horizontalArrangement = Arrangement.Center
+            ) {
+                Box(modifier = Modifier.zIndex(2f)) {
+                    NavBar(
+                        navController = navController,
+                        items = items,
+                    )
                 }
-            )
+            }
+
         },
         content = {
             NavHost(
