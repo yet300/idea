@@ -3,7 +3,6 @@ package com.ideaapp.ui.screens.note.main.components
 import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -31,8 +30,6 @@ fun NoteItem(title: String, image: String?, modifier: Modifier = Modifier) {
             .size(width = 240.dp, height = 200.dp)
             .clip(MaterialTheme.shapes.medium)
     ) {
-
-        Column {
             Image(
                 painter = rememberAsyncImagePainter(
                     ImageRequest
@@ -57,7 +54,5 @@ fun NoteItem(title: String, image: String?, modifier: Modifier = Modifier) {
                 maxLines = 3
             )
             Spacer(modifier = Modifier.padding(5.dp))
-
         }
-    }
 }

@@ -7,16 +7,16 @@ import android.content.Intent
 import androidx.core.os.bundleOf
 import com.ideaapp.component.broadcast.NotificationReceiver
 import com.ideasapp.domain.model.Reminder
+import com.ideasapp.domain.repository.ReminderSchedulerRepository
 import com.ideasapp.domain.utils.Arguments
-import com.ideasapp.domain.utils.ReminderScheduler
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
-class ReminderSchedulerImpl @Inject constructor(
+class ReminderSchedulerRepositoryImpl @Inject constructor(
     @ApplicationContext private val context: Context,
     private val alarmManager: AlarmManager
 ) :
-    ReminderScheduler {
+    ReminderSchedulerRepository {
     //TODO(переписать на work manager )
     override suspend fun scheduleAlarm(
         reminder: Reminder

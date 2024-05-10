@@ -5,8 +5,8 @@ import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import com.ideaapp.utils.ManagerNotification
 import com.ideaapp.utils.ManagerNotificationImpl
-import com.ideaapp.utils.ReminderSchedulerImpl
-import com.ideasapp.domain.utils.ReminderScheduler
+import com.ideaapp.utils.ReminderSchedulerRepositoryImpl
+import com.ideasapp.domain.repository.ReminderSchedulerRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -25,8 +25,8 @@ class AppModule {
 
     @Singleton
     @Provides
-    fun provideReminderScheduler(@ApplicationContext context: Context): ReminderScheduler {
-        return ReminderSchedulerImpl(context, provideAlarmManager(context))
+    fun provideReminderScheduler(@ApplicationContext context: Context): ReminderSchedulerRepository {
+        return ReminderSchedulerRepositoryImpl(context, provideAlarmManager(context))
     }
 
     @Singleton
