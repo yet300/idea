@@ -12,7 +12,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ColorLens
 import androidx.compose.material.icons.filled.Language
+import androidx.compose.material.icons.outlined.DarkMode
+import androidx.compose.material.icons.outlined.LightMode
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.MaterialTheme
@@ -30,13 +33,16 @@ import androidx.navigation.NavHostController
 import com.ideaapp.R
 import com.ideaapp.ui.components.BackButton
 import com.ideaapp.ui.components.IconComponentButton
+import com.ideaapp.ui.components.IconComponentSwitcher
 import com.ideaapp.ui.navigation.NavController.Companion.canNavigate
+import com.ideaapp.utils.ThemeChanger
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsScreen(
     navController: NavHostController,
+    viewModel: SettingsViewModel,
     context: Context,
     modifier: Modifier = Modifier
 ) {
@@ -80,6 +86,22 @@ fun SettingsScreen(
                     .fillMaxSize()
                     .verticalScroll(rememberScrollState())
             ) {
+
+                IconComponentSwitcher(
+                    text = stringResource(id = R.string.theme),
+                    checked = ThemeChanger.isDarkMode.value ?: false,
+                    onCheckedChange = { viewModel.themeChange() },
+                    icon = if (ThemeChanger.isDarkMode.value == true) Icons.Outlined.DarkMode else Icons.Outlined.LightMode,
+                )
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                    IconComponentSwitcher(
+                        text = stringResource(id = R.string.dynamic_color),
+                        checked = ThemeChanger.isDynamicTheme.value ?: true,
+                        onCheckedChange = { viewModel.dynamicThemeChange() },
+                        icon = Icons.Default.ColorLens
+                    )
+                }
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                     IconComponentButton(

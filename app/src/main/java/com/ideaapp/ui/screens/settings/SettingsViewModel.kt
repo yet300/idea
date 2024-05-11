@@ -1,15 +1,28 @@
 package com.ideaapp.ui.screens.settings
 
 
-import androidx.compose.runtime.compositionLocalOf
+import android.app.Application
 import androidx.lifecycle.ViewModel
+import com.ideaapp.utils.ThemeChanger
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class SettingsViewModel @Inject constructor() : ViewModel() {
+class SettingsViewModel @Inject constructor(
+    private val application: Application,
+) : ViewModel() {
 
-    val LocalTheme = compositionLocalOf { false }
+    fun themeChange() {
+        ThemeChanger.saveThemeMode(
+            context = application.applicationContext,
+            isDarkMode = !(ThemeChanger.isDarkMode.value ?: false),
+        )
+    }
 
-
+    fun dynamicThemeChange() {
+        ThemeChanger.saveDynamicTheme(
+            context = application.applicationContext,
+            isDynamicTheme = !(ThemeChanger.isDynamicTheme.value ?: false)
+        )
+    }
 }

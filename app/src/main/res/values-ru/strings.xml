@@ -27,8 +27,7 @@
     <string name="uncompleted">невыполенено</string>
     <string name="undo">Отменить</string>
     <string name="empty_secure">Создай личную заметку!</string>
-    <string name="language">Язык</string>
-    <string name="telegram">Телеграм</string>
+
     <string name="error_invalid_datetime">Дата или время устарело</string>
 
 
@@ -44,4 +43,10 @@
     <string name="error">Произошла ошибка в процессе аутентификации, включите в настройках вход с помощью биометрии</string>
     <string name="auth_hardware_unavailable">Аутентификация недоступна</string>
     <string name="search">Поиск</string>
+
+    <!--    settings    -->
+    <string name="language">Язык</string>
+    <string name="telegram">Телеграм</string>
+    <string name="theme">Тема</string>
+    <string name="dynamic_color">Динамические цвета</string>
 </resources>

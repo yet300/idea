@@ -155,6 +155,7 @@ fun SetupNavHost(
                 ) {
                     SettingsScreen(
                         navController = navController,
+                        viewModel = hiltViewModel(),
                         context = context
                     )
                 }

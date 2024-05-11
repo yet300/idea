@@ -41,4 +41,6 @@
     <string name="auth_hardware_unavailable">Hardware unavailable</string>
     <string name="error">There was an error in the authentication process, enable biometric login in the settings</string>
     <string name="search">Search</string>
+    <string name="theme">Theme</string>
+    <string name="dynamic_color">Dynamic Color</string>
 </resources>
