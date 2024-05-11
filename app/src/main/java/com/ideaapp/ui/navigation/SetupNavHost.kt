@@ -20,6 +20,7 @@ import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Note
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Task
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -72,7 +73,16 @@ fun SetupNavHost(
             onClick = {
                 navController.navigateToMain(destination = Screens.Task.rout)
             }
+        ),
+        CustomBottomNavigationItem(
+            icon = Icons.Default.Settings,
+            description = R.string.settings,
+            isSelected = currentRoute == Screens.Settings.rout,
+            onClick = {
+                navController.navigateToMain( destination = Screens.Settings.rout)
+            }
         )
+
     )
 
     Scaffold(
@@ -154,7 +164,6 @@ fun SetupNavHost(
                     route = Screens.Settings.rout
                 ) {
                     SettingsScreen(
-                        navController = navController,
                         viewModel = hiltViewModel(),
                         context = context
                     )

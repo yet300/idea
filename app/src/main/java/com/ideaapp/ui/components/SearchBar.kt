@@ -128,7 +128,6 @@ fun SearchBar(
                 modifier = modifier,
             )
 
-
             TrailingItem(
                 showBottomSheet = showBottomSheet,
                 onDismiss = { showBottomSheet = false },
@@ -137,9 +136,7 @@ fun SearchBar(
                         title = activity.getString(R.string.app_name),
                     )
                 },
-                settingsOnClick = { navController.navigate(Screens.Settings.rout) }
             )
-
         }
     }
 }

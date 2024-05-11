@@ -9,10 +9,8 @@ import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Shield
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
@@ -64,7 +62,6 @@ fun TrailingItem(
     showBottomSheet: Boolean,
     onDismiss: () -> Unit,
     secureOnClick: () -> Unit,
-    settingsOnClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     if (showBottomSheet) {
@@ -87,21 +84,6 @@ fun TrailingItem(
                     },
                     icon = Icons.Default.Shield,
                     onClick = { secureOnClick() }
-                )
-                HorizontalDivider(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 8.dp)
-                )
-                IconComponentButton(
-                    content = {
-                        Text(
-                            text = stringResource(id = R.string.settings),
-                            style = MaterialTheme.typography.titleMedium,
-                        )
-                    },
-                    icon = Icons.Default.Settings,
-                    onClick = { settingsOnClick() }
                 )
             }
         }
