@@ -13,7 +13,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
-import com.ideaapp.ui.components.custiom_bar.TopBar
+import com.ideaapp.ui.components.TopBar
 import com.ideaapp.ui.navigation.NavController.Companion.canNavigate
 import com.ideaapp.ui.screens.task.detail.component.DetailBottomBar
 import com.ideaapp.ui.screens.task.detail.component.TaskDetailComponent

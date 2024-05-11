@@ -3,8 +3,13 @@ package com.ideaapp.ui.screens.note.secure
 
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.safeDrawingPadding
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.LargeTopAppBar
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -15,13 +20,11 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.ideaapp.R
 import com.ideaapp.ui.components.BackButton
-import com.ideaapp.ui.components.custiom_bar.CollapsingTitle
-import com.ideaapp.ui.components.custiom_bar.CustomTopBar
-import com.ideaapp.ui.components.custiom_bar.rememberToolbarScrollBehavior
 import com.ideaapp.ui.navigation.NavController.Companion.canNavigate
 import com.ideaapp.ui.screens.note.secure.component.EmptyScreen
 import com.ideaapp.ui.screens.note.secure.component.NoteSecureContent
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NoteSecureScreen(
     navController: NavHostController,
@@ -29,8 +32,8 @@ fun NoteSecureScreen(
     modifier: Modifier = Modifier
 ) {
     val notes by viewModel.notes.collectAsState()
-    val scrollBehavior = rememberToolbarScrollBehavior()
 
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
 
     Scaffold(
         modifier = modifier
@@ -38,7 +41,13 @@ fun NoteSecureScreen(
             .nestedScroll(scrollBehavior.nestedScrollConnection),
         contentWindowInsets = WindowInsets(0.dp, 0.dp, 0.dp, 0.dp),
         topBar = {
-            CustomTopBar(
+            LargeTopAppBar(
+                title = {
+                    Text(
+                        text = stringResource(id = R.string.secure_note),
+                        style = MaterialTheme.typography.headlineMedium
+                    )
+                },
                 navigationIcon = {
                     BackButton(
                         onClick = {
@@ -50,10 +59,7 @@ fun NoteSecureScreen(
                         }
                     )
                 },
-                collapsingTitle = CollapsingTitle.medium(titleText = stringResource(id = R.string.secure_note)),
                 scrollBehavior = scrollBehavior,
-                modifier = modifier
-                    .safeDrawingPadding(),
 
                 )
         },

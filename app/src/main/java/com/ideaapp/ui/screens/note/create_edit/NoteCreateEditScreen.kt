@@ -25,7 +25,7 @@ import androidx.navigation.NavHostController
 import com.ideaapp.R
 import com.ideaapp.di.NoteApp
 import com.ideaapp.ui.components.IconComponentSwitcher
-import com.ideaapp.ui.components.custiom_bar.TopBar
+import com.ideaapp.ui.components.TopBar
 import com.ideaapp.ui.navigation.NavController.Companion.canNavigate
 import com.ideaapp.ui.screens.note.create_edit.component.NoteCreateEditComponent
 import kotlinx.coroutines.flow.collectLatest
