@@ -1,4 +1,4 @@
-package com.ideaapp.ui.screens.task.detail.component
+package com.ideaapp.ui.screens.task.create_edit.component
 
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Text

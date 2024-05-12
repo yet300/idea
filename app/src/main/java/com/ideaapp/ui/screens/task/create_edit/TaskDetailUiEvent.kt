@@ -1,4 +1,4 @@
-package com.ideaapp.ui.screens.task.detail
+package com.ideaapp.ui.screens.task.create_edit
 
 
 sealed class TaskDetailUiEvent {

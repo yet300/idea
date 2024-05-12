@@ -82,7 +82,7 @@ fun TaskContent(
                     },
                     modifier = modifier.clickable {
                         navController.navigate(
-                            Screens.TaskDetail.rout + "?taskId=${task.id}"
+                            Screens.TaskCreateEdit.rout + "?taskId=${task.id}"
                         )
                     }
                 )
@@ -125,7 +125,7 @@ fun TaskContent(
                         },
                         modifier = modifier.clickable {
                             navController.navigate(
-                                Screens.TaskDetail.rout + "?taskId=${task.id}"
+                                Screens.TaskCreateEdit.rout + "?taskId=${task.id}"
                             )
                         }
                     )

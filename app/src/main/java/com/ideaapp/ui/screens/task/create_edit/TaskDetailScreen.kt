@@ -1,4 +1,4 @@
-package com.ideaapp.ui.screens.task.detail
+package com.ideaapp.ui.screens.task.create_edit
 
 
 import androidx.compose.material3.Scaffold
@@ -15,8 +15,8 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import com.ideaapp.ui.components.TopBar
 import com.ideaapp.ui.navigation.NavController.Companion.canNavigate
-import com.ideaapp.ui.screens.task.detail.component.DetailBottomBar
-import com.ideaapp.ui.screens.task.detail.component.TaskDetailComponent
+import com.ideaapp.ui.screens.task.create_edit.component.DetailBottomBar
+import com.ideaapp.ui.screens.task.create_edit.component.TaskDetailComponent
 import kotlinx.coroutines.flow.collectLatest
 
 

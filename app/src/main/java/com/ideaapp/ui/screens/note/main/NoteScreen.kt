@@ -4,7 +4,6 @@ package com.ideaapp.ui.screens.note.main
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -14,10 +13,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.ideaapp.ui.components.FAB
 import com.ideaapp.ui.components.SearchBar
 import com.ideaapp.ui.components.scrollConnectionToProvideVisibility
-import com.ideaapp.ui.navigation.components.Screens
 import com.ideaapp.ui.screens.note.main.components.EmptyScreen
 import com.ideaapp.ui.screens.note.main.components.NoteContent
 
@@ -50,12 +47,6 @@ fun NoteScreen(
             .scrollConnectionToProvideVisibility(visible = isSearchBarVisible)
             .fillMaxSize(),
         contentWindowInsets = WindowInsets(0.dp, 0.dp, 0.dp, 0.dp),
-        floatingActionButton = {
-            FAB(
-                onClick = { navController.navigate(Screens.NoteCreateEdit.rout) },
-                modifier.safeDrawingPadding()
-            )
-        },
         topBar = {
             SearchBar(
                 isVisible = isSearchBarVisible.value,

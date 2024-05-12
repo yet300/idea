@@ -1,4 +1,4 @@
-package com.ideaapp.ui.screens.task.detail.component
+package com.ideaapp.ui.screens.task.create_edit.component
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -28,8 +28,8 @@ import com.ideaapp.ui.components.DateTimeConvertor
 import com.ideaapp.ui.components.DateTimeDialog
 import com.ideaapp.ui.components.IconComponentButton
 import com.ideaapp.ui.components.TextIconComponentTextField
-import com.ideaapp.ui.screens.task.detail.TaskDetailUiEvent
-import com.ideaapp.ui.screens.task.detail.TaskDetailViewModel
+import com.ideaapp.ui.screens.task.create_edit.TaskDetailUiEvent
+import com.ideaapp.ui.screens.task.create_edit.TaskDetailViewModel
 import com.ideasapp.domain.model.Task
 
 @Composable

@@ -4,10 +4,13 @@ package com.ideaapp.ui.navigation
 import android.annotation.SuppressLint
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -35,6 +38,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.ideaapp.R
+import com.ideaapp.ui.components.FAB
 import com.ideaapp.ui.navigation.NavController.Companion.navigateToMain
 import com.ideaapp.ui.navigation.components.CustomBottomNavigationItem
 import com.ideaapp.ui.navigation.components.NavBar
@@ -43,18 +47,22 @@ import com.ideaapp.ui.screens.note.create_edit.NoteCreateEditScreen
 import com.ideaapp.ui.screens.note.main.NoteScreen
 import com.ideaapp.ui.screens.note.secure.NoteSecureScreen
 import com.ideaapp.ui.screens.settings.SettingsScreen
-import com.ideaapp.ui.screens.task.detail.TaskDetailScreen
+import com.ideaapp.ui.screens.task.create_edit.TaskDetailScreen
 import com.ideaapp.ui.screens.task.main.TaskScreen
 
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun SetupNavHost(
-    context: Context
+    context: Context,
+    modifier: Modifier = Modifier
 ) {
     val navController = rememberNavController()
 
     val currentRoute = navController.currentBackStackEntryAsState().value?.destination?.route
+
+    val floatingBottomRoutes = setOf(Screens.Note.rout, Screens.Task.rout)
+    val showFloatingBottom = currentRoute in floatingBottomRoutes
 
     val items = listOf(
         CustomBottomNavigationItem(
@@ -79,7 +87,7 @@ fun SetupNavHost(
             description = R.string.settings,
             isSelected = currentRoute == Screens.Settings.rout,
             onClick = {
-                navController.navigateToMain( destination = Screens.Settings.rout)
+                navController.navigateToMain(destination = Screens.Settings.rout)
             }
         )
 
@@ -87,21 +95,37 @@ fun SetupNavHost(
 
     Scaffold(
         bottomBar = {
-
             Row(
-                modifier = Modifier
+                modifier = modifier
                     .fillMaxWidth()
                     .windowInsetsPadding(WindowInsets.systemBars.only(WindowInsetsSides.Bottom))
                     .padding(bottom = 20.dp), horizontalArrangement = Arrangement.Center
             ) {
-                Box(modifier = Modifier.zIndex(2f)) {
+                Box(modifier = modifier.zIndex(2f)) {
                     NavBar(
                         navController = navController,
                         items = items,
                     )
                 }
             }
-
+        },
+        floatingActionButton = {
+            AnimatedVisibility(
+                visible = showFloatingBottom,
+                enter = slideInHorizontally { it },
+                exit = slideOutHorizontally { it },
+            ) {
+                FAB(
+                    onClick = {
+                        if (currentRoute == Screens.Note.rout) navController.navigate(
+                            Screens.NoteCreateEdit.rout
+                        ) else navController.navigate(
+                            Screens.TaskCreateEdit.rout
+                        )
+                    },
+                    modifier = modifier.padding(vertical = 10.dp)
+                )
+            }
         },
         content = {
             NavHost(
@@ -173,11 +197,11 @@ fun SetupNavHost(
                 composable(
                     route = Screens.Task.rout,
                 ) {
-                    TaskScreen(context, hiltViewModel(), navController)
+                    TaskScreen(viewModel = hiltViewModel(), navController = navController)
                 }
 
                 composable(
-                    route = Screens.TaskDetail.rout + "?taskId={taskId}",
+                    route = Screens.TaskCreateEdit.rout + "?taskId={taskId}",
                     arguments = listOf(
                         navArgument(
                             name = "taskId"
@@ -189,6 +213,7 @@ fun SetupNavHost(
                 ) {
                     TaskDetailScreen(viewModel = hiltViewModel(), navController = navController)
                 }
+
             }
         }
     )
