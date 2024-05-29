@@ -23,7 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
 import com.ideaapp.R
-import com.ideaapp.di.NoteApp
+import com.ideaapp.component.NoteApp
 import com.ideaapp.ui.components.IconComponentSwitcher
 import com.ideaapp.ui.components.TopBar
 import com.ideaapp.ui.navigation.NavController.Companion.canNavigate

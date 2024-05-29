@@ -1,4 +1,4 @@
-package com.ideaapp.di
+package com.ideaapp.component
 
 import android.app.Application
 import android.content.Context
