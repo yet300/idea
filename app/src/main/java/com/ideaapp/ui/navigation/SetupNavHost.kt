@@ -9,27 +9,9 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
-import androidx.compose.animation.slideInHorizontally
-import androidx.compose.animation.slideOutHorizontally
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.WindowInsetsSides
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.only
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.systemBars
-import androidx.compose.foundation.layout.windowInsetsPadding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.Note
-import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material.icons.filled.Task
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.zIndex
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -37,10 +19,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.ideaapp.R
 import com.ideaapp.ui.components.FAB
-import com.ideaapp.ui.navigation.NavController.Companion.navigateToMain
-import com.ideaapp.ui.navigation.components.CustomBottomNavigationItem
 import com.ideaapp.ui.navigation.components.NavBar
 import com.ideaapp.ui.navigation.components.Screens
 import com.ideaapp.ui.screens.note.create_edit.NoteCreateEditScreen
@@ -64,56 +43,16 @@ fun SetupNavHost(
     val floatingBottomRoutes = setOf(Screens.Note.rout, Screens.Task.rout)
     val showFloatingBottom = currentRoute in floatingBottomRoutes
 
-    val items = listOf(
-        CustomBottomNavigationItem(
-            icon = Icons.AutoMirrored.Filled.Note,
-            description = R.string.Note,
-            isSelected = currentRoute == Screens.Note.rout,
-            onClick = {
-                navController.navigateToMain(destination = Screens.Note.rout)
-
-            }
-        ),
-        CustomBottomNavigationItem(
-            icon = Icons.Default.Task,
-            description = R.string.Task,
-            isSelected = currentRoute == Screens.Task.rout,
-            onClick = {
-                navController.navigateToMain(destination = Screens.Task.rout)
-            }
-        ),
-        CustomBottomNavigationItem(
-            icon = Icons.Default.Settings,
-            description = R.string.settings,
-            isSelected = currentRoute == Screens.Settings.rout,
-            onClick = {
-                navController.navigateToMain(destination = Screens.Settings.rout)
-            }
-        )
-
-    )
-
     Scaffold(
         bottomBar = {
-            Row(
-                modifier = modifier
-                    .fillMaxWidth()
-                    .windowInsetsPadding(WindowInsets.systemBars.only(WindowInsetsSides.Bottom))
-                    .padding(bottom = 20.dp), horizontalArrangement = Arrangement.Center
-            ) {
-                Box(modifier = modifier.zIndex(2f)) {
-                    NavBar(
-                        navController = navController,
-                        items = items,
-                    )
-                }
-            }
+            NavBar(
+                navController = navController,
+                currentRoute = currentRoute
+            )
         },
         floatingActionButton = {
             AnimatedVisibility(
                 visible = showFloatingBottom,
-                enter = slideInHorizontally { it },
-                exit = slideOutHorizontally { it },
             ) {
                 FAB(
                     onClick = {
@@ -123,7 +62,6 @@ fun SetupNavHost(
                             Screens.TaskCreateEdit.rout
                         )
                     },
-                    modifier = modifier.padding(vertical = 10.dp)
                 )
             }
         },

@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.ideaapp.R
 import com.ideaapp.ui.components.BackButton
-import com.ideaapp.ui.navigation.NavController.Companion.canNavigate
+import com.ideaapp.ui.navigation.components.NavController.Companion.canNavigate
 import com.ideaapp.ui.screens.note.secure.component.EmptyScreen
 import com.ideaapp.ui.screens.note.secure.component.NoteSecureContent
 

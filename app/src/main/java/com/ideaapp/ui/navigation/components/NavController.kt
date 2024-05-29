@@ -1,4 +1,4 @@
-package com.ideaapp.ui.navigation
+package com.ideaapp.ui.navigation.components
 
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavController
@@ -11,7 +11,7 @@ class NavController {
             return this.currentBackStackEntry?.lifecycle?.currentState == Lifecycle.State.RESUMED
         }
 
-        fun NavController.checkIsDestinationCurrent(route: String): Boolean {
+        private fun NavController.checkIsDestinationCurrent(route: String): Boolean {
             return currentDestination?.route?.substringBefore("/") == route.substringBefore("/")
         }
 
