@@ -4,7 +4,7 @@
     <string name="settings">Настройки</string>
     <string name="secure_note">Личные заметки</string>
     <string name="title">Название</string>
-    <string name="note">Текст....</string>
+    <string name="note">Заметка</string>
     <string name="create">Создать</string>
     <string name="error_node">Enter notes</string>
     <string name="delete">Удалить</string>

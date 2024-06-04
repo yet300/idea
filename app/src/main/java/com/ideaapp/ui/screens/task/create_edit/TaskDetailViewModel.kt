@@ -1,17 +1,16 @@
 package com.ideaapp.ui.screens.task.create_edit
 
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ideasapp.domain.model.Reminder
-import com.ideasapp.domain.utils.InvalidException
 import com.ideasapp.domain.model.Task
 import com.ideasapp.domain.usecase.reminder.CreateReminderUseCase
 import com.ideasapp.domain.usecase.reminder.DeleteReminderUseCase
 import com.ideasapp.domain.usecase.task.CreateTaskUseCase
 import com.ideasapp.domain.usecase.task.DeleteTaskUseCase
 import com.ideasapp.domain.usecase.task.GetTaskByIdUseCase
+import com.ideasapp.domain.utils.InvalidException
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -33,7 +32,14 @@ class TaskDetailViewModel @Inject constructor(
     val taskState: StateFlow<Task>
         get() = _taskState
 
-    private var currentTaskId: Long? = null
+    private var _currentTaskId: Long? = null
+    val currentId: Long
+        get() = _currentTaskId ?: 0L
+
+
+    private var _currentReminderTime: Long? = null
+    val currentReminderTime: Long
+        get() = _currentReminderTime ?: 0L
 
     private val _eventFlow = MutableSharedFlow<UiEvent>()
     val eventFlow = _eventFlow.asSharedFlow()
@@ -43,7 +49,8 @@ class TaskDetailViewModel @Inject constructor(
             if (taskId != -1L) {
                 viewModelScope.launch {
                     getTaskByIdUseCase.invoke(taskId)?.also { task ->
-                        currentTaskId = task.id
+                        _currentTaskId = task.id
+                        _currentReminderTime = task.reminderTime
 
                         _taskState.value = taskState.value.copy(
                             name = task.name,
@@ -72,11 +79,12 @@ class TaskDetailViewModel @Inject constructor(
                 _taskState.value = _taskState.value.copy(isComplete = event.complete)
             }
 
-            is TaskDetailUiEvent.UpdateReminder -> viewModelScope.launch {
-                try {
+            is TaskDetailUiEvent.UpdateReminder -> {
+                if (event.reminderTime == 0L) return
+                viewModelScope.launch {
                     createReminderUseCase.invoke(
                         Reminder(
-                            itemId = currentTaskId ?: 0L,
+                            itemId = _currentTaskId ?: 0L,
                             reminderTime = event.reminderTime,
                             name = _taskState.value.name,
                             description = _taskState.value.description!!,
@@ -85,25 +93,24 @@ class TaskDetailViewModel @Inject constructor(
                     _taskState.value = _taskState.value.copy(
                         reminderTime = event.reminderTime,
                     )
-                } catch (e: InvalidException) {
-                    Log.d("Reminder", "$e, reminder time = ${event.reminderTime}")
+                    _currentReminderTime = event.reminderTime
                 }
             }
 
             is TaskDetailUiEvent.CancelReminder -> viewModelScope.launch {
-                //TODO(исправить отмену )
-                deleteReminderUseCase.invoke(currentTaskId ?: 0L)
+                deleteReminderUseCase.invoke(_currentTaskId ?: 0L)
                 _taskState.value = _taskState.value.copy(
                     reminderTime = 0L
                 )
+                _currentReminderTime = 0L
             }
 
             TaskDetailUiEvent.Save -> {
                 viewModelScope.launch {
-                    try {
+                    if (taskState.value.name.isNotEmpty()) {
                         createTaskUseCase.invoke(
                             Task(
-                                id = currentTaskId ?: 0L,
+                                id = _currentTaskId ?: 0L,
                                 name = taskState.value.name,
                                 description = taskState.value.description,
                                 reminderTime = taskState.value.reminderTime,
@@ -111,12 +118,11 @@ class TaskDetailViewModel @Inject constructor(
                             )
                         )
                         _eventFlow.emit(UiEvent.Save)
-                    } catch (e: InvalidException) {
-                        _eventFlow.emit(
-                            UiEvent.ShowSnackBar(
-                                message = e.message ?: "Couldn't save"
-                            )
+                    } else {
+                        deleteTaskUseCase.invoke(
+                            Task(_currentTaskId ?: 0L)
                         )
+                        _eventFlow.emit(UiEvent.Delete)
                     }
                 }
             }
@@ -125,7 +131,7 @@ class TaskDetailViewModel @Inject constructor(
                 viewModelScope.launch {
                     try {
                         deleteTaskUseCase.invoke(
-                            Task(currentTaskId ?: 0L)
+                            Task(_currentTaskId ?: 0L)
                         )
                         _eventFlow.emit(UiEvent.Delete)
                     } catch (e: InvalidException) {

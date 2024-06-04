@@ -18,13 +18,17 @@ class ReminderRepositoryImpl @Inject constructor(
         return dao.getReminderById(id)?.toDomainReminder()
     }
 
+    override suspend fun getReminderByItemId(itemId: Long): Reminder? {
+        return dao.getReminderByItemId(itemId)?.toDomainReminder()
+    }
+
 
     override suspend fun deleteReminder(reminder: Reminder) {
-        dao.deleteReminder(reminder.toRoomReminder())
+        return dao.deleteReminder(reminder.toRoomReminder())
     }
 
     override suspend fun deleteReminderByItemId(id: Long) {
-        dao.getReminderById(id)
+        return dao.deleteReminderByItemId(id)
     }
 
 

@@ -21,6 +21,13 @@ interface ReminderDAO {
     )
     suspend fun getReminderById(id: Long): ReminderDBO?
 
+    @Query(
+        """SELECT * FROM reminder
+                WHERE itemId = :id
+                """
+    )
+    suspend fun getReminderByItemId(id: Long): ReminderDBO?
+
 
     @Query(
         " SELECT * FROM reminder"

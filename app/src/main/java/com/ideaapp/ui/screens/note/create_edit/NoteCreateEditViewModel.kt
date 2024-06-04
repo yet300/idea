@@ -90,9 +90,10 @@ class NoteCreateEditViewModel @Inject constructor(
                     )
                     _eventFlow.emit(UiEvent.Save)
                 } else {
-                    _eventFlow.emit(
-                        UiEvent.ShowSnackBar(
-                            message = "Note is Empty"
+                    _eventFlow.emit(UiEvent.Delete)
+                    deleteNoteUseCase.invoke(
+                        Note(
+                            id = currentNoteId ?: 0L
                         )
                     )
                 }

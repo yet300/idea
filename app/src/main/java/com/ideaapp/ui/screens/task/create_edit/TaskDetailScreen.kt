@@ -70,9 +70,11 @@ fun TaskDetailScreen(
             )
         },
         bottomBar = {
-            DetailBottomBar(complete = complete) {
-                viewModel.onEvent(TaskDetailUiEvent.UpdateComplete(!complete))
-                complete = !complete
+            if(viewModel.currentId !=0L){
+                DetailBottomBar(complete = complete) {
+                    viewModel.onEvent(TaskDetailUiEvent.UpdateComplete(!complete))
+                    complete = !complete
+                }
             }
         },
         content = {

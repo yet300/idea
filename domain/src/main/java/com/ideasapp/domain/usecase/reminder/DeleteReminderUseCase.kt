@@ -9,7 +9,7 @@ class DeleteReminderUseCase @Inject constructor(
     private val reminderScheduler: ReminderSchedulerRepository,
 ) {
     suspend operator fun invoke(id: Long) {
-        val reminder = reminderRepository.getReminderById(id) ?: return
+        val reminder = reminderRepository.getReminderByItemId(id)?: return
         reminderRepository.deleteReminder(reminder)
         reminderScheduler.cancelAlarm(reminder)
     }

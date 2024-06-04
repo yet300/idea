@@ -8,6 +8,8 @@ interface ReminderRepository {
 
     suspend fun getReminderById(id: Long): Reminder?
 
+    suspend fun getReminderByItemId(itemId:Long):Reminder?
+
     suspend fun deleteReminder(reminder: Reminder)
 
     suspend fun deleteReminderByItemId(id: Long)

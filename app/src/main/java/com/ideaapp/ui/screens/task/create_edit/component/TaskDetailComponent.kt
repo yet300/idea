@@ -42,9 +42,9 @@ fun TaskDetailComponent(
     var showDateTimeDialog by remember {
         mutableStateOf(false)
     }
-    var createdReminder by remember(taskState.reminderTime) {
-        mutableStateOf(taskState.reminderTime)
-    }
+//    var createdReminder by remember(taskState.reminderTime) {
+//        mutableStateOf(taskState.reminderTime)
+//    }
 
     LazyColumn(
         modifier = modifier
@@ -85,8 +85,7 @@ fun TaskDetailComponent(
                 DateTimeDialog(
                     onCancel = { showDateTimeDialog = false },
                     onConfirm = { dateTime ->
-                        createdReminder = dateTime
-                        viewModel.onEvent(TaskDetailUiEvent.UpdateReminder(createdReminder ?: 0L))
+                        viewModel.onEvent(TaskDetailUiEvent.UpdateReminder(dateTime))
                         showDateTimeDialog = false
                     },
                     context = LocalContext.current
@@ -95,21 +94,20 @@ fun TaskDetailComponent(
             IconComponentButton(
                 icon = Icons.Outlined.WatchLater,
                 content = {
-                    if (createdReminder != 0L) {
+                    if (viewModel.currentReminderTime != 0L) {
                         InputChip(
                             selected = false,
                             onClick = {
                                 viewModel.onEvent(
                                     TaskDetailUiEvent.CancelReminder(
-                                        createdReminder ?: 0L
+                                        viewModel.currentReminderTime
                                     )
                                 )
-                                createdReminder = 0L
                             },
                             label = {
                                 Text(
                                     DateTimeConvertor.convertLongToDateTime(
-                                        createdReminder ?: 0L
+                                        viewModel.currentReminderTime
                                     )
                                 )
                             },
