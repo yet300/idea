@@ -14,8 +14,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.ChatBubbleOutline
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -31,7 +29,6 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.ideaapp.R
 import com.ideaapp.ui.components.CustomTextField
-import com.ideaapp.ui.components.TextIconComponentTextField
 import com.ideaapp.ui.screens.note.create_edit.NoteCreateEditUiEvent
 import com.ideaapp.ui.screens.note.create_edit.NoteCreateEditViewModel
 import com.ideasapp.domain.model.Note
@@ -95,13 +92,19 @@ fun NoteCreateEditComponent(
                 )
             }
             item {
-                TextIconComponentTextField(
+                CustomTextField(
                     value = noteState.content ?: "",
-                    onValueChange = { newContent ->
-                        viewModel.onEvent(NoteCreateEditUiEvent.UpdateContent(newContent))
+                    onValueChange = {
+                        viewModel.onEvent(NoteCreateEditUiEvent.UpdateContent(it))
                     },
-                    icon = Icons.Outlined.ChatBubbleOutline,
-                    label = stringResource(id = R.string.note),
+                    labelText = stringResource(id = R.string.Note),
+                    textStyle = TextStyle(
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Medium,
+                        color = MaterialTheme.colorScheme.onSurface
+                    ),
+                    modifier = modifier
+                        .fillMaxWidth(),
                 )
             }
         }
