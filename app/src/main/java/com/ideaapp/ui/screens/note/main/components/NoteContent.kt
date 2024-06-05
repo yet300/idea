@@ -6,10 +6,10 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
+import androidx.compose.foundation.lazy.staggeredgrid.items
+import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -25,11 +25,12 @@ fun NoteContent(
     navController: NavController,
     paddingValues: PaddingValues,
 ) {
-    LazyVerticalGrid(
+    LazyVerticalStaggeredGrid(
         modifier = modifier
             .fillMaxWidth(),
-        columns = GridCells.Fixed(2),
-        state = rememberLazyGridState(),
+        columns = StaggeredGridCells.Fixed(2),
+        state = rememberLazyStaggeredGridState(),
+        verticalItemSpacing = 8.dp,
         contentPadding = paddingValues
     ) {
         items(

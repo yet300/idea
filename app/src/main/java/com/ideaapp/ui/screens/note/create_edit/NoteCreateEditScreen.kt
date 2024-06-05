@@ -4,6 +4,8 @@ import android.content.Context
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.ime
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Image
 import androidx.compose.material.icons.filled.Shield
@@ -77,6 +79,7 @@ fun NoteCreateEditScreen(
 
     Scaffold(
         modifier = modifier,
+        contentWindowInsets = WindowInsets.ime,
         snackbarHost = {
             SnackbarHost(hostState = snackBarHostState)
         },

@@ -1,6 +1,8 @@
 package com.ideaapp.ui.screens.task.create_edit
 
 
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.ime
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -51,6 +53,7 @@ fun TaskDetailScreen(
     }
     Scaffold(
         modifier = modifier,
+        contentWindowInsets = WindowInsets.ime,
         snackbarHost = {
             SnackbarHost(hostState = snackBarHostState)
         },
