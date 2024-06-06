@@ -64,11 +64,9 @@ dependencies {
     //SplashScreen
     implementation(libs.androidx.core.splashscreen)
 
-
     implementation(project(":domain"))
     implementation(project(":data"))
     implementation(libs.androidx.appcompat)
-
 
     //test
     testImplementation(libs.junit)
@@ -77,9 +75,8 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.compose.bom))
-    debugImplementation("androidx.compose.ui:ui-tooling")
-    debugImplementation("androidx.compose.ui:ui-test-manifest")
-
+    debugImplementation(libs.androidx.ui.tooling)
+    debugImplementation(libs.androidx.ui.test.manifest)
 
     //LiveData
     implementation(libs.androidx.lifecycle.runtime.compose)
@@ -89,9 +86,6 @@ dependencies {
     // Navigation
     implementation(libs.androidx.navigation.compose)
 
-    //decompose navigation
-    implementation(libs.decompose)
-    implementation(libs.decompose.jetpack)
 
     //serialization
     implementation(libs.kotlinx.serialization.json)
