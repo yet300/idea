@@ -101,7 +101,7 @@ fun TaskItem(
                     text = task.description ?: "",
                     style = MaterialTheme.typography.titleSmall,
                 )
-                if (task.reminderTime != 0L) {
+                if (task.reminderTime != null) {
                     SuggestionChip(
                         onClick = {},
                         label = {
