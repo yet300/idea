@@ -27,8 +27,10 @@ roomRuntime = "2.6.1"
 runtimeLivedata = "1.6.7"
 bom = "2024.05.00"
 
+#buld-compilers
 compose-compiler = "1.5.13"
-
+minSdk = "26"
+compileSdk = "34"
 
 andoid-gradle = "8.4.0"
 kotlin = "1.9.23"

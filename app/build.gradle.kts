@@ -8,12 +8,12 @@ plugins {
 
 android {
     namespace = "com.ideaapp"
-    compileSdk = 34
+    compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
         applicationId = "com.ideaapp"
-        minSdk = 26
-        targetSdk = 34
+        minSdk = libs.versions.minSdk.get().toInt()
+        targetSdk = libs.versions.compileSdk.get().toInt()
         versionCode = 1
         versionName = "1.0"
 
@@ -64,9 +64,10 @@ dependencies {
     //SplashScreen
     implementation(libs.androidx.core.splashscreen)
 
-    implementation(project(":domain"))
-    implementation(project(":data"))
-    implementation(project(":shared"))
+    //Modules
+    implementation(projects.data)
+    implementation(projects.domain)
+    implementation(projects.shared)
 
     implementation(libs.androidx.appcompat)
 

@@ -7,10 +7,10 @@ plugins {
 
 android {
     namespace = "com.ideasapp.data"
-    compileSdk = 34
+    compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
-        minSdk = 26
+        minSdk = libs.versions.minSdk.get().toInt()
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -41,7 +41,7 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
 
-    implementation(project(":domain"))
+    implementation(projects.domain)
 
     // Room
     implementation(libs.androidx.room.runtime)
