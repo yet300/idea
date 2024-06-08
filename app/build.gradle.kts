@@ -44,7 +44,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.13"
+        kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
     }
     packaging {
         resources {
@@ -66,6 +66,8 @@ dependencies {
 
     implementation(project(":domain"))
     implementation(project(":data"))
+    implementation(project(":shared"))
+
     implementation(libs.androidx.appcompat)
 
     //test
@@ -96,7 +98,6 @@ dependencies {
 
     //coil
     implementation(libs.coil.compose)
-
 
     // Hilt
     implementation(libs.hilt.android)
