@@ -3,9 +3,8 @@ package com.ideasapp.domain.usecase.reminder
 import com.ideasapp.domain.model.Reminder
 import com.ideasapp.domain.repository.ReminderRepository
 import com.ideasapp.domain.repository.ReminderSchedulerRepository
-import jakarta.inject.Inject
 
-class CreateReminderUseCase @Inject constructor(
+class CreateReminderUseCase (
     private val reminderRepository: ReminderRepository,
     private val reminderScheduler: ReminderSchedulerRepository
 ) {

@@ -10,7 +10,6 @@ tasks.test {
 
 dependencies{
     implementation(libs.kotlinx.coroutines.core)
-    implementation(libs.jakarta.inject.api)
     //test
     testImplementation(libs.junit.jupiter)
     testImplementation(libs.mockito.core)

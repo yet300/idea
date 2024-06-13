@@ -2,7 +2,6 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.android.kotlin)
     alias(libs.plugins.ksp)
-    alias(libs.plugins.android.hilt)
     alias(libs.plugins.kotlin.serialzation)
 }
 
@@ -65,9 +64,9 @@ dependencies {
     implementation(libs.androidx.core.splashscreen)
 
     //Modules
-    implementation(projects.data)
-    implementation(projects.domain)
-    implementation(projects.shared)
+    implementation(project(":data"))
+    implementation(project(":domain"))
+    implementation(project(":shared"))
 
     implementation(libs.androidx.appcompat)
 
@@ -100,8 +99,12 @@ dependencies {
     //coil
     implementation(libs.coil.compose)
 
-    // Hilt
-    implementation(libs.hilt.android)
-    ksp(libs.dagger.hilt.android.compiler)
-    implementation(libs.androidx.hilt.navigation.compose)
+    //koin
+    implementation(platform(libs.koin.bom))
+    implementation(libs.koin.core)
+    implementation(libs.koin.android)
+    implementation(libs.koin.compose)
+    implementation(libs.koin.navigation)
+    implementation(libs.koin.anotation)
+    ksp(libs.koin.ksp)
 }

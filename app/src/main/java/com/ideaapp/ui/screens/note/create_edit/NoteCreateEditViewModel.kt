@@ -9,16 +9,13 @@ import com.ideasapp.domain.usecase.note.CreateNoteUseCase
 import com.ideasapp.domain.usecase.note.DeleteNoteUseCase
 import com.ideasapp.domain.usecase.note.GetNoteByIdUseCase
 import com.ideasapp.domain.utils.InvalidException
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-@HiltViewModel
-class NoteCreateEditViewModel @Inject constructor(
+class NoteCreateEditViewModel(
     private val createNoteUseCase: CreateNoteUseCase,
     private val getNoteByIdUseCase: GetNoteByIdUseCase,
     private val deleteNoteUseCase: DeleteNoteUseCase,

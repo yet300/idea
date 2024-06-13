@@ -17,12 +17,13 @@ import com.ideaapp.ui.components.SearchBar
 import com.ideaapp.ui.components.scrollConnectionToProvideVisibility
 import com.ideaapp.ui.screens.note.main.components.EmptyScreen
 import com.ideaapp.ui.screens.note.main.components.NoteContent
+import org.koin.androidx.compose.koinViewModel
 
 
 @Composable
 fun NoteScreen(
     navController: NavHostController,
-    viewModel: NoteViewModel,
+    viewModel: NoteViewModel = koinViewModel(),
     activity: AppCompatActivity,
     modifier: Modifier = Modifier
 ) {

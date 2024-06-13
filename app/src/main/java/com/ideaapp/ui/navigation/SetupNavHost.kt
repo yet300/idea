@@ -12,7 +12,6 @@ import androidx.compose.animation.scaleIn
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -93,15 +92,14 @@ fun SetupNavHost(
                 composable(route = Screens.Note.rout) {
                     NoteScreen(
                         navController = navController,
-                        hiltViewModel(),
-                        context as AppCompatActivity,
+                        activity = context as AppCompatActivity,
                     )
                 }
 
                 composable(
                     route = Screens.Secure.rout
                 ) {
-                    NoteSecureScreen(navController = navController, hiltViewModel())
+                    NoteSecureScreen(navController = navController)
                 }
 
                 composable(
@@ -117,7 +115,6 @@ fun SetupNavHost(
                 ) {
                     NoteCreateEditScreen(
                         navController = navController,
-                        viewModel = hiltViewModel(),
                         context = context
                     )
                 }
@@ -126,7 +123,6 @@ fun SetupNavHost(
                     route = Screens.Settings.rout
                 ) {
                     SettingsScreen(
-                        viewModel = hiltViewModel(),
                         context = context
                     )
                 }
@@ -135,7 +131,7 @@ fun SetupNavHost(
                 composable(
                     route = Screens.Task.rout,
                 ) {
-                    TaskScreen(viewModel = hiltViewModel(), navController = navController)
+                    TaskScreen(navController = navController)
                 }
 
                 composable(
@@ -149,7 +145,7 @@ fun SetupNavHost(
                         }
                     )
                 ) {
-                    TaskDetailScreen(viewModel = hiltViewModel(), navController = navController)
+                    TaskDetailScreen(navController = navController)
                 }
 
             }

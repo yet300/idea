@@ -7,9 +7,8 @@ import com.ideasapp.domain.model.Note
 import com.ideasapp.domain.repository.NoteRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import javax.inject.Inject
 
-class NoteRepositoryImpl @Inject constructor(private val dao: NoteDAO) : NoteRepository {
+class NoteRepositoryImpl (private val dao: NoteDAO) : NoteRepository {
     override suspend fun insertNote(note: Note) {
          dao.insertNote(note.toRoomNote())
     }

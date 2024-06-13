@@ -2,9 +2,8 @@ package com.ideasapp.domain.usecase.reminder
 
 import com.ideasapp.domain.repository.ReminderRepository
 import com.ideasapp.domain.repository.ReminderSchedulerRepository
-import jakarta.inject.Inject
 
-class DeleteReminderUseCase @Inject constructor(
+class DeleteReminderUseCase (
     private val reminderRepository: ReminderRepository,
     private val reminderScheduler: ReminderSchedulerRepository,
 ) {

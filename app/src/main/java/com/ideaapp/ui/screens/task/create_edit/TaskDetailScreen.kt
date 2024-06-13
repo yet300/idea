@@ -20,13 +20,14 @@ import com.ideaapp.ui.navigation.components.NavController.Companion.canNavigate
 import com.ideaapp.ui.screens.task.create_edit.component.DetailBottomBar
 import com.ideaapp.ui.screens.task.create_edit.component.TaskDetailComponent
 import kotlinx.coroutines.flow.collectLatest
+import org.koin.androidx.compose.koinViewModel
 
 
 @Composable
 fun TaskDetailScreen(
-    viewModel: TaskDetailViewModel,
+    modifier: Modifier = Modifier,
+    viewModel: TaskDetailViewModel = koinViewModel(),
     navController: NavHostController,
-    modifier: Modifier = Modifier
 ) {
     val taskState by viewModel.taskState.collectAsState()
 
@@ -73,7 +74,7 @@ fun TaskDetailScreen(
             )
         },
         bottomBar = {
-            if(viewModel.currentId !=0L){
+            if (viewModel.currentId != 0L) {
                 DetailBottomBar(complete = complete) {
                     viewModel.onEvent(TaskDetailUiEvent.UpdateComplete(!complete))
                     complete = !complete

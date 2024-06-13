@@ -24,14 +24,15 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.ideaapp.R
 import com.ideaapp.ui.screens.task.main.components.TaskContent
+import org.koin.androidx.compose.koinViewModel
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TaskScreen(
-    viewModel: TaskViewModel,
+    modifier: Modifier = Modifier,
+    viewModel: TaskViewModel = koinViewModel(),
     navController: NavController,
-    modifier: Modifier = Modifier
 ) {
     val tasks by viewModel.tasks.collectAsStateWithLifecycle(initialValue = emptyList())
 

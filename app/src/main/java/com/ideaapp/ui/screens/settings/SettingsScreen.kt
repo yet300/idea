@@ -28,14 +28,15 @@ import com.ideaapp.R
 import com.ideaapp.ui.components.IconComponentButton
 import com.ideaapp.ui.components.IconComponentSwitcher
 import com.ideaapp.utils.ThemeChanger
+import org.koin.androidx.compose.koinViewModel
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsScreen(
-    viewModel: SettingsViewModel,
+    modifier: Modifier = Modifier,
+    viewModel: SettingsViewModel = koinViewModel(),
     context: Context,
-    modifier: Modifier = Modifier
 ) {
     val packageName = context.packageName
     val uriHandler = LocalUriHandler.current
@@ -50,7 +51,7 @@ fun SettingsScreen(
                         modifier = modifier,
                         text = stringResource(id = R.string.settings),
                         style = MaterialTheme.typography.headlineSmall,
-                        )
+                    )
                 },
             )
         },

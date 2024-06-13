@@ -4,9 +4,8 @@ package com.ideasapp.domain.usecase.task
 import com.ideasapp.domain.model.Task
 import com.ideasapp.domain.repository.ReminderRepository
 import com.ideasapp.domain.repository.TaskRepository
-import jakarta.inject.Inject
 
-class DeleteTaskUseCase @Inject constructor(
+class DeleteTaskUseCase (
     private val taskRepository: TaskRepository,
     private val reminderRepository: ReminderRepository,
 ) {

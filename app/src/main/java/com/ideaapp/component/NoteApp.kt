@@ -4,21 +4,32 @@ import android.app.Application
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import com.ideaapp.di.appModule
+import com.ideaapp.di.dataModule
+import com.ideaapp.di.domainModule
+import com.ideaapp.di.viewModelModule
 import com.ideaapp.utils.ManagerNotification
-import dagger.hilt.android.HiltAndroidApp
-import javax.inject.Inject
+import org.koin.android.ext.android.inject
+import org.koin.android.ext.koin.androidContext
+import org.koin.android.ext.koin.androidLogger
+import org.koin.core.context.startKoin
+import org.koin.core.logger.Level
 
-@HiltAndroidApp
 class NoteApp : Application() {
 
-
-    @Inject
-    lateinit var notificationManager: ManagerNotification
+    val notificationManager: ManagerNotification by inject()
 
     override fun onCreate() {
         super.onCreate()
+        startKoin {
+            androidLogger(Level.DEBUG)
+            androidContext(this@NoteApp)
+            modules(appModule, dataModule, domainModule, viewModelModule)
+        }
+
         notificationManager.init()
     }
+
     // Функция для получения разрешения на использование Uri
     companion object {
         fun getUriPermission(uri: Uri, context: Context) {

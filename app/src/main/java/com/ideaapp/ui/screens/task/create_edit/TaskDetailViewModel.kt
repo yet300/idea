@@ -11,16 +11,13 @@ import com.ideasapp.domain.usecase.task.CreateTaskUseCase
 import com.ideasapp.domain.usecase.task.DeleteTaskUseCase
 import com.ideasapp.domain.usecase.task.GetTaskByIdUseCase
 import com.ideasapp.domain.utils.InvalidException
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-@HiltViewModel
-class TaskDetailViewModel @Inject constructor(
+class TaskDetailViewModel(
     private val getTaskByIdUseCase: GetTaskByIdUseCase,
     private val deleteTaskUseCase: DeleteTaskUseCase,
     private val createTaskUseCase: CreateTaskUseCase,

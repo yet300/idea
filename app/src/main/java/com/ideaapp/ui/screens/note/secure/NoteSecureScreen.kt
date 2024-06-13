@@ -23,13 +23,14 @@ import com.ideaapp.ui.components.BackButton
 import com.ideaapp.ui.navigation.components.NavController.Companion.canNavigate
 import com.ideaapp.ui.screens.note.secure.component.EmptyScreen
 import com.ideaapp.ui.screens.note.secure.component.NoteSecureContent
+import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NoteSecureScreen(
+    modifier: Modifier = Modifier,
     navController: NavHostController,
-    viewModel: NoteSecureViewModel,
-    modifier: Modifier = Modifier
+    viewModel: NoteSecureViewModel = koinViewModel(),
 ) {
     val notes by viewModel.notes.collectAsState()
 

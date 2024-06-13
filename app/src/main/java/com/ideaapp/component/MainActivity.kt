@@ -15,9 +15,7 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.ideaapp.ui.navigation.SetupNavHost
 import com.ideaapp.ui.theme.IdeasAppTheme
 import com.ideaapp.utils.ThemeChanger
-import dagger.hilt.android.AndroidEntryPoint
 
-@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
 

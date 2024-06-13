@@ -4,11 +4,8 @@ package com.ideaapp.ui.screens.settings
 import android.app.Application
 import androidx.lifecycle.ViewModel
 import com.ideaapp.utils.ThemeChanger
-import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 
-@HiltViewModel
-class SettingsViewModel @Inject constructor(
+class SettingsViewModel(
     private val application: Application,
 ) : ViewModel() {
 

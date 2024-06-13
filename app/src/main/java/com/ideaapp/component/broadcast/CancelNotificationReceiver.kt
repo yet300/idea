@@ -5,14 +5,13 @@ import android.content.Context
 import android.content.Intent
 import com.ideaapp.utils.ManagerNotification
 import com.ideasapp.domain.utils.Arguments
-import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
-@AndroidEntryPoint
-class CancelNotificationReceiver : BroadcastReceiver() {
+class CancelNotificationReceiver : BroadcastReceiver(), KoinComponent {
 
-    @Inject
-    lateinit var notificationManager: ManagerNotification
+    private val notificationManager: ManagerNotification by inject()
+
     override fun onReceive(context: Context?, intent: Intent?) {
         if (context == null || intent == null) return
         val notificationId =

@@ -9,10 +9,9 @@ import androidx.biometric.BiometricPrompt
 import com.ideaapp.R
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
-import javax.inject.Inject
 
 
-class BiometricPromptManager @Inject constructor(
+class BiometricPromptManager(
     private val activity: AppCompatActivity
 ) {
     private val resultChannel = Channel<BiometricResult>()

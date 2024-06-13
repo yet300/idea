@@ -2,17 +2,15 @@ package com.ideaapp.utils
 
 import android.app.Notification
 import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
-import dagger.hilt.android.qualifiers.ApplicationContext
-import javax.inject.Inject
-import  android.app.NotificationManager
 import androidx.core.app.NotificationManagerCompat
 import com.ideaapp.R
 import com.ideasapp.domain.utils.CustomNotificationChannel
 
-class ManagerNotificationImpl @Inject constructor(
-    @ApplicationContext private val context: Context,
+class ManagerNotificationImpl(
+    private val context: Context,
 ) : ManagerNotification {
 
     private val notificationManager by lazy { context.getSystemService(NotificationManager::class.java) }

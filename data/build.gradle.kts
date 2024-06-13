@@ -2,7 +2,6 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.android.kotlin)
     alias(libs.plugins.ksp)
-    alias(libs.plugins.android.hilt)
 }
 
 android {
@@ -41,7 +40,7 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
 
-    implementation(projects.domain)
+    implementation(project(":domain"))
 
     // Room
     implementation(libs.androidx.room.runtime)
@@ -49,7 +48,4 @@ dependencies {
     annotationProcessor(libs.androidx.room.compiler)
     ksp(libs.androidx.room.compiler)
 
-    //hilt
-    implementation(libs.hilt.android)
-    ksp(libs.dagger.hilt.android.compiler)
 }

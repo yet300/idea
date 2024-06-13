@@ -31,12 +31,13 @@ import com.ideaapp.ui.components.TopBar
 import com.ideaapp.ui.navigation.components.NavController.Companion.canNavigate
 import com.ideaapp.ui.screens.note.create_edit.component.NoteCreateEditComponent
 import kotlinx.coroutines.flow.collectLatest
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun NoteCreateEditScreen(
     modifier: Modifier = Modifier,
     navController: NavHostController,
-    viewModel: NoteCreateEditViewModel,
+    viewModel: NoteCreateEditViewModel = koinViewModel(),
     context: Context,
 ) {
     val noteState by viewModel.noteState.collectAsState()

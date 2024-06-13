@@ -2,26 +2,20 @@ package com.ideaapp.di
 
 import android.app.AlarmManager
 import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
-import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
+import com.ideaapp.utils.ManagerNotification
+import com.ideaapp.utils.ManagerNotificationImpl
+import com.ideaapp.utils.ReminderSchedulerRepositoryImpl
+import com.ideasapp.domain.repository.ReminderSchedulerRepository
+import org.koin.android.ext.koin.androidContext
+import org.koin.dsl.module
 
-@Module
-@InstallIn(SingletonComponent::class)
-class AppModule {
-
-    @Provides
-    fun provideAppCompatActivity(@ApplicationContext context: Context): AppCompatActivity {
-        return context as AppCompatActivity
+val appModule = module {
+    factory<ManagerNotification> { ManagerNotificationImpl(context = get()) }
+    factory<ReminderSchedulerRepository> {
+        ReminderSchedulerRepositoryImpl(
+            context = get(),
+            alarmManager = get()
+        )
     }
-
-    @Provides
-    @Singleton
-    fun provideAlarmManager(@ApplicationContext context: Context): AlarmManager {
-        return context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-    }
+    single<AlarmManager> { androidContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager }
 }

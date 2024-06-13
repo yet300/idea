@@ -9,11 +9,9 @@ import com.ideaapp.component.broadcast.NotificationReceiver
 import com.ideasapp.domain.model.Reminder
 import com.ideasapp.domain.repository.ReminderSchedulerRepository
 import com.ideasapp.domain.utils.Arguments
-import dagger.hilt.android.qualifiers.ApplicationContext
-import javax.inject.Inject
 
-class ReminderSchedulerRepositoryImpl @Inject constructor(
-    @ApplicationContext private val context: Context,
+class ReminderSchedulerRepositoryImpl(
+    private val context: Context,
     private val alarmManager: AlarmManager
 ) :
     ReminderSchedulerRepository {

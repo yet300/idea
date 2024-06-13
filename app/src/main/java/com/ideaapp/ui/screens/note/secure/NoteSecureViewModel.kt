@@ -5,14 +5,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ideasapp.domain.model.Note
 import com.ideasapp.domain.usecase.note.GetNoteUseCase
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-@HiltViewModel
-class NoteSecureViewModel @Inject constructor(
+
+class NoteSecureViewModel(
     private val getNoteUseCase: GetNoteUseCase
 ) : ViewModel() {
     private val _notes = MutableStateFlow<List<Note>>(emptyList())

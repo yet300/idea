@@ -10,16 +10,14 @@ import com.ideasapp.domain.usecase.task.GetTaskUseCase
 import com.ideasapp.domain.usecase.task.UpdateTaskUseCase
 import com.ideasapp.domain.utils.memento.Caretaker
 import com.ideasapp.domain.utils.memento.Originator
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-@HiltViewModel
-class TaskViewModel @Inject constructor(
+
+class TaskViewModel(
     private val getTaskUseCase: GetTaskUseCase,
     private val updateTaskUseCase: UpdateTaskUseCase,
     private val deleteTaskUseCase: DeleteTaskUseCase,

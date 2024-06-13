@@ -9,14 +9,13 @@ import android.util.Log
 import com.ideaapp.utils.ManagerNotification
 import com.ideaapp.utils.postTaskNotification
 import com.ideasapp.domain.utils.Arguments
-import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
-@AndroidEntryPoint
-class NotificationReceiver : BroadcastReceiver() {
+class NotificationReceiver : BroadcastReceiver(), KoinComponent {
 
-    @Inject
-    lateinit var notificationManager: ManagerNotification
+    private val notificationManager: ManagerNotification by inject()
+
     override fun onReceive(context: Context?, intent: Intent?) {
         if (context == null || intent == null) return
 
@@ -26,7 +25,7 @@ class NotificationReceiver : BroadcastReceiver() {
         if (taskName != null) {
             notificationManager.postTaskNotification(
                 name = taskName,
-                description = taskDescription ,
+                description = taskDescription,
                 pendingIntent = pendingIntent(
                     context = context,
                     id = reminderId.toInt(),
