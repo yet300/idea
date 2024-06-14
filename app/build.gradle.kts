@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.android.kotlin)
     alias(libs.plugins.ksp)
     alias(libs.plugins.kotlin.serialzation)
+    alias(libs.plugins.compose.compiler)
 }
 
 android {
@@ -82,7 +83,6 @@ dependencies {
 
     //LiveData
     implementation(libs.androidx.lifecycle.runtime.compose)
-    implementation(libs.androidx.runtime.livedata)
 
 
     // Navigation
@@ -103,7 +103,7 @@ dependencies {
     implementation(platform(libs.koin.bom))
     implementation(libs.koin.core)
     implementation(libs.koin.android)
-    implementation(libs.koin.compose)
+    implementation(libs.koin.compose.android)
     implementation(libs.koin.navigation)
     implementation(libs.koin.anotation)
     ksp(libs.koin.ksp)

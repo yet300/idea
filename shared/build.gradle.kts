@@ -44,3 +44,11 @@ android {
         targetCompatibility = JavaVersion.VERSION_1_8
     }
 }
+
+dependencies{
+    implementation(platform(libs.koin.bom))
+    implementation(libs.koin.core)
+    implementation(libs.koin.compose.kmp)
+//    implementation(libs.koin.anotation)
+//    ksp(libs.koin.ksp)
+}

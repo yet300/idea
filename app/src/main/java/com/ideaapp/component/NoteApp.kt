@@ -13,20 +13,18 @@ import org.koin.android.ext.android.inject
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
-import org.koin.core.logger.Level
 
 class NoteApp : Application() {
 
-    val notificationManager: ManagerNotification by inject()
+    private val notificationManager: ManagerNotification by inject()
 
     override fun onCreate() {
         super.onCreate()
         startKoin {
-            androidLogger(Level.DEBUG)
+            androidLogger()
             androidContext(this@NoteApp)
             modules(appModule, dataModule, domainModule, viewModelModule)
         }
-
         notificationManager.init()
     }
 
