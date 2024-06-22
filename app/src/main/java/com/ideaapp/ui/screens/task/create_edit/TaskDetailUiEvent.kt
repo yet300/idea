@@ -1,5 +1,7 @@
 package com.ideaapp.ui.screens.task.create_edit
 
+import com.ideaapp.shared.compose.ui.screens.task.create_edit.TaskDetailUiEvent
+
 
 sealed class TaskDetailUiEvent {
     data class UpdateName(val title: String) : TaskDetailUiEvent()

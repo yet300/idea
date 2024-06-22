@@ -25,8 +25,8 @@ import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import com.ideaapp.R
-import com.ideaapp.ui.components.IconComponentButton
-import com.ideaapp.ui.components.IconComponentSwitcher
+import com.ideaapp.shared.compose.ui.components.IconComponentButton
+import com.ideaapp.shared.compose.ui.components.IconComponentSwitcher
 import com.ideaapp.utils.ThemeChanger
 import org.koin.androidx.compose.koinViewModel
 

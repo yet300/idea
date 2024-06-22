@@ -19,10 +19,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.ideaapp.R
-import com.ideaapp.ui.components.BackButton
-import com.ideaapp.ui.navigation.components.NavController.Companion.canNavigate
-import com.ideaapp.ui.screens.note.secure.component.EmptyScreen
-import com.ideaapp.ui.screens.note.secure.component.NoteSecureContent
+import com.ideaapp.shared.compose.ui.components.BackButton
+import com.ideaapp.shared.compose.ui.screens.note.secure.NoteSecureViewModel
+import com.ideaapp.shared.compose.ui.navigation.components.NavController.Companion.canNavigate
+import com.ideaapp.shared.compose.ui.screens.note.secure.component.EmptyScreen
+import com.ideaapp.shared.compose.ui.screens.note.secure.component.NoteSecureContent
 import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)

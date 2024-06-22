@@ -26,9 +26,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
 import com.ideaapp.R
 import com.ideaapp.component.NoteApp
-import com.ideaapp.ui.components.IconComponentSwitcher
-import com.ideaapp.ui.components.TopBar
-import com.ideaapp.ui.navigation.components.NavController.Companion.canNavigate
+import com.ideaapp.shared.compose.ui.components.IconComponentSwitcher
+import com.ideaapp.shared.compose.ui.components.TopBar
+import com.ideaapp.shared.compose.ui.navigation.components.NavController.Companion.canNavigate
 import com.ideaapp.ui.screens.note.create_edit.component.NoteCreateEditComponent
 import kotlinx.coroutines.flow.collectLatest
 import org.koin.androidx.compose.koinViewModel

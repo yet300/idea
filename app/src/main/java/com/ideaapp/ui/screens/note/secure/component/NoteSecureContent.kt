@@ -13,7 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.ideaapp.ui.navigation.components.Screens
+import com.ideaapp.shared.compose.ui.navigation.components.Screens
 import com.ideaapp.ui.screens.note.main.components.NoteItem
 import com.ideasapp.domain.model.Note
 

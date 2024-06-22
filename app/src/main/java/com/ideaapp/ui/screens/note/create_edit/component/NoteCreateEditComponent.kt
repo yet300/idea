@@ -28,7 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.ideaapp.R
-import com.ideaapp.ui.components.CustomTextField
+import com.ideaapp.shared.compose.ui.components.CustomTextField
 import com.ideaapp.ui.screens.note.create_edit.NoteCreateEditUiEvent
 import com.ideaapp.ui.screens.note.create_edit.NoteCreateEditViewModel
 import com.ideasapp.domain.model.Note

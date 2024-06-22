@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Идея</string>
+    <string name="settings">Настройки</string>
+    <string name="secure_note">Личные заметки</string>
+    <string name="title">Название</string>
+    <string name="note">Заметка</string>
+    <string name="create">Создать</string>
+    <string name="error_node">Enter notes</string>
+    <string name="delete">Удалить</string>
+    <string name="create_your_note">Создай заметку!</string>
+    <string name="cancel">Назад</string>
+    <string name="error_create">Пусто, Введи что нибудь в Название</string>
+    <string name="cover">Обложка</string>
+    <string name="change">Изменить</string>
+    <string name="text_delete">Удалить навсегда?</string>
+    <string name="confirm">Подтвердить</string>
+    <string name="dismiss">Отменить</string>
+    <string name="tasks">Задачи</string>
+    <string name="create_your_task">Создай Задачу!</string>
+    <string name="description">Дополнение</string>
+    <string name="Note">Заметки</string>
+    <string name="Task">Задачи</string>
+    <string name="task_delete">Задача удалена</string>
+    <string name="complete">Выполненные</string>
+    <string name="completed">выполнено</string>
+    <string name="uncompleted">невыполенено</string>
+    <string name="undo">Отменить</string>
+    <string name="empty_secure">Создай личную заметку!</string>
+
+    <string name="error_invalid_datetime">Дата или время устарело</string>
+
+
+    <string name="reminder">Добавить напоминания</string>
+    <string name="date">Дата</string>
+    <string name="time">Время</string>
+    <string name="select_time">Выбрать время</string>
+
+    <!-- authentication    -->
+    <string name="auth_faild">Аутентификация не удалась</string>
+    <string name="auth_not_set">Аутентификация не установлена</string>
+    <string name="auth_unavailable">Аутентификация недоступна</string>
+    <string name="error">Произошла ошибка в процессе аутентификации, включите в настройках вход с помощью биометрии</string>
+    <string name="auth_hardware_unavailable">Аутентификация недоступна</string>
+    <string name="search">Поиск</string>
+
+    <!--    settings    -->
+    <string name="language">Язык</string>
+    <string name="telegram">Телеграм</string>
+    <string name="theme">Тема</string>
+    <string name="dynamic_color">Динамические цвета</string>
+</resources>

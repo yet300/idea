@@ -41,6 +41,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.ideaapp.R
+import com.ideaapp.shared.compose.ui.components.DateTimeConvertor
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.LocalTime

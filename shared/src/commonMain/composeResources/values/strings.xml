@@ -1,0 +1,46 @@
+<resources>
+    <string name="app_name">Idea</string>
+    <string name="settings">Settings</string>
+    <string name="secure_note">Secure Note</string>
+    <string name="title">Title</string>
+    <string name="note">Note</string>
+    <string name="create">Create</string>
+    <string name="error_node">Enter notes</string>
+    <string name="delete">Delete</string>
+    <string name="create_your_note">Create note!</string>
+    <string name="cancel">Cancel</string>
+    <string name="error_create">Your title is empty</string>
+    <string name="cover">Add cover</string>
+    <string name="change">Change</string>
+    <string name="text_delete">Delete forever?</string>
+    <string name="confirm">Confirm</string>
+    <string name="dismiss">Dismiss</string>
+    <string name="tasks">Tasks</string>
+    <string name="create_your_task">Create Task!</string>
+    <string name="description">Add description</string>
+    <string name="Note">Note</string>
+    <string name="Task">Task</string>
+    <string name="task_delete">Task Delete</string>
+    <string name="complete">Complete</string>
+    <string name="completed">completed</string>
+    <string name="uncompleted">uncompleted</string>
+    <string name="undo">UNDO</string>
+    <string name="empty_secure">Create Secure Note!</string>
+    <string name="language">Language</string>
+    <string name="telegram">Telegram</string>
+    <string name="error_invalid_datetime">Date or time is out of date</string>
+    <string name="reminder">Add reminder</string>
+    <string name="date">Date</string>
+    <string name="time">Time</string>
+    <string name="select_time">Select time</string>
+
+    <!-- authentication    -->
+    <string name="auth_faild">Authentication failed</string>
+    <string name="auth_not_set">Authentication not set</string>
+    <string name="auth_unavailable">Feature unavailable</string>
+    <string name="auth_hardware_unavailable">Hardware unavailable</string>
+    <string name="error">There was an error in the authentication process, enable biometric login in the settings</string>
+    <string name="search">Search</string>
+    <string name="theme">Theme</string>
+    <string name="dynamic_color">Dynamic Color</string>
+</resources>

@@ -27,7 +27,7 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
-import com.ideaapp.ui.components.DateTimeConvertor
+import com.ideaapp.shared.compose.ui.components.DateTimeConvertor
 import com.ideasapp.domain.model.Task
 
 

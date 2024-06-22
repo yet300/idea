@@ -12,8 +12,8 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import com.ideaapp.ui.navigation.SetupNavHost
-import com.ideaapp.ui.theme.IdeasAppTheme
+import com.ideaapp.shared.compose.ui.navigation.SetupNavHost
+import com.ideaapp.shared.compose.ui.theme.IdeasAppTheme
 import com.ideaapp.utils.ThemeChanger
 
 class MainActivity : AppCompatActivity() {
@@ -33,7 +33,6 @@ class MainActivity : AppCompatActivity() {
 
         )
         super.onCreate(savedInstanceState)
-
         ThemeChanger.restoreSavedTheme(this)
         setContent {
             IdeasAppTheme(

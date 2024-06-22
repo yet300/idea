@@ -15,10 +15,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
-import com.ideaapp.ui.components.TopBar
-import com.ideaapp.ui.navigation.components.NavController.Companion.canNavigate
-import com.ideaapp.ui.screens.task.create_edit.component.DetailBottomBar
-import com.ideaapp.ui.screens.task.create_edit.component.TaskDetailComponent
+import com.ideaapp.shared.compose.ui.screens.task.create_edit.TaskDetailUiEvent
+import com.ideaapp.shared.compose.ui.screens.task.create_edit.TaskDetailViewModel
+import com.ideaapp.shared.compose.ui.components.TopBar
+import com.ideaapp.shared.compose.ui.navigation.components.NavController.Companion.canNavigate
+import com.ideaapp.shared.compose.ui.screens.task.create_edit.component.DetailBottomBar
+import com.ideaapp.shared.compose.ui.screens.task.create_edit.component.TaskDetailComponent
 import kotlinx.coroutines.flow.collectLatest
 import org.koin.androidx.compose.koinViewModel
 
