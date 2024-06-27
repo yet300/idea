@@ -4,11 +4,11 @@ package com.ideaapp.ui.screens.note.create_edit
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ideasapp.domain.model.Note
-import com.ideasapp.domain.usecase.note.CreateNoteUseCase
-import com.ideasapp.domain.usecase.note.DeleteNoteUseCase
-import com.ideasapp.domain.usecase.note.GetNoteByIdUseCase
-import com.ideasapp.domain.utils.InvalidException
+import com.ideaapp.domain.model.Note
+import com.ideaapp.domain.usecase.note.CreateNoteUseCase
+import com.ideaapp.domain.usecase.note.DeleteNoteUseCase
+import com.ideaapp.domain.usecase.note.GetNoteByIdUseCase
+import com.ideaapp.domain.utils.InvalidException
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

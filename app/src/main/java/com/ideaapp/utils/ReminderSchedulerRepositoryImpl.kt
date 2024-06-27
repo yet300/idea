@@ -6,9 +6,9 @@ import android.content.Context
 import android.content.Intent
 import androidx.core.os.bundleOf
 import com.ideaapp.component.broadcast.NotificationReceiver
-import com.ideasapp.domain.model.Reminder
-import com.ideasapp.domain.repository.ReminderSchedulerRepository
-import com.ideasapp.domain.utils.Arguments
+import com.ideaapp.domain.model.Reminder
+import com.ideaapp.domain.repository.ReminderSchedulerRepository
+import com.ideaapp.domain.utils.Arguments
 
 class ReminderSchedulerRepositoryImpl(
     private val context: Context,

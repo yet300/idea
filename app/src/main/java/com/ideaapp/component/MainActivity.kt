@@ -10,10 +10,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import com.ideaapp.shared.compose.ui.navigation.SetupNavHost
-import com.ideaapp.shared.compose.ui.theme.IdeasAppTheme
+import com.arkivanov.decompose.defaultComponentContext
+import com.ideaapp.shared.App
+import com.ideaapp.shared.root.DefaultRootComponent
+import com.ideaapp.ui.theme.IdeasAppTheme
 import com.ideaapp.utils.ThemeChanger
 
 class MainActivity : AppCompatActivity() {
@@ -34,6 +35,10 @@ class MainActivity : AppCompatActivity() {
         )
         super.onCreate(savedInstanceState)
         ThemeChanger.restoreSavedTheme(this)
+        val root = DefaultRootComponent(
+            componentContext = defaultComponentContext(),
+        )
+
         setContent {
             IdeasAppTheme(
                 darkTheme = ThemeChanger.isDarkMode.value ?: isSystemInDarkTheme(),
@@ -44,10 +49,11 @@ class MainActivity : AppCompatActivity() {
                         .fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    SetupNavHost(
-                        context = LocalContext.current,
-
-                        )
+//                    SetupNavHost(
+//                        context = LocalContext.current,
+//
+//                        )
+                    App(component = root)
                 }
             }
         }

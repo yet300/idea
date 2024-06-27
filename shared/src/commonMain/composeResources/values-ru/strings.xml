@@ -16,11 +16,9 @@
     <string name="text_delete">Удалить навсегда?</string>
     <string name="confirm">Подтвердить</string>
     <string name="dismiss">Отменить</string>
-    <string name="tasks">Задачи</string>
+    <string name="task">Задачи</string>
     <string name="create_your_task">Создай Задачу!</string>
     <string name="description">Дополнение</string>
-    <string name="Note">Заметки</string>
-    <string name="Task">Задачи</string>
     <string name="task_delete">Задача удалена</string>
     <string name="complete">Выполненные</string>
     <string name="completed">выполнено</string>

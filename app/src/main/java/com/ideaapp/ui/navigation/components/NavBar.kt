@@ -19,8 +19,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import com.ideaapp.R
-import com.ideaapp.shared.compose.ui.navigation.components.NavController.Companion.navigateToMain
-import com.ideaapp.shared.compose.ui.navigation.components.Screens
+import com.ideaapp.ui.navigation.components.NavController.Companion.navigateToMain
 
 
 @Composable
@@ -30,7 +29,7 @@ fun NavBar(
 ) {
 
     val items = listOf(
-        com.ideaapp.shared.compose.ui.navigation.components.BottomNavigationItem(
+        BottomNavigationItem(
             selectedIcon = Icons.AutoMirrored.Filled.Note,
             unselectedIcon = Icons.AutoMirrored.Outlined.Note,
             label = R.string.Note,
@@ -39,7 +38,7 @@ fun NavBar(
                 navController.navigateToMain(destination = Screens.Note.rout)
             }
         ),
-        com.ideaapp.shared.compose.ui.navigation.components.BottomNavigationItem(
+        BottomNavigationItem(
             selectedIcon = Icons.Default.Task,
             unselectedIcon = Icons.Outlined.Task,
             label = R.string.Task,
@@ -48,7 +47,7 @@ fun NavBar(
                 navController.navigateToMain(destination = Screens.Task.rout)
             }
         ),
-        com.ideaapp.shared.compose.ui.navigation.components.BottomNavigationItem(
+        BottomNavigationItem(
             selectedIcon = Icons.Default.Settings,
             unselectedIcon = Icons.Outlined.Settings,
             label = R.string.settings,

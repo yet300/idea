@@ -1,7 +1,7 @@
 package com.ideasapp.data.wrapper
 
+import com.ideaapp.domain.model.Note
 import com.ideasapp.data.model.NoteDBO
-import com.ideasapp.domain.model.Note
 
 fun NoteDBO.toDomainNote(): Note {
     return Note(

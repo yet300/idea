@@ -6,9 +6,9 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.util.Log
+import com.ideaapp.domain.utils.Arguments
 import com.ideaapp.utils.ManagerNotification
 import com.ideaapp.utils.postTaskNotification
-import com.ideasapp.domain.utils.Arguments
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 

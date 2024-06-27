@@ -33,11 +33,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.ideaapp.R
-import com.ideaapp.shared.compose.ui.components.SnackBar
-import com.ideaapp.shared.compose.ui.components.TextIconComponent
-import com.ideaapp.shared.compose.ui.navigation.components.Screens
-import com.ideaapp.shared.compose.ui.screens.task.main.TaskViewModel
-import com.ideasapp.domain.model.Task
+import com.ideaapp.domain.model.Task
+import com.ideaapp.shared.compose.components.SnackBar
+import com.ideaapp.shared.compose.components.TextIconComponent
+import com.ideaapp.ui.navigation.components.Screens
+import com.ideaapp.ui.screens.task.main.TaskViewModel
 
 
 @Composable

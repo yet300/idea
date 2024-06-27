@@ -5,7 +5,7 @@ import android.content.Context
 import com.ideaapp.utils.ManagerNotification
 import com.ideaapp.utils.ManagerNotificationImpl
 import com.ideaapp.utils.ReminderSchedulerRepositoryImpl
-import com.ideasapp.domain.repository.ReminderSchedulerRepository
+import com.ideaapp.domain.repository.ReminderSchedulerRepository
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 

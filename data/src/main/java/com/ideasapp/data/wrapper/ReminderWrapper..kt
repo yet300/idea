@@ -1,7 +1,7 @@
 package com.ideasapp.data.wrapper
 
+import com.ideaapp.domain.model.Reminder
 import com.ideasapp.data.model.ReminderDBO
-import com.ideasapp.domain.model.Reminder
 
 fun ReminderDBO.toDomainReminder(): Reminder {
     return Reminder(

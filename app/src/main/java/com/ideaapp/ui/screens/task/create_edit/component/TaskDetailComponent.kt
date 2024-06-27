@@ -23,14 +23,14 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.ideaapp.R
-import com.ideaapp.shared.compose.ui.components.CustomTextField
-import com.ideaapp.shared.compose.ui.components.DateTimeConvertor
-import com.ideaapp.shared.compose.ui.components.DateTimeDialog
-import com.ideaapp.shared.compose.ui.components.IconComponentButton
-import com.ideaapp.shared.compose.ui.components.TextIconComponentTextField
-import com.ideaapp.shared.compose.ui.screens.task.create_edit.TaskDetailUiEvent
-import com.ideaapp.shared.compose.ui.screens.task.create_edit.TaskDetailViewModel
-import com.ideasapp.domain.model.Task
+import com.ideaapp.ui.components.CustomTextField
+import com.ideaapp.ui.components.DateTimeConvertor
+import com.ideaapp.ui.components.DateTimeDialog
+import com.ideaapp.ui.components.IconComponentButton
+import com.ideaapp.ui.components.TextIconComponentTextField
+import com.ideaapp.ui.screens.task.create_edit.TaskDetailUiEvent
+import com.ideaapp.ui.screens.task.create_edit.TaskDetailViewModel
+import com.ideaapp.domain.model.Task
 
 @Composable
 fun TaskDetailComponent(

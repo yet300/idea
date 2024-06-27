@@ -1,7 +1,7 @@
 package com.ideaapp.utils
 
 import android.app.PendingIntent
-import com.ideasapp.domain.utils.CustomNotificationChannel
+import com.ideaapp.domain.utils.CustomNotificationChannel
 
 interface ManagerNotification {
 

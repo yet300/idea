@@ -1,10 +1,10 @@
 package com.ideasapp.data.repository
 
+import com.ideaapp.domain.model.Reminder
+import com.ideaapp.domain.repository.ReminderRepository
 import com.ideasapp.data.dao.ReminderDAO
 import com.ideasapp.data.wrapper.toDomainReminder
 import com.ideasapp.data.wrapper.toRoomReminder
-import com.ideasapp.domain.model.Reminder
-import com.ideasapp.domain.repository.ReminderRepository
 
 class ReminderRepositoryImpl(
     private val dao: ReminderDAO

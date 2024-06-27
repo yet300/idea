@@ -18,15 +18,15 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.ideaapp.shared.compose.ui.components.FAB
-import com.ideaapp.shared.compose.ui.navigation.components.NavBar
-import com.ideaapp.shared.compose.ui.navigation.components.Screens
-import com.ideaapp.shared.compose.ui.screens.note.create_edit.NoteCreateEditScreen
+import com.ideaapp.shared.compose.components.FAB
+import com.ideaapp.ui.navigation.components.NavBar
+import com.ideaapp.ui.navigation.components.Screens
+import com.ideaapp.ui.screens.note.create_edit.NoteCreateEditScreen
 import com.ideaapp.ui.screens.note.main.NoteScreen
-import com.ideaapp.shared.compose.ui.screens.note.secure.NoteSecureScreen
-import com.ideaapp.shared.compose.ui.screens.settings.SettingsScreen
-import com.ideaapp.shared.compose.ui.screens.task.create_edit.TaskDetailScreen
-import com.ideaapp.shared.compose.ui.screens.task.main.TaskScreen
+import com.ideaapp.ui.screens.note.secure.NoteSecureScreen
+import com.ideaapp.ui.screens.settings.SettingsScreen
+import com.ideaapp.ui.screens.task.create_edit.TaskDetailScreen
+import com.ideaapp.ui.screens.task.main.TaskScreen
 
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")

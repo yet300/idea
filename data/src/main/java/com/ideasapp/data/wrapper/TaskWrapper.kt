@@ -1,7 +1,7 @@
 package com.ideasapp.data.wrapper
 
+import com.ideaapp.domain.model.Task
 import com.ideasapp.data.model.TaskDBO
-import com.ideasapp.domain.model.Task
 
 fun TaskDBO.toDomainTask(): Task {
     return Task(

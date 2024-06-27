@@ -1,7 +1,5 @@
 package com.ideaapp.ui.navigation.components
 
-import com.ideaapp.shared.compose.ui.navigation.components.Screens
-
 sealed class Screens(val rout: String) {
     /*
     Note Screens

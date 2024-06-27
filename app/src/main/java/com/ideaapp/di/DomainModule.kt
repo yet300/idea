@@ -1,16 +1,16 @@
 package com.ideaapp.di
 
-import com.ideasapp.domain.usecase.note.CreateNoteUseCase
-import com.ideasapp.domain.usecase.note.DeleteNoteUseCase
-import com.ideasapp.domain.usecase.note.GetNoteByIdUseCase
-import com.ideasapp.domain.usecase.note.GetNoteUseCase
-import com.ideasapp.domain.usecase.reminder.CreateReminderUseCase
-import com.ideasapp.domain.usecase.reminder.DeleteReminderUseCase
-import com.ideasapp.domain.usecase.task.CreateTaskUseCase
-import com.ideasapp.domain.usecase.task.DeleteTaskUseCase
-import com.ideasapp.domain.usecase.task.GetTaskByIdUseCase
-import com.ideasapp.domain.usecase.task.GetTaskUseCase
-import com.ideasapp.domain.usecase.task.UpdateTaskUseCase
+import com.ideaapp.domain.usecase.note.CreateNoteUseCase
+import com.ideaapp.domain.usecase.note.DeleteNoteUseCase
+import com.ideaapp.domain.usecase.note.GetNoteByIdUseCase
+import com.ideaapp.domain.usecase.note.GetNoteUseCase
+import com.ideaapp.domain.usecase.reminder.CreateReminderUseCase
+import com.ideaapp.domain.usecase.reminder.DeleteReminderUseCase
+import com.ideaapp.domain.usecase.task.CreateTaskUseCase
+import com.ideaapp.domain.usecase.task.DeleteTaskUseCase
+import com.ideaapp.domain.usecase.task.GetTaskByIdUseCase
+import com.ideaapp.domain.usecase.task.GetTaskUseCase
+import com.ideaapp.domain.usecase.task.UpdateTaskUseCase
 import org.koin.dsl.module
 
 

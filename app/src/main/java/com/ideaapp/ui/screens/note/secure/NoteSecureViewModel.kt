@@ -3,8 +3,8 @@ package com.ideaapp.ui.screens.note.secure
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ideasapp.domain.model.Note
-import com.ideasapp.domain.usecase.note.GetNoteUseCase
+import com.ideaapp.domain.model.Note
+import com.ideaapp.domain.usecase.note.GetNoteUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch

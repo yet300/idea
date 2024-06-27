@@ -7,9 +7,9 @@ import com.ideasapp.data.dao.TaskDAO
 import com.ideasapp.data.repository.NoteRepositoryImpl
 import com.ideasapp.data.repository.ReminderRepositoryImpl
 import com.ideasapp.data.repository.TaskRepositoryImpl
-import com.ideasapp.domain.repository.NoteRepository
-import com.ideasapp.domain.repository.ReminderRepository
-import com.ideasapp.domain.repository.TaskRepository
+import com.ideaapp.domain.repository.NoteRepository
+import com.ideaapp.domain.repository.ReminderRepository
+import com.ideaapp.domain.repository.TaskRepository
 import org.koin.dsl.module
 
 

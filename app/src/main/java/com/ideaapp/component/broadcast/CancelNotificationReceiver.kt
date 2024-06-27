@@ -3,8 +3,8 @@ package com.ideaapp.component.broadcast
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import com.ideaapp.domain.utils.Arguments
 import com.ideaapp.utils.ManagerNotification
-import com.ideasapp.domain.utils.Arguments
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 

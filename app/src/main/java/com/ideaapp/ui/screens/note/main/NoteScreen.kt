@@ -13,9 +13,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.ideaapp.shared.compose.ui.components.SearchBar
-import com.ideaapp.shared.compose.ui.components.scrollConnectionToProvideVisibility
-import com.ideaapp.shared.compose.ui.screens.note.main.components.EmptyScreen
+import com.ideaapp.ui.components.SearchBar
+import com.ideaapp.ui.components.scrollConnectionToProvideVisibility
+import com.ideaapp.ui.screens.note.main.components.EmptyScreen
 import com.ideaapp.ui.screens.note.main.components.NoteContent
 import org.koin.androidx.compose.koinViewModel
 

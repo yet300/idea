@@ -7,7 +7,7 @@ import android.app.PendingIntent
 import android.content.Context
 import androidx.core.app.NotificationManagerCompat
 import com.ideaapp.R
-import com.ideasapp.domain.utils.CustomNotificationChannel
+import com.ideaapp.domain.utils.CustomNotificationChannel
 
 class ManagerNotificationImpl(
     private val context: Context,

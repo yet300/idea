@@ -88,6 +88,7 @@ dependencies {
     // Navigation
     implementation(libs.androidx.navigation.compose)
 
+    implementation(libs.decompose)
 
     //serialization
     implementation(libs.kotlinx.serialization.json)

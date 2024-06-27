@@ -23,8 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.ideaapp.R
-import com.ideaapp.shared.compose.ui.screens.task.main.TaskViewModel
-import com.ideaapp.shared.compose.ui.screens.task.main.components.TaskContent
+import com.ideaapp.ui.screens.task.main.components.TaskContent
 import org.koin.androidx.compose.koinViewModel
 
 

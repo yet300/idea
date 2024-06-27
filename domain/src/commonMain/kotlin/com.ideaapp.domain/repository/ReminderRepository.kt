@@ -1,6 +1,6 @@
 package com.ideaapp.domain.repository
 
-import com.ideasapp.domain.model.Reminder
+import com.ideaapp.domain.model.Reminder
 
 interface ReminderRepository {
 

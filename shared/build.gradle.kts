@@ -1,3 +1,6 @@
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.android.library)
@@ -8,12 +11,13 @@ plugins {
 
 kotlin {
     androidTarget {
-        compilations.all {
-            kotlinOptions {
-                jvmTarget = "1.8"
-            }
+        @OptIn(ExperimentalKotlinGradlePluginApi::class)
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_18)
         }
     }
+
+    jvm("desktop")
 
     listOf(
         iosX64(),
@@ -36,16 +40,21 @@ kotlin {
             implementation(compose.foundation)
             implementation(compose.material3)
             implementation(compose.components.resources)
-            implementation(libs.androidx.material.icons.extended)
-            implementation(libs.androidx.navigation.compose)
-            implementation(libs.kotlinx.serialization.json)
+            implementation(compose.materialIconsExtended)
+            implementation(compose.components.uiToolingPreview)
 
+            //coil
+            implementation(libs.coil.compose)
+            implementation(libs.coil.kmp)
+            implementation(libs.coil.compose.core)
+
+            implementation(libs.kotlinx.serialization.json)
             implementation(libs.kotlinx.datetime)
 
 
             implementation(project(":domain"))
-
             implementation(libs.decompose)
+            implementation(libs.decompose.compose)
 
             implementation(project.dependencies.platform(libs.koin.bom))
             implementation(libs.koin.core)
@@ -67,8 +76,8 @@ android {
         minSdk = libs.versions.minSdk.get().toInt()
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_18
+        targetCompatibility = JavaVersion.VERSION_18
     }
 }
 
