@@ -12,13 +12,6 @@ interface NoteComponent {
 
     fun openCreteNote()
 
-//    data class Children(
-//        val listChild: Child.Created<*, NoteListComponent>,
-//        val createEditChild: Child.Created<*, NoteCreateEditComponent>?,
-//        val secureListChild: Child.Created<*, SecureComponent>
-//    )
-
-
     sealed interface NoteChild {
         class ListChild(val component: NoteListComponent) : NoteChild
         class CreateEditChild(val component: NoteCreateEditComponent) : NoteChild

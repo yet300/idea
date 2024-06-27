@@ -1,9 +1,13 @@
 package com.ideaapp.shared.note.main
 
 
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import com.arkivanov.decompose.extensions.compose.stack.Children
+import com.arkivanov.decompose.extensions.compose.stack.animation.fade
+import com.arkivanov.decompose.extensions.compose.stack.animation.stackAnimation
 import com.ideaapp.shared.compose.components.FAB
 import com.ideaapp.shared.note.list.NoteListContent
 
@@ -33,10 +37,20 @@ fun NoteContent(
             )
         },
         content = {
-            NoteListContent(
-                component = component.noteChild.value.,
-                paddingValues = it
-            )
+            Children(
+                stack = component.noteChild,
+                modifier = Modifier.fillMaxSize(),
+                animation = stackAnimation(fade()),
+            ) {
+                when (val child = it.instance) {
+                    is NoteComponent.NoteChild.CreateEditChild -> TODO()
+                    is NoteComponent.NoteChild.ListChild -> NoteListContent(
+                        component = child.component,
+                    )
+
+                    is NoteComponent.NoteChild.SecureChild -> TODO()
+                }
+            }
         }
     )
 }

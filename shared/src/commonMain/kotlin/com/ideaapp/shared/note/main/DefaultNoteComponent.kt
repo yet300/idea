@@ -4,16 +4,18 @@ import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.childStack
-import com.arkivanov.decompose.router.stack.pop
 import com.arkivanov.decompose.router.stack.push
 import com.arkivanov.decompose.value.Value
-import com.ideaapp.shared.note.create_edit.DefaultNoteCreateEditComponent
+import com.ideaapp.domain.usecase.note.GetNoteUseCase
 import com.ideaapp.shared.note.list.DefaultNoteListComponent
 import kotlinx.serialization.Serializable
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
 class DefaultNoteComponent(
     componentContext: ComponentContext,
-) : NoteComponent, ComponentContext by componentContext {
+) : NoteComponent, KoinComponent, ComponentContext by componentContext {
+    private val getNoteUseCase by inject<GetNoteUseCase>()
     private val navigation = StackNavigation<Config>()
 
     private val _childStackNavigation = childStack(
@@ -36,22 +38,23 @@ class DefaultNoteComponent(
             Config.Secure -> TODO()
             Config.List -> NoteComponent.NoteChild.ListChild(
                 DefaultNoteListComponent(
-                    getNoteUseCase =,
+                    getNoteUseCase = getNoteUseCase,
                     noteClicked = {
                         navigation.push(Config.CreateEdit(it.id))
                     },
                 )
             )
 
-            is Config.CreateEdit -> NoteComponent.NoteChild.CreateEditChild(
-                DefaultNoteCreateEditComponent(
-                    createNoteUseCase =,
-                    getNoteByIdUseCase =,
-                    deleteNoteUseCase =,
-                    onBack = { navigation.pop() },
-                    item =,
-                )
-            )
+            is Config.CreateEdit -> TODO()
+//                NoteComponent.NoteChild.CreateEditChild(
+//                DefaultNoteCreateEditComponent(
+//                    createNoteUseCase =,
+//                    getNoteByIdUseCase =,
+//                    deleteNoteUseCase =,
+//                    onBack = { navigation.pop() },
+//                    item =,
+//                )
+//            )
         }
 
     @Serializable

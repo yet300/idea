@@ -1,6 +1,7 @@
 package com.ideaapp.shared.compose.components
 
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Note
 import androidx.compose.material.icons.automirrored.outlined.Note
@@ -10,6 +11,7 @@ import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.icons.outlined.Task
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -70,7 +72,7 @@ fun NavigationBar(
         )
     }
 
-    androidx.compose.material3.NavigationBar(
+    NavigationBar(
         content = {
             items.forEachIndexed { index, item ->
                 val selected = selectedItem == index
@@ -96,6 +98,6 @@ fun NavigationBar(
                 )
             }
         },
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier.fillMaxWidth().navigationBarsPadding()
     )
 }

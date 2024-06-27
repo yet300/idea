@@ -6,8 +6,9 @@ import android.content.Intent
 import android.net.Uri
 import com.ideaapp.di.appModule
 import com.ideaapp.di.dataModule
-import com.ideaapp.di.domainModule
 import com.ideaapp.di.viewModelModule
+import com.ideaapp.shared.di.commonModule
+import com.ideaapp.shared.di.domainModule
 import com.ideaapp.utils.ManagerNotification
 import org.koin.android.ext.android.inject
 import org.koin.android.ext.koin.androidContext
@@ -23,7 +24,7 @@ class NoteApp : Application() {
         startKoin {
             androidLogger()
             androidContext(this@NoteApp)
-            modules(appModule, dataModule, domainModule, viewModelModule)
+            modules(appModule, dataModule, domainModule, viewModelModule, commonModule)
         }
         notificationManager.init()
     }

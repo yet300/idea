@@ -26,12 +26,12 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil.compose.AsyncImage
+import coil3.compose.AsyncImage
 import com.ideaapp.R
+import com.ideaapp.domain.model.Note
 import com.ideaapp.shared.compose.components.CustomTextField
 import com.ideaapp.ui.screens.note.create_edit.NoteCreateEditUiEvent
 import com.ideaapp.ui.screens.note.create_edit.NoteCreateEditViewModel
-import com.ideaapp.domain.model.Note
 
 
 @Composable

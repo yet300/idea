@@ -1,4 +1,4 @@
-package com.ideaapp.di
+package com.ideaapp.shared.di
 
 import com.ideaapp.domain.usecase.note.CreateNoteUseCase
 import com.ideaapp.domain.usecase.note.DeleteNoteUseCase

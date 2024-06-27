@@ -1,6 +1,5 @@
 package com.ideaapp.shared.note.list
 
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -12,7 +11,6 @@ import com.ideaapp.shared.note.list.components.ListComponent
 @Composable
 fun NoteListContent(
     component: NoteListComponent,
-    paddingValues: PaddingValues,
     modifier: Modifier = Modifier
 ) {
     val notes by component.model.subscribeAsState()
@@ -21,7 +19,6 @@ fun NoteListContent(
         ListComponent(
             queryNotes = notes.items,
             component = component,
-            paddingValues = paddingValues
         )
     } else {
         EmptyScreen()

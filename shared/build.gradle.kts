@@ -34,6 +34,7 @@ kotlin {
         androidMain.dependencies {
             implementation(libs.compose.ui)
             implementation(libs.androidx.activity.compose)
+            implementation(libs.koin.android)
         }
         commonMain.dependencies {
             implementation(compose.runtime)

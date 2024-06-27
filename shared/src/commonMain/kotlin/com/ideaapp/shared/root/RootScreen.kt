@@ -1,10 +1,12 @@
 package com.ideaapp.shared.root
 
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.arkivanov.decompose.extensions.compose.stack.Children
 import com.arkivanov.decompose.extensions.compose.stack.animation.fade
@@ -22,7 +24,6 @@ internal fun RootScreen(
     component: RootComponent,
     modifier: Modifier = Modifier
 ) {
-
     Scaffold(
         bottomBar = {
             NavigationBar(
@@ -30,7 +31,11 @@ internal fun RootScreen(
             )
         },
         content = {
-            Column(modifier.padding(it)) {
+            Column(
+                modifier.padding(it),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
                 Children(
                     stack = component.childStackNavigation,
                     modifier = modifier,
