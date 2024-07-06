@@ -33,22 +33,20 @@ fun NoteContent(
 //        },
         floatingActionButton = {
             FAB(
-                onClick = { component.openCreteNote() }
+                onClick = { component.openCreteEdit }
             )
         },
-        content = {
+        content = { padding ->
             Children(
                 stack = component.noteChild,
                 modifier = Modifier.fillMaxSize(),
                 animation = stackAnimation(fade()),
             ) {
                 when (val child = it.instance) {
-                    is NoteComponent.NoteChild.CreateEditChild -> TODO()
                     is NoteComponent.NoteChild.ListChild -> NoteListContent(
                         component = child.component,
+                        paddingValues = padding
                     )
-
-                    is NoteComponent.NoteChild.SecureChild -> TODO()
                 }
             }
         }

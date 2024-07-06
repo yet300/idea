@@ -3,24 +3,33 @@ package com.ideaapp.shared.root
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
-import com.arkivanov.decompose.router.stack.bringToFront
 import com.arkivanov.decompose.router.stack.childStack
+import com.arkivanov.decompose.router.stack.pop
+import com.arkivanov.decompose.router.stack.pushNew
 import com.arkivanov.decompose.value.Value
-import com.ideaapp.shared.note.main.DefaultNoteComponent
-import com.ideaapp.shared.settings.DefaultSettingsComponent
-import com.ideaapp.shared.task.main.DefaultTaskComponent
-import  kotlinx.serialization.Serializable
+import com.ideaapp.domain.usecase.note.CreateNoteUseCase
+import com.ideaapp.domain.usecase.note.DeleteNoteUseCase
+import com.ideaapp.domain.usecase.note.GetNoteByIdUseCase
+import com.ideaapp.shared.note.create_edit.DefaultNoteCreateEditComponent
+import com.ideaapp.shared.tabs.DefaultTabsComponent
+import kotlinx.serialization.Serializable
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
 class DefaultRootComponent(
     componentContext: ComponentContext
-) : RootComponent, ComponentContext by componentContext {
+) : RootComponent, KoinComponent, ComponentContext by componentContext {
+
+    private val createNoteUseCase by inject<CreateNoteUseCase>()
+    private val getNoteByIdUseCase by inject<GetNoteByIdUseCase>()
+    private val deleteNoteUseCase by inject<DeleteNoteUseCase>()
 
     private val navigationStack = StackNavigation<Config>()
 
     private val _childStackNavigation = childStack(
         source = navigationStack,
         serializer = Config.serializer(),
-        initialConfiguration = Config.Note,
+        initialConfiguration = Config.Tabs,
         handleBackButton = true,
         childFactory = ::createChildNavigation,
     )
@@ -29,46 +38,45 @@ class DefaultRootComponent(
         config: Config,
         componentContext: ComponentContext,
     ): RootComponent.NavChild = when (config) {
-        is Config.Note -> RootComponent.NavChild.NoteChild(
-            component = DefaultNoteComponent(
+
+        Config.Tabs -> RootComponent.NavChild.TabsChild(
+            component = DefaultTabsComponent(
                 componentContext = componentContext,
+                onOpenCreateEditClick = { navigationStack.pushNew(Config.NoteCreateEdit()) }
             )
         )
 
-        is Config.Task -> RootComponent.NavChild.TaskChild(
-            component = DefaultTaskComponent(componentContext)
-        )
+        Config.Secure -> TODO()
 
-        is Config.Settings -> RootComponent.NavChild.SettingsChild(
-            component = DefaultSettingsComponent(componentContext)
+        is Config.NoteCreateEdit -> RootComponent.NavChild.NoteCreateEditChild(
+            component = DefaultNoteCreateEditComponent(
+                createNoteUseCase = createNoteUseCase,
+                getNoteByIdUseCase = getNoteByIdUseCase,
+                deleteNoteUseCase = deleteNoteUseCase,
+                onBack = { onBackClicked() },
+                stateKeeper = stateKeeper
+            )
         )
     }
 
     override val childStackNavigation: Value<ChildStack<*, RootComponent.NavChild>> =
         _childStackNavigation
 
-
-    override fun openNote() {
-        navigationStack.bringToFront(Config.Note)
+    override fun onBackClicked() {
+        navigationStack.pop()
     }
 
-    override fun openTask() {
-        navigationStack.bringToFront(Config.Task)
-    }
-
-    override fun openSettings() {
-        navigationStack.bringToFront(Config.Settings)
-    }
 
     @Serializable
     private sealed class Config {
         @Serializable
-        data object Note : Config()
+        data object Tabs : Config()
 
         @Serializable
-        data object Task : Config()
+        data class NoteCreateEdit(val id: Long? = 0L) : Config()
 
         @Serializable
-        data object Settings : Config()
+        data object Secure : Config()
+
     }
 }

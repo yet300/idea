@@ -2,7 +2,6 @@ package com.ideaapp.shared.note.list
 
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
-import com.ideaapp.domain.model.Note
 import com.ideaapp.domain.usecase.note.GetNoteUseCase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -11,7 +10,7 @@ import kotlinx.coroutines.launch
 
 class DefaultNoteListComponent(
     private val getNoteUseCase: GetNoteUseCase,
-    private val noteClicked: (item: Note) -> Unit,
+    private val noteClicked: (item: Long?) -> Unit,
 ) : NoteListComponent {
 
     private val _model =
@@ -29,7 +28,7 @@ class DefaultNoteListComponent(
     private var _setSerch = ""
 
 
-    override fun onItemClicked(item: Note) {
+    override fun onItemClicked(item: Long) {
         noteClicked(item)
     }
 

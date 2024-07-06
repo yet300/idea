@@ -1,6 +1,7 @@
 package com.ideaapp.shared.note.list.components
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -20,6 +21,7 @@ import com.ideaapp.shared.note.list.NoteListComponent
 fun ListComponent(
     modifier: Modifier = Modifier,
     queryNotes: List<Note>,
+    paddingValues: PaddingValues,
     component: NoteListComponent
 ) {
     LazyVerticalStaggeredGrid(
@@ -28,6 +30,7 @@ fun ListComponent(
         columns = StaggeredGridCells.Fixed(2),
         state = rememberLazyStaggeredGridState(),
         verticalItemSpacing = 8.dp,
+        contentPadding = paddingValues
     ) {
         items(
             queryNotes.filter { !it.isPrivate },
@@ -39,7 +42,7 @@ fun ListComponent(
                 modifier = modifier
                     .fillMaxWidth()
                     .padding(2.dp)
-                    .clickable { component.onItemClicked(note) }
+                    .clickable { component.onItemClicked(note.id) }
             )
         }
         repeat(20) {

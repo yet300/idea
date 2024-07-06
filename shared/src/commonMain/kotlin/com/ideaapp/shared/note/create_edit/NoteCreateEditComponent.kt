@@ -4,13 +4,10 @@ import com.arkivanov.decompose.value.Value
 import com.ideaapp.domain.model.Note
 
 interface NoteCreateEditComponent {
-    val model: Value<Model>
+    val model: Value<Note>
 
-    data class Model(val item: Note)
-
-    fun onBackClick(item: Note?)
-    fun delete(item: Note)
-
+    fun onBackClick()
+    fun delete(id: Long)
 
     fun updateTitle(title: String)
     fun updateContent(content: String)

@@ -53,7 +53,7 @@ kotlin {
             implementation(libs.kotlinx.datetime)
 
 
-            implementation(project(":domain"))
+            implementation(project(":core:domain"))
             implementation(libs.decompose)
             implementation(libs.decompose.compose)
 

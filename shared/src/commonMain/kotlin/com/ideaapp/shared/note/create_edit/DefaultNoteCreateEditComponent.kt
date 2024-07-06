@@ -2,6 +2,7 @@ package com.ideaapp.shared.note.create_edit
 
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
+import com.arkivanov.essenty.statekeeper.StateKeeper
 import com.ideaapp.domain.model.Note
 import com.ideaapp.domain.usecase.note.CreateNoteUseCase
 import com.ideaapp.domain.usecase.note.DeleteNoteUseCase
@@ -10,49 +11,67 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.launch
+import kotlinx.serialization.builtins.serializer
 
 class DefaultNoteCreateEditComponent(
     private val createNoteUseCase: CreateNoteUseCase,
     private val getNoteByIdUseCase: GetNoteByIdUseCase,
     private val deleteNoteUseCase: DeleteNoteUseCase,
-    private val onBack: (Note?) -> Unit,
-    private val item: Note
+    private val onBack: () -> Unit,
+    stateKeeper: StateKeeper
 ) : NoteCreateEditComponent {
-    private val _model = MutableValue(NoteCreateEditComponent.Model(item = item))
+    private val _model = MutableValue(Note())
 
-    override val model: Value<NoteCreateEditComponent.Model> = _model
+    override val model: Value<Note>
+        get() = _model
 
-    init {
+    override fun onBackClick() {
+        onBack()
+    }
+
+    override fun delete(id: Long) {
         CoroutineScope(Dispatchers.IO).launch {
-//            createNoteUseCase.invoke(
-//                _model.value.item.copy(
-//
-//                )
-//            )
+            deleteNoteUseCase.invoke(Note(id = id))
+            onBackClick()
         }
     }
 
-    override fun onBackClick(item: Note?) {
-        onBack(item)
-    }
+    private var currentNoteId: Long? = null
 
-    override fun delete(item: Note) {
-        TODO("Not yet implemented")
+
+    init {
+        //TODO FIX LATER
+        stateKeeper.consume("noteId", strategy = Long.serializer())?.also { noteId ->
+            if (noteId != 0L) {
+                CoroutineScope(Dispatchers.IO).launch {
+                    getNoteByIdUseCase.invoke(noteId)?.also { note ->
+                        currentNoteId = note.id
+
+                        _model.value = model.value.copy(
+                            title = note.title,
+                            content = note.content,
+                            imageUri = note.imageUri,
+                            isPrivate = note.isPrivate
+                        )
+                    }
+                }
+            }
+        }
     }
 
     override fun updateTitle(title: String) {
-        TODO("Not yet implemented")
+        _model.value = _model.value.copy(title = title)
     }
 
     override fun updateContent(content: String) {
-        TODO("Not yet implemented")
+        _model.value = _model.value.copy(content = content)
     }
 
     override fun updatePrivate(isPrivate: Boolean) {
-        TODO("Not yet implemented")
+        _model.value = _model.value.copy(isPrivate = isPrivate)
     }
 
     override fun updateImage(image: String) {
-        TODO("Not yet implemented")
+        _model.value = _model.value.copy(imageUri = image)
     }
 }

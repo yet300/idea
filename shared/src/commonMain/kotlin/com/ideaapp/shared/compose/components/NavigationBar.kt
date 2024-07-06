@@ -16,88 +16,79 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
-import com.ideaapp.shared.root.RootComponent
+import com.arkivanov.decompose.extensions.compose.subscribeAsState
+import com.ideaapp.shared.tabs.TabsComponent
 import ideasapp.shared.generated.resources.Res
 import ideasapp.shared.generated.resources.note
 import ideasapp.shared.generated.resources.settings
 import ideasapp.shared.generated.resources.task
-import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 
-data class BottomNavigationItem(
-    val label: StringResource,
-    val isSelected: Boolean,
-    val selectedIcon: ImageVector,
-    val unselectedIcon: ImageVector,
-    val onClick: () -> Unit,
-)
 
 @Composable
 fun NavigationBar(
-    component: RootComponent,
+    component: TabsComponent,
+    modifier: Modifier = Modifier
 ) {
-    var selectedItem by remember { mutableIntStateOf(0) }
-
-    val items by remember {
-        mutableStateOf(
-            listOf(
-                BottomNavigationItem(
-                    selectedIcon = Icons.AutoMirrored.Filled.Note,
-                    unselectedIcon = Icons.AutoMirrored.Outlined.Note,
-                    label = Res.string.note,
-                    isSelected = false,
-                    onClick = component::openNote
-                ),
-                BottomNavigationItem(
-                    selectedIcon = Icons.Default.Task,
-                    unselectedIcon = Icons.Outlined.Task,
-                    label = Res.string.task,
-                    isSelected = false,
-                    onClick = component::openTask
-                ),
-                BottomNavigationItem(
-                    selectedIcon = Icons.Default.Settings,
-                    unselectedIcon = Icons.Outlined.Settings,
-                    label = Res.string.settings,
-                    isSelected = false,
-                    onClick = component::openSettings
-                )
-            )
-        )
-    }
+    val stack by component.childStackNavigation.subscribeAsState()
+    val activeComponent = stack.active.instance
 
     NavigationBar(
         content = {
-            items.forEachIndexed { index, item ->
-                val selected = selectedItem == index
-                NavigationBarItem(
-                    selected = selected,
-                    label = {
-                        Text(
-                            text = stringResource(item.label),
-                            style = MaterialTheme.typography.titleSmall
-                        )
-                    },
-                    onClick = {
-                        selectedItem = index
-                        item.onClick()
-                    },
-                    icon = {
-                        Icon(
-                            imageVector = if (selected) item.selectedIcon else item.unselectedIcon,
-                            contentDescription = stringResource(item.label)
-                        )
-                    },
-                    modifier = Modifier
-                )
-            }
+            NavigationBarItem(
+                selected = activeComponent is TabsComponent.NavChild.NoteChild,
+                label = {
+                    Text(
+                        text = stringResource(Res.string.note),
+                        style = MaterialTheme.typography.titleSmall
+                    )
+                },
+                onClick = component::openNote,
+                icon = {
+                    Icon(
+                        imageVector = if (activeComponent is TabsComponent.NavChild.NoteChild) Icons.AutoMirrored.Filled.Note else Icons.AutoMirrored.Outlined.Note,
+                        contentDescription = stringResource(Res.string.note)
+                    )
+                },
+            )
+
+            NavigationBarItem(
+                selected = activeComponent is TabsComponent.NavChild.TaskChild,
+                label = {
+                    Text(
+                        text = stringResource(Res.string.task),
+                        style = MaterialTheme.typography.titleSmall
+                    )
+                },
+                onClick = component::openTask,
+                icon = {
+                    Icon(
+                        imageVector = if (activeComponent is TabsComponent.NavChild.TaskChild) Icons.Default.Task else Icons.Outlined.Task,
+                        contentDescription = stringResource(Res.string.task)
+                    )
+                },
+            )
+
+            NavigationBarItem(
+                selected = activeComponent is TabsComponent.NavChild.SettingsChild,
+                label = {
+                    Text(
+                        text = stringResource(Res.string.settings),
+                        style = MaterialTheme.typography.titleSmall
+                    )
+                },
+                onClick = component::openSettings,
+                icon = {
+                    Icon(
+                        imageVector = if (activeComponent is TabsComponent.NavChild.SettingsChild) Icons.Default.Settings else Icons.Outlined.Settings,
+                        contentDescription = stringResource(Res.string.settings)
+                    )
+                },
+            )
         },
-        modifier = Modifier.fillMaxWidth().navigationBarsPadding()
+        modifier = modifier
+            .fillMaxWidth()
+            .navigationBarsPadding(),
     )
 }

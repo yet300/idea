@@ -2,20 +2,20 @@ package com.ideaapp.shared.root
 
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.value.Value
-import com.ideaapp.shared.note.main.NoteComponent
-import com.ideaapp.shared.settings.SettingsComponent
-import com.ideaapp.shared.task.main.TaskComponent
+import com.arkivanov.essenty.backhandler.BackHandlerOwner
+import com.ideaapp.shared.note.create_edit.NoteCreateEditComponent
+import com.ideaapp.shared.note.secure.SecureComponent
+import com.ideaapp.shared.tabs.TabsComponent
 
-interface RootComponent {
+interface RootComponent : BackHandlerOwner {
     val childStackNavigation: Value<ChildStack<*, NavChild>>
 
-    fun openNote()
-    fun openTask()
-    fun openSettings()
-
+    fun onBackClicked()
     sealed class NavChild {
-        class NoteChild(val component: NoteComponent) : NavChild()
-        class TaskChild(val component: TaskComponent) : NavChild()
-        class SettingsChild(val component: SettingsComponent) : NavChild()
+        class TabsChild(val component: TabsComponent) : NavChild()
+
+        class NoteCreateEditChild(val component: NoteCreateEditComponent) : NavChild()
+
+        class NoteSecureChild(val component: SecureComponent) : NavChild()
     }
 }

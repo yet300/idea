@@ -10,7 +10,7 @@ interface NoteListComponent {
         val items: List<Note>
     )
 
-    fun onItemClicked(item: Note)
+    fun onItemClicked(item: Long)
 
     fun setSearchText(text: String)
 }

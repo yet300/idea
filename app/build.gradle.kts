@@ -65,8 +65,8 @@ dependencies {
     implementation(libs.androidx.core.splashscreen)
 
     //Modules
-    implementation(project(":data"))
-    implementation(project(":domain"))
+    implementation(project(":core:data"))
+    implementation(project(":core:domain"))
     implementation(project(":shared"))
 
     implementation(libs.androidx.appcompat)

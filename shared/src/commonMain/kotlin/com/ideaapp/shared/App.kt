@@ -1,11 +1,6 @@
 package com.ideaapp.shared
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import coil3.ImageLoader
 import coil3.PlatformContext
@@ -30,20 +25,9 @@ fun App(
         getImageLoader(it)
     }
 
-    IdeasAppTheme(content = {
-        Scaffold(
-            content = { paddingFromPrent ->
-                Column(
-                    Modifier
-                        .padding(paddingFromPrent)
-                        .fillMaxWidth(),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    RootScreen(component, modifier)
-                }
-            }
-        )
-    })
+    IdeasAppTheme {
+        RootScreen(component, modifier)
+    }
 }
 
 fun getImageLoader(context: PlatformContext) =

@@ -4,7 +4,6 @@ import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.childStack
-import com.arkivanov.decompose.router.stack.push
 import com.arkivanov.decompose.value.Value
 import com.ideaapp.domain.usecase.note.GetNoteUseCase
 import com.ideaapp.shared.note.list.DefaultNoteListComponent
@@ -14,6 +13,7 @@ import org.koin.core.component.inject
 
 class DefaultNoteComponent(
     componentContext: ComponentContext,
+    override val openCreteEdit: (Long?) -> Unit,
 ) : NoteComponent, KoinComponent, ComponentContext by componentContext {
     private val getNoteUseCase by inject<GetNoteUseCase>()
     private val navigation = StackNavigation<Config>()
@@ -29,32 +29,15 @@ class DefaultNoteComponent(
     override val noteChild: Value<ChildStack<*, NoteComponent.NoteChild>> = _childStackNavigation
 
 
-    override fun openCreteNote() {
-        navigation.push(Config.CreateEdit())
-    }
-
     private fun child(config: Config, componentContext: ComponentContext): NoteComponent.NoteChild =
         when (config) {
-            Config.Secure -> TODO()
             Config.List -> NoteComponent.NoteChild.ListChild(
                 DefaultNoteListComponent(
                     getNoteUseCase = getNoteUseCase,
-                    noteClicked = {
-                        navigation.push(Config.CreateEdit(it.id))
-                    },
+                    noteClicked = openCreteEdit,
                 )
             )
 
-            is Config.CreateEdit -> TODO()
-//                NoteComponent.NoteChild.CreateEditChild(
-//                DefaultNoteCreateEditComponent(
-//                    createNoteUseCase =,
-//                    getNoteByIdUseCase =,
-//                    deleteNoteUseCase =,
-//                    onBack = { navigation.pop() },
-//                    item =,
-//                )
-//            )
         }
 
     @Serializable
@@ -62,12 +45,5 @@ class DefaultNoteComponent(
         @Serializable
         data object List : Config
 
-        @Serializable
-        data class CreateEdit(val id: Long? = 0L) : Config
-
-        @Serializable
-        data object Secure : Config
-
     }
-
 }
